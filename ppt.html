@@ -495,6 +495,18 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 #cmpBa table{font-size:24px}
 .vw>img{height:100%;width:auto;max-width:1000px;object-fit:contain;min-height:0;border-radius:14px;border:1px solid var(--line);background:#fff}
 .qopt{font-size:26px}
+
+/* 2페이지 확장: 비율이 다른 영상, 그림 확대, 유튜브 */
+.vw video.free{aspect-ratio:auto;object-fit:contain}
+.vw video.free.wide{height:auto;width:1000px;align-self:center}
+.vw>img.zv{cursor:zoom-in}
+img.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;height:788px!important;max-width:none!important;z-index:30;background:#111!important;object-fit:contain!important;border-radius:0!important;border:0!important;cursor:zoom-out}
+.sitebig.ko span{font-family:var(--f-ko);font-size:120px}
+.ytbox:empty{display:grid;place-items:center;cursor:pointer;background:#000 center/cover no-repeat;position:relative}
+.ytbox:empty::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.5)}
+.ytbox:empty::after{content:'▶  눌러서 재생';position:relative;font-size:32px;font-weight:700;background:var(--hot);color:#1b1410;padding:.45em 1.2em;border-radius:14px}
+.card .srcline{font-size:22px;color:var(--dim)}
+.card .k{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -518,15 +530,38 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 
 <section class="scene" id="made" data-title="Claude로 한 것들">
  <header class="sh"><span class="no">00</span><h2>Claude로 <em>이런 것을 합니다</em></h2></header>
- <div class="tabs" id="madeTabs" role="group" aria-label="예시"><button type="button" data-v="0" aria-pressed="true">게임 1</button><button type="button" data-v="1" aria-pressed="false">게임 2</button><button type="button" data-v="2" aria-pressed="false">웹사이트</button><button type="button" data-v="3" aria-pressed="false">뮤직비디오</button></div>
+ <div class="tabs" id="madeTabs" role="group" aria-label="예시"><button type="button" data-v="0" aria-pressed="true">게임 1</button><button type="button" data-v="1" aria-pressed="false">게임 2</button><button type="button" data-v="2" aria-pressed="false">웹사이트</button><button type="button" data-v="3" aria-pressed="false">발표 자료</button><button type="button" data-v="4" aria-pressed="false">엑셀 파일</button><button type="button" data-v="5" aria-pressed="false">뮤직비디오</button><button type="button" data-v="6" aria-pressed="false">노션 기록</button><button type="button" data-v="7" aria-pressed="false">영상 편집</button><button type="button" data-v="8" aria-pressed="false">이 수업</button></div>
  <div class="viewer"><div class="vw on" data-v="0"><video class="zv" src="media/game_island.mp4" muted loop playsinline preload="metadata"></video>
    <div class="card"><span class="k">게임</span><h3>몽글섬 이야기</h3><p>마을을 돌아다니며 열매를 따고 주민과 이야기하는 3D 게임입니다.</p><p>영상을 누르면 화면 가득 커집니다.</p></div></div>
   <div class="vw" data-v="1"><div class="phones"><video class="zv" src="media/game_dungeon2.mp4" muted loop playsinline preload="metadata"></video><video class="zv" src="media/game_dungeon.mp4" muted loop playsinline preload="metadata"></video><video class="zv" src="media/game_dungeon3.mp4" muted loop playsinline preload="metadata"></video></div>
    <div class="card"><span class="k">게임</span><h3>던전 게임</h3><p>휴대폰으로 하는 게임입니다. 레벨이 오르면 기술을 고릅니다.</p><p>영상을 누르면 화면 가득 커집니다.</p></div></div>
   <div class="vw" data-v="2"><div class="sitebig"><span>TriadAudioLAB</span><i>오디오 연구와 플러그인을 소개하는 웹사이트</i><b class="names">SonicMass · Resonaire · ToneDNA · MORA</b><a class="linkb big" href="https://www.triadaudiolab.com/" target="_blank" rel="noopener">사이트 열기</a></div>
    <div class="card"><span class="k">웹사이트</span><h3>직접 만들어 운영 중</h3><p>버튼을 눌러 실제 사이트를 열어서 보여 줍니다.</p></div></div>
-  <div class="vw" data-v="3"><video id="mvVid" src="media/mv_excerpt.mp4" poster="media/mv_poster.jpg" controls playsinline preload="metadata"></video>
-   <div class="card"><span class="k">뮤직비디오</span><h3>레트로폴리탄 · Heyday</h3><p>기획, 장면마다 쓴 프롬프트, 기록, 자막 파일에 Claude를 썼습니다. 영상 자체는 전용 생성 도구로 만들었습니다. 약 20초만 봅니다.</p><div class="row2"><button type="button" class="zb hotb" data-z="mvVid">크게 보기</button><a class="linkb" href="https://www.youtube.com/watch?v=NJjZ9IYkfNY" target="_blank" rel="noopener">유튜브</a></div></div></div>
+  <div class="vw" data-v="3"><img class="zv" src="media/ppt_result.jpg" alt="발표 자료의 한 장">
+   <div class="card"><span class="k">발표 자료</span><h3>결과 발표 17장</h3><p>Claude에 캔바를 연결하고, 넣을 내용과 원하는 모양을 말로 설명해서 만들었습니다.</p><p>어떻게 연결하는지는 4부에서 봅니다. 그림을 누르면 커집니다.</p></div></div>
+  <div class="vw" data-v="4"><img class="zv" src="media/xl_budget.png" alt="수식이 들어간 예산표 엑셀 파일">
+   <div class="card"><span class="k">엑셀 파일</span><h3>수식이 들어간 예산표</h3><p>말로 부탁하면 엑셀 파일로 만들어 줍니다. 노란 칸의 숫자를 바꾸면 합계가 다시 계산됩니다. 워드, 파워포인트, PDF도 만듭니다.</p><p>이 수업을 위해 만들게 한 예시입니다.</p><a class="linkb" href="media/booth_budget_sample.xlsx" download>엑셀 파일 받기</a></div></div>
+  <div class="vw" data-v="5"><video id="mvVid" src="media/mv_excerpt.mp4" poster="media/mv_poster.jpg" controls playsinline preload="metadata"></video>
+   <div class="card"><span class="k">뮤직비디오</span><h3>레트로폴리탄 · Heyday</h3><p>기획, 장면마다 쓴 프롬프트, 기록, 자막에 Claude를 썼습니다. 자막은 한국어, 영어, 중국어, 일본어로 만들었습니다.</p><p>영상 자체는 전용 생성 도구로 만들었습니다. 약 20초만 봅니다.</p><div class="row2"><button type="button" class="zb hotb" data-z="mvVid">크게 보기</button><a class="linkb" href="https://www.youtube.com/watch?v=NJjZ9IYkfNY" target="_blank" rel="noopener">유튜브</a></div></div></div>
+  <div class="vw" data-v="6"><video class="zv free" src="media/notion_log.mp4" muted loop playsinline preload="metadata"></video>
+   <div class="card"><span class="k">노션 기록</span><h3>고칠 때마다 노션에 남긴 기록</h3><p>노션을 연결해 두면 Claude가 노션에 직접 적습니다. 스토리보드, 프롬프트의 판, 날짜별로 고친 내용이 쌓여 있고 마지막 기록은 v9.12입니다.</p><p>뒷부분은 내부 메모라 흐리게 했습니다.</p></div></div>
+  <div class="vw" data-v="7"><video class="zv free wide" src="media/resolve_edit.mp4" muted loop playsinline preload="metadata"></video>
+   <div class="card"><span class="k">영상 편집</span><h3>편집 프로그램을 직접 조작</h3><p>왼쪽이 Claude, 오른쪽이 다빈치 리졸브입니다. 클립을 타임라인에 놓고, 한 프레임 틈을 찾고, 4K와 2K로 내보냅니다.</p><p>보정도 같은 방식으로 맡깁니다. 영상을 누르면 커집니다.</p></div></div>
+  <div class="vw" data-v="8"><div class="sitebig ko"><span>이 수업</span><i>강의 화면 · 교재 · 퀴즈 · 오프닝 영상</i><b class="names">HTML · CSS · JAVASCRIPT</b></div>
+   <div class="card"><span class="k">이 수업</span><h3>지금 보고 있는 화면</h3><p>강의 화면, 여러분 PC의 교재, 퀴즈와 순위, 처음에 본 오프닝 영상을 모두 Claude와 만들었습니다.</p><p>AI를 비교한 조사와 출처 정리도 맡겼습니다.</p></div></div>
+ </div>
+</section>
+
+<section class="scene" id="others" data-title="다른 사람들의 활용">
+ <header class="sh"><span class="no">00</span><h2>다른 사람들은 <em>이렇게 씁니다</em></h2></header>
+ <div class="tabs" id="otherTabs" role="group" aria-label="유튜브 영상"><button type="button" data-v="0" aria-pressed="true">파일 만들기</button><button type="button" data-v="1" aria-pressed="false">발표 자료 요령</button><button type="button" data-v="2" aria-pressed="false">화면 조작</button><span class="tabnote">다른 분이 올린 유튜브 영상입니다. 표시한 구간만 봅니다.</span></div>
+ <div class="viewer">
+  <div class="vw on" data-v="0"><div class="ytbox" data-yt="IyHsxrCK_Zk" data-start="263" style="background-image:url(https://i.ytimg.com/vi/IyHsxrCK_Zk/hqdefault.jpg)"></div>
+   <div class="card"><span class="k">유튜브 · 해피AI | 이진규</span><h3>엑셀, PPT, PDF를 만드는 과정</h3><p>4분 23초부터 약 3분을 봅니다.</p><p class="srcline">출처: 「퇴근시간 2시간 당겨주는 클로드 신기능 10가지」 · 2026년 9월 26일 공개</p><a class="linkb" href="https://www.youtube.com/watch?v=IyHsxrCK_Zk&amp;t=263s" target="_blank" rel="noopener">유튜브에서 열기</a></div></div>
+  <div class="vw" data-v="1"><div class="ytbox" data-yt="BboGm3FR4hw" data-start="0" style="background-image:url(https://i.ytimg.com/vi/BboGm3FR4hw/hqdefault.jpg)"></div>
+   <div class="card"><span class="k">유튜브 · 헤이디_일잘러의 업무스킬</span><h3>한 줄로 부탁하면 안 되는 이유</h3><p>처음부터 약 2분을 봅니다. 2부에서 배울 내용과 이어집니다.</p><p class="srcline">출처: 「그냥 "PPT 만들어줘"라고 하면 망합니다. (클로드 PPT 제작 노하우)」 · 2026년 5월 10일 공개</p><a class="linkb" href="https://www.youtube.com/watch?v=BboGm3FR4hw" target="_blank" rel="noopener">유튜브에서 열기</a></div></div>
+  <div class="vw" data-v="2"><div class="ytbox" data-yt="IyHsxrCK_Zk" data-start="1701" style="background-image:url(https://i.ytimg.com/vi/IyHsxrCK_Zk/hqdefault.jpg)"></div>
+   <div class="card"><span class="k">유튜브 · 해피AI | 이진규</span><h3>컴퓨터 화면을 대신 조작</h3><p>28분 21초부터 약 3분을 봅니다.</p><p class="srcline">출처: 「퇴근시간 2시간 당겨주는 클로드 신기능 10가지」 · 2026년 9월 26일 공개</p><a class="linkb" href="https://www.youtube.com/watch?v=IyHsxrCK_Zk&amp;t=1701s" target="_blank" rel="noopener">유튜브에서 열기</a></div></div>
  </div>
 </section>
 
@@ -720,6 +755,8 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
   <li><a href="https://techjacksolutions.com/?p=109565" target="_blank" rel="noopener">Tech Jacks: Gemini 4 세 모델</a> : Argon, Carbon, Hydrogen의 출시 시기</li>
   <li><a href="https://modelcontextprotocol.io/docs/2025-06-18/getting-started/intro.md" target="_blank" rel="noopener">MCP 공식 소개</a> : MCP의 뜻</li>
   <li><a href="https://www.youtube.com/watch?v=NJjZ9IYkfNY" target="_blank" rel="noopener">레트로폴리탄 Heyday MV</a> : 유튜브 공개 영상</li>
+  <li><a href="https://www.youtube.com/watch?v=IyHsxrCK_Zk" target="_blank" rel="noopener">유튜브 · 해피AI | 이진규: 퇴근시간 2시간 당겨주는 클로드 신기능 10가지</a> : 수업에서 일부 구간을 봄</li>
+  <li><a href="https://www.youtube.com/watch?v=BboGm3FR4hw" target="_blank" rel="noopener">유튜브 · 헤이디_일잘러의 업무스킬: 그냥 "PPT 만들어줘"라고 하면 망합니다</a> : 수업에서 일부 구간을 봄</li>
  </ul>
 </section>
 
@@ -845,7 +882,7 @@ addEventListener('keydown',e=>{
   if(/INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
   if($('#film').classList.contains('on')){ if(e.key==='Escape'||e.key==='ArrowRight') Film.stop(true); return }
   const ov=$$('.ov.on').pop(); if(ov){ if(e.key==='Escape'&&ov.id!=='gate') ov.classList.remove('on'); return }
-  if(e.key==='Escape'&&$('video.zoomed')){ unzoom(); return }
+  if(e.key==='Escape'&&$('.zoomed')){ unzoom(); return }
   if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1)}
   else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1)}
 });
@@ -959,14 +996,19 @@ $('#pkX').onclick=()=>$('#peek').classList.remove('on');
 document.addEventListener('click',e=>{ const b=e.target.closest('.cp'); if(!b) return; const pre=b.closest('.pc').querySelector('pre'); try{navigator.clipboard.writeText(pre.textContent)}catch(err){} });
 
 /* ---------- 만든 것들: 탭과 크게 보기 ---------- */
-function unzoom(){ $$('video.zoomed').forEach(v=>v.classList.remove('zoomed')); $('#unzoom').hidden=true }
+function unzoom(){ $$('.zoomed').forEach(v=>v.classList.remove('zoomed')); $('#unzoom').hidden=true }
 function zoom(v){ if(!v) return; unzoom(); v.classList.add('zoomed'); $('#unzoom').hidden=false }
 $('#unzoom').onclick=unzoom;
 $('#madeTabs').onclick=e=>{ const b=e.target.closest('button'); if(!b) return; unzoom(); $$('#madeTabs button').forEach(x=>x.setAttribute('aria-pressed',x===b));
   $$('#made .vw').forEach(v=>{ const on=v.dataset.v===b.dataset.v; v.classList.toggle('on',on); $$('video',v).forEach(x=>{try{ on?(x.muted&&x.play().catch(()=>{})):x.pause() }catch(err){}}) }) };
 $('#canvaTabs').onclick=e=>{ const b=e.target.closest('button'); if(!b) return; $$('#canvaTabs button').forEach(x=>x.setAttribute('aria-pressed',x===b)); $$('#canva .vw').forEach(v=>v.classList.toggle('on',v.dataset.v===b.dataset.v)) };
 document.addEventListener('click',e=>{ const b=e.target.closest('.zb'); if(b){ zoom($('#'+b.dataset.z)); return }
-  const v=e.target.closest('video.zv'); if(v){ v.classList.contains('zoomed')?unzoom():zoom(v) } });
+  const v=e.target.closest('video.zv,img.zv'); if(v){ v.classList.contains('zoomed')?unzoom():zoom(v) } });
+/* ---------- 유튜브: 누르면 그 자리에서 재생, 다른 탭이나 장면으로 가면 멈춘다 ---------- */
+document.addEventListener('click',e=>{ const b=e.target.closest('.ytbox'); if(!b||b.firstChild) return;
+  b.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${b.dataset.yt}?autoplay=1&rel=0&start=${+b.dataset.start||0}" title="YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>` });
+$('#otherTabs').onclick=e=>{ const b=e.target.closest('button'); if(!b) return; $$('#otherTabs button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  $$('#others .vw').forEach(v=>{ const on=v.dataset.v===b.dataset.v; v.classList.toggle('on',on); if(!on) $$('.ytbox',v).forEach(y=>y.innerHTML='') }) };
 
 /* ---------- 화면 둘러보기: 설명을 누르면 번호가 커진다 ---------- */
 document.addEventListener('click',e=>{ const li=e.target.closest('.legend li'); if(!li) return; const sc=li.closest('.scene'), i=[...li.parentNode.children].indexOf(li), was=li.classList.contains('hl');
