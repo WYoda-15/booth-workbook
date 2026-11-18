@@ -494,6 +494,7 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 .cmp .pc pre{font-size:24px}
 #cmpBa table{font-size:24px}
 .vw>img{height:100%;width:auto;max-width:1000px;object-fit:contain;min-height:0;border-radius:14px;border:1px solid var(--line);background:#fff}
+.qopt{font-size:26px}
 </style>
 </head>
 <body>
@@ -601,7 +602,7 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 
 <section class="scene qtitle" id="qt1" data-title="퀴즈 시간">
  <div class="qtbox"><span class="qk">QUIZ</span><h2>퀴즈 시간</h2><p>방금 배운 것에서 두 문제가 나옵니다. 각 10점입니다.</p>
- <ul><li>각자 PC의 교재에서 답을 고릅니다</li><li>문제마다 <b>20초</b>입니다</li><li>맞히면 점수가 쌓이고, 마지막에 순위를 봅니다</li></ul></div>
+ <ul><li>각자 PC의 교재에서 답을 고릅니다</li><li>문제마다 <b>제한 시간</b>이 있습니다</li><li>맞히면 점수가 쌓이고, 마지막에 순위를 봅니다</li></ul></div>
 </section>
 
 <section class="scene act" data-act="w1q1" data-title="퀴즈 1"></section>
@@ -637,7 +638,7 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 
 <section class="scene qtitle" id="qt2" data-title="퀴즈 시간">
  <div class="qtbox"><span class="qk">QUIZ</span><h2>퀴즈 시간</h2><p>방금 배운 것에서 두 문제가 나옵니다. 각 20점입니다.</p>
- <ul><li>각자 PC의 교재에서 답을 고릅니다</li><li>문제마다 <b>20초</b>입니다</li><li>맞히면 점수가 쌓이고, 마지막에 순위를 봅니다</li></ul></div>
+ <ul><li>각자 PC의 교재에서 답을 고릅니다</li><li>문제마다 <b>제한 시간</b>이 있습니다</li><li>맞히면 점수가 쌓이고, 마지막에 순위를 봅니다</li></ul></div>
 </section>
 
 <section class="scene act" data-act="w1q3" data-title="퀴즈 3"></section>
@@ -682,7 +683,7 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 
 <section class="scene qtitle" id="qt3" data-title="퀴즈 시간">
  <div class="qtbox"><span class="qk">QUIZ</span><h2>퀴즈 시간</h2><p>방금 배운 것에서 두 문제가 나옵니다. 각 30점입니다.</p>
- <ul><li>각자 PC의 교재에서 답을 고릅니다</li><li>문제마다 <b>20초</b>입니다</li><li>맞히면 점수가 쌓이고, 마지막에 순위를 봅니다</li></ul></div>
+ <ul><li>각자 PC의 교재에서 답을 고릅니다</li><li>문제마다 <b>제한 시간</b>이 있습니다</li><li>맞히면 점수가 쌓이고, 마지막에 순위를 봅니다</li></ul></div>
 </section>
 
 <section class="scene act" data-act="w1q5" data-title="퀴즈 5"></section>
@@ -917,7 +918,7 @@ function renderLive(st){
   else if(st.kind==='quiz'){ const cnt=st.opts.map(()=>0); T.forEach(t=>ans(t).forEach(a=>{ if(a.opt>=0&&a.opt<cnt.length){cnt[a.opt]++; people.add(t+'/'+a.name)} })); const on=!!REVEAL[st.id];
     h=`<p class="qq">${esc(st.q)}</p>${st.quote?`<p class="quote">${esc(st.quote)}</p>`:''}
       <div class="qopts">${st.opts.map((o,i)=>`<div class="qopt${on&&i===st.ans?' ok':''}"><b>${'ABCD'[i]}</b><span>${esc(o)}</span>${on?`<i>${cnt[i]}명</i>`:''}</div>`).join('')}</div>
-      <div class="qfoot">${on?`<span class="why">정답 ${'ABCD'[st.ans]} · ${esc(st.why)}</span><button type="button" data-rank="1">순위 보기</button><button type="button" data-qreveal="${st.id}">다시 가리기</button>`:`<span class="cd${qLeft()<=5?' low':''}">${qEnd?qLeft():20}</span><span>답한 사람 ${people.size}명</span><button type="button" class="hotb" data-qreveal="${st.id}">바로 결과 보기</button>`}</div>` }
+      <div class="qfoot">${on?`<span class="why">정답 ${'ABCD'[st.ans]} · ${esc(st.why)}</span><button type="button" data-rank="1">순위 보기</button><button type="button" data-qreveal="${st.id}">다시 가리기</button>`:`<span class="cd${qLeft()<=5?' low':''}">${qEnd?qLeft():(st.sec||20)}</span><span>답한 사람 ${people.size}명</span><button type="button" class="hotb" data-qreveal="${st.id}">바로 결과 보기</button>`}</div>` }
   else { h=teamsGrid(T.map(t=>{ const d=D[t]; const drs=new Set(); st.tasks.forEach(x=>Object.values(d.drafts).forEach(a=>{ if(a&&a.t===x.tid&&txt(a)){drs.add(a.name); people.add(t+'/'+a.name)} }));
       const tp=st.tasks.filter(x=>txt(d.tprompts[x.tid])).length, outs=st.tasks.flatMap(x=>x.outs), res=outs.filter(o=>txt(d.results[o.rid])).length, N=st.tasks.length, one=N===1;
       return `<button type="button" class="tm" data-peek="${t}" data-step="${st.id}">${head(t)}<div class="st"><span class="${tp===N?'y':''}">팀 프롬프트${one?'':' '+tp+'/'+N}</span><span class="${res===outs.length?'y':''}">결과${one?'':' '+res+'/'+outs.length}</span></div>${(()=>{const x=st.tasks.find(x=>txt(d.tprompts[x.tid])); return x?`<p class="pv">${esc(txt(d.tprompts[x.tid]).slice(0,400))}</p>`:'<p class="pv e">아직 팀 프롬프트가 없습니다.</p>'})()}</button>` })) }
@@ -928,13 +929,13 @@ function refreshLive(){ const sc=scenes[cur]; if(sc&&sc.dataset.act) renderLive(
 let qTimer=null, qEnd=0, qAudio=null;
 const qLeft=()=>qEnd?Math.max(0,Math.ceil((qEnd-Date.now())/1000)):0;
 function setReveal(id,v){ if(v) REVEAL[id]=true; else delete REVEAL[id]; refreshLive(); if(db&&syncOn){ try{ rdb.ref(base+'/class/reveal/'+id).set(v?true:null) }catch(err){} } }
-function bgmStart(){ if(!soundOn) return; try{ const ac=new (window.AudioContext||window.webkitAudioContext)(), g=ac.createGain(); g.gain.value=.22; g.connect(ac.destination); const t0=ac.currentTime+.05, N=[110,110,130.81,110,146.83,110,130.81,98];
+function bgmStart(sec){ if(!soundOn) return; const NB=sec*2; try{ const ac=new (window.AudioContext||window.webkitAudioContext)(), g=ac.createGain(); g.gain.value=.22; g.connect(ac.destination); const t0=ac.currentTime+.05, N=[110,110,130.81,110,146.83,110,130.81,98];
   const blip=(t,f,type,v,d)=>{ const o=ac.createOscillator(), e=ac.createGain(); o.type=type; o.frequency.value=f; e.gain.setValueAtTime(.0001,t); e.gain.exponentialRampToValueAtTime(v,t+.01); e.gain.exponentialRampToValueAtTime(.0001,t+d); o.connect(e).connect(g); o.start(t); o.stop(t+d+.03) };
-  for(let i=0;i<40;i++){ const t=t0+i*.5, fast=i>=30; blip(t,N[i%8]*(fast?2:1),'triangle',.5,.4); blip(t,fast?1760:880,'square',.1,.06); if(fast) blip(t+.25,1760,'square',.1,.05) }
-  blip(t0+20,220,'sawtooth',.5,.9); qAudio=ac }catch(e){} }
+  for(let i=0;i<NB;i++){ const t=t0+i*.5, fast=i>=NB-10; blip(t,N[i%8]*(fast?2:1),'triangle',.5,.4); blip(t,fast?1760:880,'square',.1,.06); if(fast) blip(t+.25,1760,'square',.1,.05) }
+  blip(t0+sec,220,'sawtooth',.5,.9); qAudio=ac }catch(e){} }
 function bgmStop(){ if(qAudio){ const a=qAudio; qAudio=null; setTimeout(()=>{try{a.close()}catch(e){}},1200) } }
 function quizStop(){ clearInterval(qTimer); qTimer=null; const had=qEnd; qEnd=0; if(qAudio&&qAudio.state!=='closed'){ try{qAudio.close()}catch(e){} qAudio=null } if(had) pushState() }
-function quizStart(st){ quizStop(); qEnd=Date.now()+20000; bgmStart(); pushState();
+function quizStart(st){ quizStop(); const sec=st.sec||20; qEnd=Date.now()+sec*1000; bgmStart(sec); pushState();
   qTimer=setInterval(()=>{ if(qLeft()<=0){ clearInterval(qTimer); qTimer=null; qEnd=0; bgmStop(); setReveal(st.id,true); pushState() } else refreshLive() },250) }
 const openRank=()=>{ $('#rankOv').classList.add('on'); refreshLive() };
 $('#openRank').onclick=openRank; $('#closeRank').onclick=()=>$('#rankOv').classList.remove('on');
