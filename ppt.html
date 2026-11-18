@@ -455,6 +455,45 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 .f-slam .sm{margin-bottom:24px}
 .f-slam .xl{font-size:430px;line-height:.95}
 .f-code b{font-size:290px;white-space:nowrap}
+/* 퀴즈 안내, 20초 */
+.qtitle{align-items:center;justify-content:center}
+.qtbox{border:2px solid var(--flash);background:#2A2619;border-radius:28px;padding:56px 80px;text-align:center;max-width:1200px}
+.qtbox .qk{font-family:var(--f-d);font-size:150px;line-height:1;color:var(--flash);letter-spacing:.04em;display:block}
+.qtbox h2{font-family:var(--f-ko);font-weight:400;font-size:64px;margin:10px 0}
+.qtbox p{font-size:30px;color:#CFCCC4;margin:0 0 22px}
+.qtbox ul{list-style:none;margin:0;padding:0;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;font-size:25px}
+.qtbox li{border:1px solid var(--line);border-radius:99px;padding:.25em 1em;background:var(--ink2)}
+.qtbox li b{color:var(--flash)}
+.cd{font-family:var(--f-d);font-size:70px;line-height:1;color:var(--flash);min-width:1.6em;text-align:center}
+.cd.low{color:var(--bad);animation:blink2 .5s infinite}
+.note.tipn{margin:0 0 16px;font-size:23px;line-height:1.5}
+.tm .ck.pl li::before{content:none}
+.tm .ck.pl li{display:flex;justify-content:space-between;gap:10px;color:#CFCCC4}
+.tm .ck.pl li b{color:var(--dim);font-weight:500}
+.tm .ck.pl li.y b{color:var(--ok)}
+/* 캔바로 만든 것 */
+.works{display:grid;grid-template-columns:1.42fr .72fr 1.78fr;gap:22px;flex:1;min-height:0;align-items:start}
+.works figure{margin:0;display:flex;flex-direction:column;gap:10px;min-height:0;height:100%}
+.works img{width:100%;max-height:calc(100% - 78px);object-fit:contain;object-position:top;border-radius:12px;border:1px solid var(--line);background:#fff}
+.works figcaption{font-size:22px;color:var(--dim)}
+.works figcaption b{display:block;font-size:27px;color:var(--paper)}
+/* 파트 1 인트로: 주소창에서 시작한다 */
+.m-ui2{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px}
+.m-ui2 .bar{border:3px solid var(--line);border-radius:99px;padding:14px 60px;background:var(--ink2)}
+.m-ui2 .bar span{display:inline-block;font-family:var(--f-m);font-size:110px;color:var(--hot);overflow:hidden;white-space:nowrap;width:0;animation:typeW 1.1s steps(9) .2s forwards;vertical-align:bottom}
+.m-ui2 .ask{font-family:var(--f-ko);font-size:84px;opacity:0;animation:rise2 .5s 1.5s both}
+.m-ui2 .chips3{display:flex;gap:20px}
+.m-ui2 .chips3 i{font-style:normal;font-size:40px;border:2px solid var(--hot);color:var(--hot);border-radius:99px;padding:.15em .9em;opacity:0;animation:rise2 .4s both}
+.m-ui2 .chips3 i:nth-child(1){animation-delay:2.1s}.m-ui2 .chips3 i:nth-child(2){animation-delay:2.4s}.m-ui2 .chips3 i:nth-child(3){animation-delay:2.7s}
+@keyframes typeW{to{width:9ch}}
+@keyframes rise2{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes blink2{50%{opacity:.35}}
+.gain{grid-template-columns:repeat(4,minmax(0,1fr))}
+.gain button{font-size:21px;padding:10px 16px}
+.gain button b{font-size:28px}
+.cmp .pc pre{font-size:24px}
+#cmpBa table{font-size:24px}
+.vw>img{height:100%;width:auto;max-width:1000px;object-fit:contain;min-height:0;border-radius:14px;border:1px solid var(--line);background:#fff}
 </style>
 </head>
 <body>
@@ -478,17 +517,15 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 
 <section class="scene" id="made" data-title="Claude로 한 것들">
  <header class="sh"><span class="no">00</span><h2>Claude로 <em>이런 것을 합니다</em></h2></header>
- <div class="tabs" id="madeTabs" role="group" aria-label="예시"><button type="button" data-v="0" aria-pressed="true">게임 1</button><button type="button" data-v="1" aria-pressed="false">게임 2</button><button type="button" data-v="2" aria-pressed="false">웹사이트</button><button type="button" data-v="3" aria-pressed="false">뮤직비디오</button><button type="button" data-v="4" aria-pressed="false">유튜브 1</button><button type="button" data-v="5" aria-pressed="false">유튜브 2</button></div>
+ <div class="tabs" id="madeTabs" role="group" aria-label="예시"><button type="button" data-v="0" aria-pressed="true">게임 1</button><button type="button" data-v="1" aria-pressed="false">게임 2</button><button type="button" data-v="2" aria-pressed="false">웹사이트</button><button type="button" data-v="3" aria-pressed="false">뮤직비디오</button></div>
  <div class="viewer"><div class="vw on" data-v="0"><video class="zv" src="media/game_island.mp4" muted loop playsinline preload="metadata"></video>
-   <div class="card"><span class="k">게임</span><h3>몽글섬 이야기</h3><p>마을을 돌아다니는 3D 게임입니다.</p><p>영상을 누르면 화면 가득 커집니다.</p></div></div>
+   <div class="card"><span class="k">게임</span><h3>몽글섬 이야기</h3><p>마을을 돌아다니며 열매를 따고 주민과 이야기하는 3D 게임입니다.</p><p>영상을 누르면 화면 가득 커집니다.</p></div></div>
   <div class="vw" data-v="1"><div class="phones"><video class="zv" src="media/game_dungeon2.mp4" muted loop playsinline preload="metadata"></video><video class="zv" src="media/game_dungeon.mp4" muted loop playsinline preload="metadata"></video><video class="zv" src="media/game_dungeon3.mp4" muted loop playsinline preload="metadata"></video></div>
    <div class="card"><span class="k">게임</span><h3>던전 게임</h3><p>휴대폰으로 하는 게임입니다. 레벨이 오르면 기술을 고릅니다.</p><p>영상을 누르면 화면 가득 커집니다.</p></div></div>
   <div class="vw" data-v="2"><div class="sitebig"><span>TriadAudioLAB</span><i>오디오 연구와 플러그인을 소개하는 웹사이트</i><b class="names">SonicMass · Resonaire · ToneDNA · MORA</b><a class="linkb big" href="https://www.triadaudiolab.com/" target="_blank" rel="noopener">사이트 열기</a></div>
    <div class="card"><span class="k">웹사이트</span><h3>직접 만들어 운영 중</h3><p>버튼을 눌러 실제 사이트를 열어서 보여 줍니다.</p></div></div>
   <div class="vw" data-v="3"><video id="mvVid" src="media/mv_excerpt.mp4" poster="media/mv_poster.jpg" controls playsinline preload="metadata"></video>
-   <div class="card"><span class="k">뮤직비디오</span><h3>레트로폴리탄 · Heyday</h3><p>기획, 장면마다 쓴 프롬프트, 기록, 자막 파일에 Claude를 썼습니다. 영상 자체는 전용 생성 도구로 만들었습니다.</p><div class="row2"><button type="button" class="zb hotb" data-z="mvVid">크게 보기</button><a class="linkb" href="https://www.youtube.com/watch?v=NJjZ9IYkfNY" target="_blank" rel="noopener">유튜브</a></div></div></div>
-  <div class="vw yt" data-v="4" data-yt="0"><div class="ytbox"></div><div class="card"><span class="k">유튜브 · Anthropic 공식</span><h3 class="ytT"></h3><p>영어 영상입니다. 화면만 보아도 무엇을 하는지 알 수 있습니다.</p><a class="linkb ytL" target="_blank" rel="noopener">유튜브에서 열기</a></div></div>
-  <div class="vw yt" data-v="5" data-yt="1"><div class="ytbox"></div><div class="card"><span class="k">유튜브 · Anthropic 공식</span><h3 class="ytT"></h3><p>영어 영상입니다. 화면만 보아도 무엇을 하는지 알 수 있습니다.</p><a class="linkb ytL" target="_blank" rel="noopener">유튜브에서 열기</a></div></div>
+   <div class="card"><span class="k">뮤직비디오</span><h3>레트로폴리탄 · Heyday</h3><p>기획, 장면마다 쓴 프롬프트, 기록, 자막 파일에 Claude를 썼습니다. 영상 자체는 전용 생성 도구로 만들었습니다. 약 20초만 봅니다.</p><div class="row2"><button type="button" class="zb hotb" data-z="mvVid">크게 보기</button><a class="linkb" href="https://www.youtube.com/watch?v=NJjZ9IYkfNY" target="_blank" rel="noopener">유튜브</a></div></div></div>
  </div>
 </section>
 
@@ -502,16 +539,37 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
   <div class="card"><span class="k">2</span><h3>본다</h3><p>사진, PDF, 표를 올리면 <b>내용을 읽고</b> 답합니다.</p></div>
   <div class="card"><span class="k">3</span><h3>만든다</h3><p>글, 표, 파일, 작은 프로그램까지 <b>결과물로</b> 만들어 줍니다.</p></div>
  </div>
- <p class="note"><b>틀릴 수 있습니다.</b> 숫자와 사실은 사람이 확인합니다.</p>
+ <p class="note"><b>Claude는 틀릴 수 있습니다.</b> 숫자와 출처는 사람이 직접 확인합니다.</p>
+</section>
+
+<section class="scene" id="llm" data-title="세 가지 AI">
+ <header class="sh"><span class="no">00</span><h2>많이 쓰는 <em>세 가지 AI</em></h2>
+ <p class="lede">성격은 강사가 직접 써 본 느낌이고, 가격은 공개된 개발자용 가격입니다(100만 토큰당 입력 / 출력).</p></header>
+ <div class="grid g3 fill">
+  <div class="card hot"><span class="k">Anthropic · 최상위 Fable 5.2 · $8 / $40</span><h3>Claude</h3><p><b>사람이 쓴 것 같은 결과물</b>을 잘 만듭니다. 맡긴 일을 오래, 끝까지 붙잡습니다.</p><p>그만큼 <b>사용량을 많이 씁니다.</b></p></div>
+  <div class="card"><span class="k">OpenAI · 최상위 GPT-6 Astra · $10 / $50</span><h3>ChatGPT</h3><p><b>모범생처럼</b> 고르게 답합니다. 성능과 가격이 무난합니다.</p><p><b>이미지 생성</b>까지 한곳에서 됩니다.</p></div>
+  <div class="card"><span class="k">Google · 최상위 Gemini 4 Carbon · $2 / $10</span><h3>Gemini</h3><p><b>가격이 가장 낮습니다.</b> 12월부터는 $4 / $20입니다.</p><p>9월 말부터 여섯 주 사이에 <b>새 모델 세 개</b>가 나왔습니다.</p></div>
+ </div>
+ <p class="note">정답은 없습니다. <b>일에 맞는 것을 골라 쓰면 됩니다.</b> 오늘은 Claude를 씁니다.</p>
 </section>
 
 <section class="scene" id="enter" data-title="들어가기">
  <header class="sh"><span class="no">00</span><h2>먼저 <em>들어가 봅니다</em></h2>
- <p class="lede">팀장 노트북 한 대로 함께 합니다. 맥이든 윈도우든 브라우저만 있으면 됩니다.</p></header>
+ <p class="lede">각자 앞에 있는 PC의 브라우저에서 엽니다.</p></header>
  <div class="grid g3 fill">
   <div class="card"><span class="k">1 · 주소</span><h3>claude.ai</h3><p>브라우저 주소창에 입력합니다.</p></div>
-  <div class="card"><span class="k">2 · 로그인</span><h3>나눠 드린 계정으로</h3><p>막히면 손을 듭니다. 혼자 해결하려고 시간을 쓰지 않습니다.</p></div>
-  <div class="card hot"><span class="k">3 · 약속</span><h3>한 계정을 여러 팀이 씁니다</h3><p>첫 문장 앞에 <b>[조 이름]</b>을 붙이고, 다른 팀의 채팅은 열지 않습니다.</p></div>
+  <div class="card"><span class="k">2 · 로그인</span><h3>나눠 드린 계정으로</h3><p>안내해 드린 계정으로 로그인합니다.</p></div>
+  <div class="card hot"><span class="k">3 · 도움</span><h3>손을 들어 주세요</h3><p>잘 모르겠는 부분이 있으면 <b>언제든 손을 들어 주세요.</b> 바로 도와드리겠습니다.</p></div>
+ </div>
+</section>
+
+<section class="scene" id="save" data-title="오늘의 사용 방법">
+ <header class="sh"><span class="no">00</span><h2>오늘은 <em>이렇게 씁니다</em></h2>
+ <p class="lede">Claude에는 사용량 한도가 있습니다. 끝까지 쓰려면 아껴 써야 합니다.</p></header>
+ <div class="grid g3 fill">
+  <div class="card hot"><span class="k">1 · 모델</span><h3>Sonnet 5.5 · 노력 중간</h3><p>입력창 아래에서 확인합니다. <b>오늘은 바꾸지 않습니다.</b></p></div>
+  <div class="card"><span class="k">2 · 대화</span><h3>주제가 바뀌면 새로 만들기</h3><p>대화가 길어질수록 사용량을 더 씁니다.</p></div>
+  <div class="card"><span class="k">3 · 메모리</span><h3>오늘은 꺼 둡니다</h3><p>지난 대화를 기억하는 기능입니다. 사용량을 아끼려고 꺼 두었습니다.</p></div>
  </div>
 </section>
 
@@ -527,32 +585,24 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
   <div class="shotside"><ol class="legend"><li><b>파일 업로드 또는 추가</b>사진, PDF, 표, 영상을 올립니다. <i>오늘 쓰는 것은 이것입니다.</i></li><li><b>커넥터</b>노션, 캔바 같은 다른 앱을 연결합니다.</li><li><b>리서치</b>자료를 폭넓게 찾아서 조사하게 합니다.</li></ol><p class="snote">나머지 항목은 오늘 쓰지 않습니다.</p></div></div>
 </section>
 
-<section class="scene shot" id="tour3" data-title="화면 3 · 모델">
- <header class="sh"><span class="no">00</span><h2>모델: <em>오늘은 그대로 둡니다</em></h2></header>
- <div class="shotrow"><div class="shotimg" style="--r:2.0000;aspect-ratio:660/330"><img src="media/ui3.png" alt="화면 3 · 모델 화면"><span class="pin" style="left:48.2%;top:31.2%">1</span><span class="pin" style="left:48.2%;top:68.5%">2</span><span class="pin" style="left:68.9%;top:91.5%">3</span></div>
-  <div class="shotside"><ol class="legend"><li><b>모델 목록</b>위쪽은 어려운 일에, 아래쪽은 빠른 답에 맞습니다. 메뉴에 설명이 적혀 있습니다.</li><li><b>노력</b>얼마나 깊이 생각하고 답할지 정합니다.</li><li><b>지금 고른 모델</b>입력창 아래에 늘 보입니다.</li></ol><p class="snote">모델과 노력에 따라 사용량이 달라집니다.</p></div></div>
-</section>
 
-<section class="scene shot" id="tour4" data-title="화면 4 · 대화 중">
+
+<section class="scene shot" id="tour4" data-title="화면 3 · 대화 중">
  <header class="sh"><span class="no">00</span><h2>대화 중: <em>답은 쌓이고, 결과물은 옆에</em></h2></header>
- <div class="shotrow"><div class="shotimg" style="--r:1.9237;aspect-ratio:1487/773"><img src="media/ui4.png" alt="화면 4 · 대화 중 화면"><span class="pin" style="left:42.0%;top:3.6%">1</span><span class="pin" style="left:49.4%;top:38.8%">2</span><span class="pin" style="left:40.3%;top:92.0%">3</span><span class="pin" style="left:75.3%;top:32.3%">4</span><span class="pin" style="left:88.1%;top:5.4%">5</span></div>
+ <div class="shotrow"><div class="shotimg" style="--r:1.9237;aspect-ratio:1487/773"><img src="media/ui4.png" alt="화면 3 · 대화 중 화면"><span class="pin" style="left:42.0%;top:3.6%">1</span><span class="pin" style="left:49.4%;top:38.8%">2</span><span class="pin" style="left:40.3%;top:92.0%">3</span><span class="pin" style="left:75.3%;top:32.3%">4</span><span class="pin" style="left:88.1%;top:5.4%">5</span></div>
   <div class="shotside"><ol class="legend"><li><b>대화 제목</b>지금 대화의 이름입니다.</li><li><b>대화</b>내 말과 Claude의 답이 위에서 아래로 쌓입니다.</li><li><b>답글 입력창</b>이어서 묻거나 고쳐 달라고 합니다.</li><li><b>옆 창</b>결과물이 대화 옆에 따로 열립니다.</li><li><b>공유</b>대화를 다른 사람에게 보여 줄 때 씁니다.</li></ol></div></div>
 </section>
 
-<section class="scene" id="first" data-title="첫 대화 시연">
- <header class="sh"><span class="no">00</span><h2>첫 대화를 <em>같이 봅니다</em></h2>
- <p class="lede">강사가 먼저 해 봅니다. 세 가지를 눈여겨봅니다.</p></header>
- <div class="grid g3 fill">
-  <div class="card"><span class="k">1</span><h3>문장으로 말한다</h3><article class="pc"><pre>안녕? 너는 무엇을 할 수 있어? 대학생에게 쓸모 있는 것 다섯 가지만 알려 줘.</pre></article></div>
-  <div class="card"><span class="k">2</span><h3>이어서 묻는다</h3><article class="pc"><pre>3번을 초등학생도 알아듣게 다시 설명해 줘.</pre></article></div>
-  <div class="card"><span class="k">3</span><h3>고쳐 달라고 한다</h3><article class="pc"><pre>방금 답을 절반 길이로 줄이고 표로 바꿔 줘.</pre></article></div>
- </div>
- <p class="note"><b>한 번에 끝내지 않습니다.</b> 마음에 들지 않으면 다시 시키면 됩니다.</p>
+<section class="scene act" data-act="w1p1" data-title="질문하기"></section>
+
+<section class="scene act" data-act="w1p2" data-title="검색시키기"></section>
+
+<section class="scene act" data-act="w1p3" data-title="만들게 하기"></section>
+
+<section class="scene qtitle" id="qt1" data-title="퀴즈 시간">
+ <div class="qtbox"><span class="qk">QUIZ</span><h2>퀴즈 시간</h2><p>방금 배운 것에서 두 문제가 나옵니다. 각 10점입니다.</p>
+ <ul><li>각자 PC의 교재에서 답을 고릅니다</li><li>문제마다 <b>20초</b>입니다</li><li>맞히면 점수가 쌓이고, 마지막에 순위를 봅니다</li></ul></div>
 </section>
-
-<section class="scene act" data-act="w1m1" data-title="실습 1 · 첫 대화"></section>
-
-<section class="scene act" data-act="w1c1" data-title="돌아보기"></section>
 
 <section class="scene act" data-act="w1q1" data-title="퀴즈 1"></section>
 
@@ -560,46 +610,35 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 
 <!-- PART 2 -->
 
-<section class="scene act" data-act="w1c2" data-title="어느 쪽이 나을까" data-part="2"></section>
+<section class="scene" id="intent" data-part="2" data-title="가장 중요한 것">
+ <header class="sh"><span class="no">00</span><h2>가장 중요한 것: <em>내 의도를 정확하게 전달하기</em></h2>
+ <p class="lede">AI는 내 머릿속을 볼 수 없습니다. 말해 주지 않은 것은 AI가 마음대로 채웁니다.</p></header>
+ <div class="grid g2 fill">
+  <div class="card"><span class="k">이렇게 쓰면</span><article class="pc"><pre>쇼츠 영상 아이디어 생각해 줘.</pre></article><p>무엇을, 누가 보라고, 어떤 느낌으로 만들지 AI는 <b>알 수 없습니다.</b></p></div>
+  <div class="card hot"><span class="k">이렇게 쓰면</span><article class="pc"><pre>나는 영상 생성 AI를 활용해서 숏폼 드라마를 만들고 싶어. 사극풍으로 만들고 싶은데 3회 분량 시나리오를 작성해 줘.</pre></article><p>만들고 싶은 것, 방법, 분위기, 분량이 <b>들어 있습니다.</b></p></div>
+ </div>
+ <p class="note"><b>안은 AI와 함께 만들고, 결정은 사람이 합니다.</b> 그래서 같은 AI라도 쓰는 사람에 따라 결과가 크게 달라집니다.</p>
+</section>
 
 <section class="scene" id="compare" data-title="한 줄과 상세">
- <header class="sh"><span class="no">00</span><h2>대충 쓰면 <em>대충 답합니다</em></h2></header>
+ <header class="sh"><span class="no">00</span><h2>같은 부탁, <em>다른 답</em></h2></header>
  <div class="cmp">
   <div class="col"><div class="cap2">A · 한 줄</div>
    <article class="pc"><pre id="cmpA"></pre></article>
-   <article class="pc"><header><b>답</b><span>어느 부스에나 붙일 수 있는 말</span></header><pre id="cmpAa"></pre></article></div>
-  <div class="col"><div class="cap2">B · 여섯 요소</div>
+   <article class="pc"><header><b>답</b><span>누구에게나 할 수 있는 답 (예시)</span></header><pre id="cmpAa"></pre></article></div>
+  <div class="col"><div class="cap2">B · 네 가지를 넣어서</div>
    <article class="pc"><pre id="cmpB"></pre></article>
-   <article class="pc"><header><b>답</b><span>우리 부스에만 붙일 수 있는 말</span></header><div id="cmpBa"></div></article></div>
+   <article class="pc"><header><b>답</b><span>내가 원한 답 (예시)</span></header><div id="cmpBa"></div></article></div>
  </div>
- <div class="gain" id="gain" role="group" aria-label="여섯 요소"></div>
+ <div class="gain" id="gain" role="group" aria-label="네 가지 요소"></div>
 </section>
 
-<section class="scene" id="prompt" data-title="여섯 요소">
- <header class="sh"><span class="no">00</span><h2>무엇을 쓰면 되는가: <em>여섯 요소</em></h2>
- <p class="lede">상세하게 쓰라는 말은 길게 쓰라는 뜻이 아닙니다. 이 여섯 가지를 채우라는 뜻입니다.</p></header>
- <div class="bld">
-  <div><div class="field"><label for="b1">예시 부스</label><input id="b1" type="text" placeholder="학생에게 물어서 입력" autocomplete="off"></div>
-   <div class="parts" id="parts" role="group" aria-label="프롬프트 요소"></div></div>
-  <div><div id="bldSay"></div><div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-   <article class="pc"><header><b>프롬프트</b><span id="bldCnt"></span></header><pre id="bldOut"></pre></article></div>
- </div>
-</section>
+<section class="scene act" data-act="w1s1" data-title="팀 프롬프트"></section>
 
-<section class="scene" id="ask" data-title="되묻게 하기">
- <header class="sh"><span class="no">00</span><h2>모르면 지어냅니다. <em>먼저 묻게 합니다</em></h2>
- <p class="lede">정보가 부족하면 Claude는 그럴듯한 내용으로 빈칸을 채웁니다.</p></header>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">프롬프트 끝에 붙입니다</span><h3>되묻기</h3>
-   <article class="pc"><pre>시작하기 전에, 필요한 정보를 나에게 질문해 줘. 한 번에 한 질문씩. 내가 "미정"이라고 답하면 가정을 제안하고 가정이라고 표시해 줘.</pre></article>
-   <p>Claude가 물으면 <b>팀이 의논해서</b> 답합니다.</p></div>
-  <div class="card"><span class="k">결과를 본 뒤에 보냅니다</span><h3>다듬기</h3>
-   <article class="pc"><pre>3번 항목만 다시 써 줘. 우리 팀이 실제로 할 수 있는 수준으로, 시간과 담당이 보이게. 나머지는 그대로 둬.</pre></article>
-   <p>첫 결과는 <b>초안</b>입니다. 한 번에 끝내지 않습니다.</p></div>
- </div>
+<section class="scene qtitle" id="qt2" data-title="퀴즈 시간">
+ <div class="qtbox"><span class="qk">QUIZ</span><h2>퀴즈 시간</h2><p>방금 배운 것에서 두 문제가 나옵니다. 각 20점입니다.</p>
+ <ul><li>각자 PC의 교재에서 답을 고릅니다</li><li>문제마다 <b>20초</b>입니다</li><li>맞히면 점수가 쌓이고, 마지막에 순위를 봅니다</li></ul></div>
 </section>
-
-<section class="scene act" data-act="w1s1" data-title="실습 2 · 프롬프트 고쳐 쓰기"></section>
 
 <section class="scene act" data-act="w1q3" data-title="퀴즈 3"></section>
 
@@ -607,28 +646,44 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 
 <!-- PART 3 -->
 
-<section class="scene" id="apply" data-part="3" data-title="보여 주고, 파일로 받기">
- <header class="sh"><span class="no">00</span><h2>보여 주고, <em>파일로 받습니다</em></h2>
- <p class="lede">말로 설명하기 어려운 것은 올려서 보여 주고, 결과는 파일로 달라고 합니다.</p></header>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">올리기</span><h3>사진과 파일을 보여 준다</h3><article class="pc"><pre>첨부한 사진은 우리 부스 포스터 시안이야. 처음 보는 사람이 3초 안에 무슨 부스인지 알 수 있는지 보고, 고칠 점 세 가지를 알려 줘.</pre></article></div>
-  <div class="card"><span class="k">받기</span><h3>결과를 파일로 받는다</h3><article class="pc"><pre>방금 만든 운영 매뉴얼을 워드 파일로 만들어 줘. 표지에는 부스 이름과 팀원 이름을 넣어 줘.</pre></article></div>
- </div>
- <p class="note">파일은 <b>30MB 이하</b>로 올립니다.</p>
-</section>
-
-<section class="scene" id="verify" data-title="검증">
- <header class="sh"><span class="no">00</span><h2>그럴듯한 답을 <em>의심합니다</em></h2>
- <p class="lede">Claude의 답은 매끄럽게 읽혀도 틀릴 수 있습니다. 숫자와 출처는 사람이 직접 확인합니다.</p></header>
+<section class="scene" id="conn" data-part="3" data-title="커넥터">
+ <header class="sh"><span class="no">00</span><h2>커넥터: Claude를 <em>다른 앱에 연결</em>합니다</h2>
+ <p class="lede">입력창의 + 버튼에 있는 "커넥터"에서 연결합니다. 이 연결을 가능하게 하는 공통 규격이 MCP입니다.</p></header>
  <div class="grid g3 fill">
-  <div class="card"><span class="k">1</span><h3>Claude에게 찾게 한다</h3><p>심사위원이 되어 <b>허점을 찾으라고</b> 시킵니다.</p></div>
-  <div class="card"><span class="k">2</span><h3>숫자를 다시 계산한다</h3><p>합계와 손익분기가 <b>서로 맞는지</b> 봅니다.</p></div>
-  <div class="card"><span class="k">3</span><h3>출처를 직접 연다</h3><p>그 숫자가 거기 적혀 있는지 <b>사람 눈으로</b> 봅니다.</p></div>
+  <div class="card"><span class="k">무엇인가</span><h3>앱에 들어가서 일합니다</h3><p>Claude가 노션, 캔바, 구글 드라이브 같은 앱 안에서 <b>직접 읽고 씁니다.</b></p></div>
+  <div class="card"><span class="k">왜 쓰는가</span><h3>옮겨 붙이지 않습니다</h3><p>복사해서 붙여 넣는 일이 없어집니다. <b>자료가 있는 곳에서 바로</b> 일합니다.</p></div>
+  <div class="card"><span class="k">언제 쓰는가</span><h3>자료나 결과물이 다른 앱에 있을 때</h3><p>노션의 기록을 찾아 정리할 때, 캔바에 발표 자료를 만들 때 씁니다.</p></div>
  </div>
- <p class="note"><b>검증 프롬프트.</b> 너는 이 축제의 예산을 심사하는 사람이야. 허점 5개를 심각한 순서로 지적해 줘. 칭찬은 빼 줘.</p>
 </section>
 
-<section class="scene act" data-act="w1s2" data-title="실습 3 · 운영 매뉴얼 초안"></section>
+<section class="scene" id="canva" data-title="캔바 커넥터로 만든 것">
+ <header class="sh"><span class="no">00</span><h2>캔바 커넥터로 <em>실제로 만든 것들</em></h2></header>
+ <div class="tabs" id="canvaTabs" role="group" aria-label="만든 것"><button type="button" data-v="0" aria-pressed="true">리플렛</button><button type="button" data-v="1" aria-pressed="false">책</button><button type="button" data-v="2" aria-pressed="false">발표 자료</button><span class="tabnote">Claude에 캔바를 연결하고 말로 부탁해서 만들었습니다.</span></div>
+ <div class="viewer">
+  <div class="vw on" data-v="0"><img src="media/canva_leaflet.jpg" alt="3단 리플렛"><div class="card"><span class="k">리플렛</span><h3>3단 접지 리플렛</h3><p>지도와 안내가 들어간 인쇄용 리플렛입니다.</p></div></div>
+  <div class="vw" data-v="1"><img src="media/canva_book.jpg" alt="결과 자료집의 목차"><div class="card"><span class="k">책</span><h3>28쪽 결과 자료집</h3><p>목차부터 본문까지 같은 디자인으로 맞췄습니다.</p></div></div>
+  <div class="vw" data-v="2"><img src="media/canva_ppt.jpg" alt="발표 자료의 한 장"><div class="card"><span class="k">발표 자료</span><h3>14장 성과 발표</h3><p>다음 주에는 여러분이 캔바를 연결해서 부스 소개 자료를 만듭니다.</p></div></div>
+ </div>
+</section>
+
+<section class="scene" id="notion" data-title="노션 커넥터 시연">
+ <header class="sh"><span class="no">00</span><h2>지금 보여 드립니다: <em>노션에 바로 만들기</em></h2>
+ <p class="lede">노션을 연결해 둔 상태에서, 새 대화에 아래 세 문장을 차례로 보냅니다.</p></header>
+ <div class="grid g3 fill">
+  <div class="card"><span class="k">1 · 페이지 만들기</span><article class="pc"><pre>노션에 "축제 부스 운영 준비"라는 새 페이지를 만들어 줘. 맨 위에는 이 페이지가 무엇을 위한 것인지 두 줄로 적어 줘.</pre><header><button type="button" class="cp">복사</button></header></article></div>
+  <div class="card"><span class="k">2 · 데이터베이스로 정리</span><article class="pc"><pre>그 페이지 안에 준비할 일을 관리하는 데이터베이스를 만들어 줘. 속성은 할 일, 담당, 마감일, 상태로 하고, 부스 운영에 흔히 필요한 일 여섯 가지를 넣어 줘.</pre><header><button type="button" class="cp">복사</button></header></article></div>
+  <div class="card"><span class="k">3 · 찾아서 알려 주기</span><article class="pc"><pre>방금 만든 데이터베이스에서 아직 시작하지 않은 일만 골라서 마감일이 빠른 순서로 알려 줘.</pre><header><button type="button" class="cp">복사</button></header></article></div>
+ </div>
+</section>
+
+<section class="scene act" data-act="w1v" data-title="홍보 영상 분석"></section>
+
+<section class="scene act" data-act="w1s2" data-title="운영 매뉴얼 초안"></section>
+
+<section class="scene qtitle" id="qt3" data-title="퀴즈 시간">
+ <div class="qtbox"><span class="qk">QUIZ</span><h2>퀴즈 시간</h2><p>방금 배운 것에서 두 문제가 나옵니다. 각 30점입니다.</p>
+ <ul><li>각자 PC의 교재에서 답을 고릅니다</li><li>문제마다 <b>20초</b>입니다</li><li>맞히면 점수가 쌓이고, 마지막에 순위를 봅니다</li></ul></div>
+</section>
 
 <section class="scene act" data-act="w1q5" data-title="퀴즈 5"></section>
 
@@ -643,9 +698,10 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 <section class="scene" id="nextweek" data-title="다음 주">
  <header class="sh"><span class="no">00</span><h2>다음 주에는 <em>만들고 발표합니다</em></h2>
  <p class="lede">오늘 쓴 것은 그대로 남아 있습니다. 같은 주소로 들어와 팀과 이름을 고르면 이어서 씁니다.</p></header>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">2주차에 하는 것</span><ul class="tight"><li><b>편집.</b> 사진 색감 맞추기, 영상 자르기.</li><li><b>부스 프로그램.</b> 부스에서 실제로 쓸 것을 팀마다 하나.</li><li><b>발표.</b> 캔바로 자료를 만들고 팀당 4분.</li></ul></div>
-  <div class="card"><span class="k">준비해 올 것</span><ul class="tight"><li>오늘 <b>미정으로 둔 항목</b>을 확정해 옵니다.</li><li><b>홍보 영상 파일</b>과 사진 3장. 파일당 30MB 이하.</li><li>팀마다 <b>캔바 계정</b> 하나.</li></ul></div>
+ <div class="grid g3 fill">
+  <div class="card"><span class="k">1</span><h3>부스 프로그램 만들기</h3><p>부스에서 실제로 쓸 간단한 프로그램을 말로 만듭니다.</p></div>
+  <div class="card"><span class="k">2</span><h3>캔바로 발표 자료 만들기</h3><p>캔바를 직접 연결하고, 오늘 만든 기획을 바탕으로 부스 소개 자료를 만듭니다.</p></div>
+  <div class="card"><span class="k">3</span><h3>팀 발표</h3><p>팀마다 만든 자료로 부스를 소개합니다.</p></div>
  </div>
 </section>
 
@@ -653,15 +709,13 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
  <header class="sh"><span class="no">00</span><h2>이 강의의 <em>근거</em></h2>
  <p class="lede">기능 설명은 아래 공식 자료를 확인하고 썼습니다. 기능과 요금제는 바뀔 수 있습니다.</p></header>
  <ul class="src">
-  <li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener">Anthropic 프롬프트 엔지니어링 개요</a> : 명확한 지시와 예시, 역할 부여</li>
-  <li><a href="https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude" target="_blank" rel="noopener">Claude 도움말: 파일 만들고 편집하기</a> : 설정, 네트워크 접속, 30MB 제한</li>
-  <li><a href="https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context" target="_blank" rel="noopener">Claude 도움말: 메모리</a> : 메모리와 지난 대화 참고</li>
-  <li><a href="https://support.claude.com/en/articles/12260368-use-incognito-chats" target="_blank" rel="noopener">Claude 도움말: 시크릿 채팅</a> : 시크릿 채팅에서 안 되는 것</li>
+  <li><a href="https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude" target="_blank" rel="noopener">Claude 도움말: 파일 만들고 편집하기</a> : 설정, 파일 크기 제한</li>
   <li><a href="https://support.claude.com/en/articles/9797557-usage-limit-best-practices" target="_blank" rel="noopener">Claude 도움말: 사용량 아끼기</a> : 사용량이 달라지는 요인</li>
-  <li><a href="https://support.claude.com/en/articles/12512176-what-are-skills" target="_blank" rel="noopener">Claude 도움말: 스킬</a> : 스킬의 뜻과 작동 방식</li>
-  <li><a href="https://modelcontextprotocol.io/docs/2025-06-18/getting-started/intro.md" target="_blank" rel="noopener">MCP 공식 소개</a> : 정의와 USB-C 비유</li>
+  <li><a href="https://www.datacamp.com/blog/claude-fable-5-2-vs-gemini-4-carbon" target="_blank" rel="noopener">DataCamp: Claude Fable 5.2와 Gemini 4 Carbon 비교</a> : 두 모델의 가격</li>
+  <li><a href="https://www.eesel.ai/blog/gpt-6-astra-pricing" target="_blank" rel="noopener">eesel: GPT-6 Astra 가격</a> : GPT-6 Astra의 가격</li>
+  <li><a href="https://techjacksolutions.com/?p=109565" target="_blank" rel="noopener">Tech Jacks: Gemini 4 세 모델</a> : Argon, Carbon, Hydrogen의 출시 시기</li>
+  <li><a href="https://modelcontextprotocol.io/docs/2025-06-18/getting-started/intro.md" target="_blank" rel="noopener">MCP 공식 소개</a> : MCP의 뜻</li>
   <li><a href="https://www.youtube.com/watch?v=NJjZ9IYkfNY" target="_blank" rel="noopener">레트로폴리탄 Heyday MV</a> : 유튜브 공개 영상</li>
-  <li><a href="https://claude.com/resources/videos" target="_blank" rel="noopener">Claude 공식 영상 모음</a> : 예시로 보여 주는 유튜브 영상의 출처</li>
  </ul>
 </section>
 
@@ -673,18 +727,9 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
   <div class="shotside"><ol class="legend"><li><b>기능</b>설정 왼쪽 메뉴에서 고릅니다.</li><li><b>클라우드에서 코드 실행</b>파일을 만들고 편집하려면 켜져 있어야 합니다.</li><li><b>외부 네트워크 접속 허용</b>작업에 필요한 도구를 내려받게 합니다.</li><li><b>메모리</b>Claude가 무엇을 기억하는지 보고 고칩니다.</li></ol><p class="snote">시크릿 채팅에서는 파일을 만들지 못합니다.</p></div></div>
 </section>
 
-<section class="scene" id="memory" data-title="부록 · 메모리와 사용량">
- <header class="sh"><span class="no">00</span><h2>기억하게 하고, <em>아껴 씁니다</em></h2>
- <p class="lede">메모리는 매번 처음부터 설명하지 않게 해 줍니다. 사용량에는 한도가 있습니다.</p></header>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">메모리</span><h3>나를 기억합니다</h3><ul class="tight"><li>대화를 바탕으로 나에 대해 기억하고, <b>지난 대화를 찾아</b> 참고합니다.</li><li>기억시킬 때는 <b>"이건 기억해 줘"</b>라고 말합니다.</li><li>무엇을 기억하는지는 설정에서 <b>보고 고칩니다.</b></li></ul></div>
-  <div class="card"><span class="k">사용량</span><h3>한도가 있습니다</h3><ul class="tight"><li><b>글 길이, 첨부 파일, 대화 길이, 모델</b>에 따라 달라집니다.</li><li>Claude에는 <b>팀장만</b> 보냅니다. 각자는 교재에 씁니다.</li><li>주제가 바뀌면 <b>새로 만들기</b>로 새 대화를 엽니다.</li></ul></div>
- </div>
-</section>
-
 <section class="scene" id="seven" data-title="부록 · 일곱 번 고친 기획">
  <header class="sh"><span class="no">00</span><h2>기획은 <em>일곱 번째 판</em>에서 끝났습니다</h2>
- <p class="lede">방금 고른 세 가지는 모두 실제로 있었던 기획입니다. 무엇을 버릴지는 사람이 정했습니다.</p></header>
+ <p class="lede">방금 고른 세 가지는 모두 실제로 있었던 기획입니다. 무엇을 고르고 버릴지는 사람이 정했습니다.</p></header>
  <div class="grid g5 vline">
   <div class="card"><b class="v">v2</b><h3>사물 속 도시</h3><p>얼굴 없이 레코드판과 회로를 도시처럼.</p></div>
   <div class="card"><b class="v">v3</b><h3>방법을 바꿈</h3><p>기준 이미지 5장을 먼저 만든다.</p></div>
@@ -694,33 +739,7 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
  </div>
  <div class="grid g2 fill" style="margin-top:22px">
   <div class="card"><span class="k">v5에서 버린 것과 이유</span><ul class="tight"><li><b>락커룸 장면.</b> 소품이 많고 동선이 복잡하다.</li><li><b>불꽃 효과.</b> 기계 고장으로 읽힐 수 있다.</li><li><b>첫 장면.</b> 주인공이 3초 안에 나와야 한다.</li></ul></div>
-  <div class="card"><span class="k">여기서 배울 것</span><h3>안은 Claude가 내고, 버리는 것은 사람이 정한다</h3><p>버린 이유를 적어 두었기 때문에 다음 판이 나아졌습니다.</p></div>
- </div>
-</section>
-
-<section class="scene" id="mcp" data-title="부록 · 커넥터, MCP, 스킬">
- <header class="sh"><span class="no">00</span><h2>MCP는 <em>AI용 USB-C</em></h2>
- <p class="lede">MCP는 AI를 바깥의 도구와 자료에 연결하는 공개 규격입니다.</p></header>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">앱을 눌러 보세요</span><div class="chips" id="mcpApps" role="group" aria-label="연결할 앱"></div><div id="mcpSay" class="say"></div><p id="mcpNote"></p></div>
-  <div class="card"><span class="k">셋의 차이</span><ul class="tight"><li><b>커넥터.</b> Claude가 다른 앱에 들어가서 읽고 쓴다.</li><li><b>MCP.</b> 그 연결을 가능하게 하는 공통 규격.</li><li><b>스킬.</b> 자주 하는 일의 순서와 요령을 저장해 두면 Claude가 꺼내 쓴다.</li></ul></div>
- </div>
-</section>
-
-<section class="scene" id="mine" data-title="부록 · 내 작업 환경">
- <header class="sh"><span class="no">00</span><h2>말만 하면 되는 환경, <em>그래도 판단은 사람</em></h2>
- <p class="lede">저는 모든 기록을 노션에 두고, Claude에 노션과 제 컴퓨터를 연결해 두었습니다.</p></header>
- <div class="chain">
-  <div class="c me"><b>나</b><span>원하는 것을 말한다</span></div>
-  <div class="c"><b>Claude</b><span>계획하고 실행한다</span></div>
-  <div class="c"><b>노션</b><span>기록과 일정을 읽고 쓴다</span></div>
-  <div class="c"><b>내 컴퓨터</b><span>파일을 찾고 편집한다</span></div>
-  <div class="c me"><b>나</b><span>결과를 고르고 버린다</span></div>
- </div>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">지금 보여 드립니다</span><h3>노션 커넥터 시연</h3>
-   <article class="pc"><pre>노션에서 Heyday MV 페이지를 찾아서, v5와 v7 기획이 무엇이 달라졌는지 표로 정리해 줘.</pre></article></div>
-  <div class="card hot"><span class="k">잊지 말 것</span><h3>사람의 의견이 들어가야 결과가 좋아집니다</h3><p>Claude는 시킨 만큼 해 옵니다. AI를 쓸수록 <b>판단하는 힘</b>이 더 중요해집니다.</p></div>
+  <div class="card"><span class="k">여기서 배울 것</span><h3>안은 AI와 함께 만들고, 결정은 사람이 한다</h3><p>그래서 같은 AI라도 쓰는 사람에 따라 결과가 크게 달라집니다.</p></div>
  </div>
 </section>
 </main>
@@ -780,9 +799,11 @@ addEventListener('resize',fit); fit();
 /* ---------- 실습 장면 채우기 ---------- */
 $$('.scene.act').forEach(sc=>{ const st=stepById(sc.dataset.act), quiz=st.kind==='quiz'; sc.id='a_'+st.id; sc.classList.toggle('quiz',quiz);
   sc.innerHTML=`<div class="band"><span class="no">${st.k}</span><div class="tt"><b>${esc(st.n)}</b><span>${quiz?`퀴즈 · ${st.pt}점`:`교재 ${st.k}번 · ${KIND[st.kind]} · 약 ${st.t}분`}</span></div><span class="sync">교재가 이 화면으로 바뀝니다</span><span class="cnt" id="cnt_${st.id}"></span></div>
-   ${sc.dataset.join?`<div class="joinbox"><div class="url">wyoda-15.github.io/booth-workbook</div><p><b>1</b>휴대폰이나 노트북에서 위 주소를 엽니다</p><p><b>2</b>팀을 고르고 이름을 씁니다</p><p><b>3</b>질문에 한 줄로 답합니다</p></div>`:''}
+   ${sc.dataset.join?`<div class="joinbox"><div class="url">wyoda-15.github.io/booth-workbook</div><p><b>1</b>각자 PC의 브라우저에서 위 주소를 엽니다</p><p><b>2</b>팀을 고르고 이름을 씁니다</p><p><b>3</b>아래 질문에 한 줄로 답합니다</p></div>`:''}
    ${st.goal&&!sc.dataset.join&&st.kind!=='poll'&&st.kind!=='quiz'?`<p class="goal">${esc(st.goal)}</p>`:''}
-   ${st.kind==='mission'?`<ol class="mlist">${st.missions.map(m=>`<li>${esc(m.t)}</li>`).join('')}</ol>`:''}
+   ${st.kind==='wall'?`<p class="qq">${esc(st.q)}</p>`:''}
+   ${st.kind==='solo'?`<ol class="mlist">${st.moves.map(m=>`<li>${esc(m.t)}</li>`).join('')}</ol><p class="note tipn"><b>좋은 프롬프트를 쓰려면</b> ${st.tips.map(esc).join(' · ')}<br>교재의 문장은 예시입니다. 원하는 대로 고쳐서 써도 됩니다.</p>`:''}
+   ${st.kind==='work'?`<p class="note tipn"><b>먼저 팀이 의논합니다</b> ${st.tasks[0].talk.map(esc).join(' · ')}</p>`:''}
    ${st.show?`<div class="showbox">${st.show.map(x=>`<div class="card"><b>${esc(x[0])}</b><p>${esc(x[1])}</p></div>`).join('')}</div>`:''}
    <div class="live" id="lv_${st.id}"></div>`});
 
@@ -799,7 +820,8 @@ function show(i){
   $$('video').forEach(v=>{ if(!sc.contains(v)){try{v.pause()}catch(e){}} });
   unzoom(); $$('.ytbox').forEach(b=>{ if(!sc.contains(b)) b.innerHTML='' }); if(sc.id==='made') $$('#made .vw.on video').forEach(v=>{try{ if(v.muted) v.play().catch(()=>{}) }catch(e){}});
   if(sc.id==='live') renderLive0();
-  pushState(); refreshLive();
+  const q0=sc.dataset.act&&stepById(sc.dataset.act); if(q0&&q0.kind==='quiz'&&!REVEAL[q0.id]) quizStart(q0); else { quizStop(); pushState() }
+  refreshLive();
 }
 function go(i){
   if(i<0||i>=scenes.length||i===cur||busy) return;
@@ -834,7 +856,7 @@ $$('.ov').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o&&o.id!=='ga
 /* ---------- 교재와 함께 쓰는 상태 ---------- */
 function setPill(){ const p=$('#pill'); if(!db){p.textContent='교재 연동 안 됨';p.className='pill';return}
   p.textContent=!isOn?'연결 중':syncOn?('교재 연동 중 · 접속 '+peers.length+'명'):('보기만 · 접속 '+peers.length+'명'); p.className='pill'+(isOn&&syncOn?' on':'') }
-function pushState(){ if(!db||!syncOn) return; const sc=scenes[cur]; try{ db.doc('class/state').set({step:sc.dataset.act||'',slide:sc.dataset.title}).catch(()=>{}) }catch(e){} }
+function pushState(){ if(!db||!syncOn) return; const sc=scenes[cur]; try{ db.doc('class/state').set({step:sc.dataset.act||'',slide:sc.dataset.title,qend:qEnd||0}).catch(()=>{}) }catch(e){} }
 function adapter(r,b){ const ref=p=>r.ref(b+'/'+p);
   const sub=(p,map)=>(next,err)=>{ref(p).on('value',s=>next(map(s)),e=>err&&err(e))};
   return { doc:p=>({set:d=>ref(p).set(d),onSnapshot:sub(p,s=>({exists:s.exists(),data:()=>s.val()}))}),
@@ -884,28 +906,41 @@ function renderLive(st){
   const ans=t=>Object.values(D[t].answers).filter(a=>a&&a.s===st.id);
   if(st.kind==='wall'){ const all=[]; T.forEach(t=>ans(t).forEach(a=>{ if(txt(a)){all.push([t,a]); people.add(t+'/'+a.name)} })); all.sort((x,y)=>(y[1].at||0)-(x[1].at||0));
     h=`<div class="wall">${all.length?all.slice(0,24).map(([t,a])=>`<div class="t"><b>${teamLabel(t)} · ${esc(a.name)}</b><span>${esc(txt(a))}</span></div>`).join(''):'<div class="none">답을 쓰면 여기에 바로 나타납니다.</div>'}</div>` }
-  else if(st.kind==='check'||st.kind==='mission'){ h=teamsGrid(T.map(t=>{ const it=(D[t].checks[st.id]&&D[t].checks[st.id].items)||{}; const n=st.checks.filter((c,i)=>it[i]).length; const mem=Object.values(D[t].members);
+  else if(st.kind==='solo'){ const N=st.moves.length; h=teamsGrid(T.map(t=>{ const rows=Object.values(D[t].members).map(m=>{ const a=Object.values(D[t].answers).find(a=>a&&a.s===st.id&&a.name===m.name); const n=a&&a.items?st.moves.filter((x,i)=>a.items[i]).length:0; if(n) people.add(t+'/'+m.name);
+        return `<li class="${n===N?'y':''}">${esc(m.name)} <b>${n}/${N}</b></li>` }).join(''); return `<div class="tm">${head(t)}<ul class="ck pl">${rows||'<li>아직 없음</li>'}</ul></div>` })) }
+  else if(st.kind==='check'){ h=teamsGrid(T.map(t=>{ const it=(D[t].checks[st.id]&&D[t].checks[st.id].items)||{}; const n=st.checks.filter((c,i)=>it[i]).length; const mem=Object.values(D[t].members);
       mem.forEach(m=>people.add(t+'/'+m.name));
-      return `<div class="tm">${head(t)}<div class="who">${mem.length?mem.map(m=>esc(m.name)).join(', '):'아직 없음'}</div><div class="bar"><u style="width:${n/st.checks.length*100}%"></u></div><div class="st"><span class="${n===st.checks.length?'y':''}">${n} / ${st.checks.length} ${st.kind==='mission'?'완료':'찾음'}</span></div>${CFG.teams<=4?`<ul class="ck">${st.checks.map((c,i)=>`<li class="${it[i]?'y':''}">${esc(c)}</li>`).join('')}</ul>`:''}</div>` })) }
+      return `<div class="tm">${head(t)}<div class="who">${mem.length?mem.map(m=>esc(m.name)).join(', '):'아직 없음'}</div><div class="bar"><u style="width:${n/st.checks.length*100}%"></u></div><div class="st"><span class="${n===st.checks.length?'y':''}">${n} / ${st.checks.length} 찾음</span></div>${CFG.teams<=4?`<ul class="ck">${st.checks.map((c,i)=>`<li class="${it[i]?'y':''}">${esc(c)}</li>`).join('')}</ul>`:''}</div>` })) }
   else if(st.kind==='poll'){ const cnt=st.opts.map(()=>0); T.forEach(t=>ans(t).forEach(a=>{ if(a.opt>=0&&a.opt<cnt.length){cnt[a.opt]++; people.add(t+'/'+a.name)} })); const mx=Math.max(1,...cnt), on=revealed[st.id];
     h=`<p class="qq">${esc(st.q)}</p><div class="poll ${on?'':'hide'}">${st.opts.map((o,i)=>`<div class="b"><span>${esc(o)}</span><i><u style="width:${cnt[i]/mx*100}%"></u></i><em>${cnt[i]}</em></div>`).join('')}</div>
       <div class="qfoot"><span>고른 사람 ${people.size}명</span><button type="button" class="hotb" data-reveal="${st.id}">${on?'결과 숨기기':'결과 보기'}</button></div>` }
   else if(st.kind==='quiz'){ const cnt=st.opts.map(()=>0); T.forEach(t=>ans(t).forEach(a=>{ if(a.opt>=0&&a.opt<cnt.length){cnt[a.opt]++; people.add(t+'/'+a.name)} })); const on=!!REVEAL[st.id];
     h=`<p class="qq">${esc(st.q)}</p>${st.quote?`<p class="quote">${esc(st.quote)}</p>`:''}
       <div class="qopts">${st.opts.map((o,i)=>`<div class="qopt${on&&i===st.ans?' ok':''}"><b>${'ABCD'[i]}</b><span>${esc(o)}</span>${on?`<i>${cnt[i]}명</i>`:''}</div>`).join('')}</div>
-      <div class="qfoot">${on?`<span class="why">정답 ${'ABCD'[st.ans]} · ${esc(st.why)}</span>`:`<span>답한 사람 ${people.size}명</span>`}<button type="button" class="hotb" data-qreveal="${st.id}">${on?'정답 다시 가리기':'정답 공개'}</button><button type="button" data-rank="1">순위 보기</button></div>` }
+      <div class="qfoot">${on?`<span class="why">정답 ${'ABCD'[st.ans]} · ${esc(st.why)}</span><button type="button" data-rank="1">순위 보기</button><button type="button" data-qreveal="${st.id}">다시 가리기</button>`:`<span class="cd${qLeft()<=5?' low':''}">${qEnd?qLeft():20}</span><span>답한 사람 ${people.size}명</span><button type="button" class="hotb" data-qreveal="${st.id}">바로 결과 보기</button>`}</div>` }
   else { h=teamsGrid(T.map(t=>{ const d=D[t]; const drs=new Set(); st.tasks.forEach(x=>Object.values(d.drafts).forEach(a=>{ if(a&&a.t===x.tid&&txt(a)){drs.add(a.name); people.add(t+'/'+a.name)} }));
       const tp=st.tasks.filter(x=>txt(d.tprompts[x.tid])).length, outs=st.tasks.flatMap(x=>x.outs), res=outs.filter(o=>txt(d.results[o.rid])).length, N=st.tasks.length, one=N===1;
-      return `<button type="button" class="tm" data-peek="${t}" data-step="${st.id}">${head(t)}<div class="st"><span class="${drs.size?'y':''}">내 프롬프트 ${drs.size}명</span><span class="${tp===N?'y':''}">팀 프롬프트${one?'':' '+tp+'/'+N}</span><span class="${res===outs.length?'y':''}">결과${one?'':' '+res+'/'+outs.length}</span></div>${(()=>{const x=st.tasks.find(x=>txt(d.tprompts[x.tid])); return x?`<p class="pv">${esc(txt(d.tprompts[x.tid]).slice(0,400))}</p>`:'<p class="pv e">아직 팀 프롬프트가 없습니다.</p>'})()}</button>` })) }
+      return `<button type="button" class="tm" data-peek="${t}" data-step="${st.id}">${head(t)}<div class="st"><span class="${tp===N?'y':''}">팀 프롬프트${one?'':' '+tp+'/'+N}</span><span class="${res===outs.length?'y':''}">결과${one?'':' '+res+'/'+outs.length}</span></div>${(()=>{const x=st.tasks.find(x=>txt(d.tprompts[x.tid])); return x?`<p class="pv">${esc(txt(d.tprompts[x.tid]).slice(0,400))}</p>`:'<p class="pv e">아직 팀 프롬프트가 없습니다.</p>'})()}</button>` })) }
   setHTML(el,h); const c=$('#cnt_'+st.id); if(c) c.textContent=people.size?'참여 '+people.size+'명':'';
 }
 function refreshLive(){ const sc=scenes[cur]; if(sc&&sc.dataset.act) renderLive(stepById(sc.dataset.act)); if(sc&&sc.id==='rank') setHTML($('#rankBody'),rankHtml(12)); if($('#rankOv').classList.contains('on')) setHTML($('#rankOvBody'),rankHtml(12)) }
+/* 퀴즈: 20초를 세고, 끝나면 정답을 연다 */
+let qTimer=null, qEnd=0, qAudio=null;
+const qLeft=()=>qEnd?Math.max(0,Math.ceil((qEnd-Date.now())/1000)):0;
+function setReveal(id,v){ if(v) REVEAL[id]=true; else delete REVEAL[id]; refreshLive(); if(db&&syncOn){ try{ rdb.ref(base+'/class/reveal/'+id).set(v?true:null) }catch(err){} } }
+function bgmStart(){ if(!soundOn) return; try{ const ac=new (window.AudioContext||window.webkitAudioContext)(), g=ac.createGain(); g.gain.value=.22; g.connect(ac.destination); const t0=ac.currentTime+.05, N=[110,110,130.81,110,146.83,110,130.81,98];
+  const blip=(t,f,type,v,d)=>{ const o=ac.createOscillator(), e=ac.createGain(); o.type=type; o.frequency.value=f; e.gain.setValueAtTime(.0001,t); e.gain.exponentialRampToValueAtTime(v,t+.01); e.gain.exponentialRampToValueAtTime(.0001,t+d); o.connect(e).connect(g); o.start(t); o.stop(t+d+.03) };
+  for(let i=0;i<40;i++){ const t=t0+i*.5, fast=i>=30; blip(t,N[i%8]*(fast?2:1),'triangle',.5,.4); blip(t,fast?1760:880,'square',.1,.06); if(fast) blip(t+.25,1760,'square',.1,.05) }
+  blip(t0+20,220,'sawtooth',.5,.9); qAudio=ac }catch(e){} }
+function bgmStop(){ if(qAudio){ const a=qAudio; qAudio=null; setTimeout(()=>{try{a.close()}catch(e){}},1200) } }
+function quizStop(){ clearInterval(qTimer); qTimer=null; const had=qEnd; qEnd=0; if(qAudio&&qAudio.state!=='closed'){ try{qAudio.close()}catch(e){} qAudio=null } if(had) pushState() }
+function quizStart(st){ quizStop(); qEnd=Date.now()+20000; bgmStart(); pushState();
+  qTimer=setInterval(()=>{ if(qLeft()<=0){ clearInterval(qTimer); qTimer=null; qEnd=0; bgmStop(); setReveal(st.id,true); pushState() } else refreshLive() },250) }
 const openRank=()=>{ $('#rankOv').classList.add('on'); refreshLive() };
 $('#openRank').onclick=openRank; $('#closeRank').onclick=()=>$('#rankOv').classList.remove('on');
 document.addEventListener('click',e=>{ let b;
   if((b=e.target.closest('[data-reveal]'))){ revealed[b.dataset.reveal]=!revealed[b.dataset.reveal]; refreshLive(); return }
-  if((b=e.target.closest('[data-qreveal]'))){ const id=b.dataset.qreveal, v=!REVEAL[id]; if(v) REVEAL[id]=true; else delete REVEAL[id]; refreshLive();
-    if(db&&syncOn){ try{ rdb.ref(base+'/class/reveal/'+id).set(v?true:null) }catch(err){} } return }
+  if((b=e.target.closest('[data-qreveal]'))){ quizStop(); setReveal(b.dataset.qreveal,!REVEAL[b.dataset.qreveal]); return }
   if(e.target.closest('[data-rank]')){ openRank(); return }
   if((b=e.target.closest('[data-goto]'))){ const i=byId(b.dataset.goto); if(i>=0){ seen[scenes[i].dataset.part||'x']=1; go(i) } return }
   if(!(b=e.target.closest('[data-peek]'))) return;
@@ -924,9 +959,8 @@ function unzoom(){ $$('video.zoomed').forEach(v=>v.classList.remove('zoomed')); 
 function zoom(v){ if(!v) return; unzoom(); v.classList.add('zoomed'); $('#unzoom').hidden=false }
 $('#unzoom').onclick=unzoom;
 $('#madeTabs').onclick=e=>{ const b=e.target.closest('button'); if(!b) return; unzoom(); $$('#madeTabs button').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  $$('#made .vw').forEach(v=>{ const on=v.dataset.v===b.dataset.v; v.classList.toggle('on',on); $$('video',v).forEach(x=>{try{ on?(x.muted&&x.play().catch(()=>{})):x.pause() }catch(err){}});
-    const box=v.querySelector('.ytbox'); if(box) box.innerHTML=on?`<iframe src="https://www.youtube-nocookie.com/embed/${YT[+v.dataset.yt][1]}?rel=0" title="${esc(YT[+v.dataset.yt][0])}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`:'' }) };
-$$('#made .vw.yt').forEach(v=>{ const y=YT[+v.dataset.yt]; v.querySelector('.ytT').textContent=y[0]; v.querySelector('.ytL').href='https://www.youtube.com/watch?v='+y[1] });
+  $$('#made .vw').forEach(v=>{ const on=v.dataset.v===b.dataset.v; v.classList.toggle('on',on); $$('video',v).forEach(x=>{try{ on?(x.muted&&x.play().catch(()=>{})):x.pause() }catch(err){}}) }) };
+$('#canvaTabs').onclick=e=>{ const b=e.target.closest('button'); if(!b) return; $$('#canvaTabs button').forEach(x=>x.setAttribute('aria-pressed',x===b)); $$('#canva .vw').forEach(v=>v.classList.toggle('on',v.dataset.v===b.dataset.v)) };
 document.addEventListener('click',e=>{ const b=e.target.closest('.zb'); if(b){ zoom($('#'+b.dataset.z)); return }
   const v=e.target.closest('video.zv'); if(v){ v.classList.contains('zoomed')?unzoom():zoom(v) } });
 
@@ -940,8 +974,8 @@ if($('#partList')) $('#partList').innerHTML=PLIST.map(p=>`<button type="button" 
 
 /* ---------- 한 줄과 여섯 요소 ---------- */
 $('#cmpA').textContent=DEMO.A; $('#cmpAa').textContent=DEMO.ansA;
-$('#cmpB').innerHTML=DEMO.Bparts.map(p=>`<span data-el="${p[0]}">${esc(p[2])}</span>`).join(' ');
-$('#cmpBa').innerHTML='<table><thead><tr><th>문구</th><th>노린 효과</th></tr></thead><tbody>'+DEMO.ansB.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join('')+'</tbody></table>';
+$('#cmpB').innerHTML=DEMO.Bparts.map(p=>`<span data-el="${p[0]}">${esc(p[2])}</span>`).join(' ')+' '+esc(DEMO.Bextra);
+$('#cmpBa').innerHTML='<table><thead><tr><th>'+DEMO.ansBhead[0]+'</th><th>'+DEMO.ansBhead[1]+'</th></tr></thead><tbody>'+DEMO.ansB.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join('')+'</tbody></table>';
 $('#gain').innerHTML=DEMO.Bparts.map(p=>`<button type="button" data-g="${p[0]}" aria-pressed="false"><b>${p[1]}</b>${DEMO.gain[p[0]]}</button>`).join('');
 $('#gain').onclick=e=>{const b=e.target.closest('button'); if(!b)return; const on=b.getAttribute('aria-pressed')!=='true';
   $$('#gain button').forEach(x=>x.setAttribute('aria-pressed',x===b&&on)); $$('#cmpB span').forEach(s=>s.classList.toggle('hl',on&&s.dataset.el===b.dataset.g))};
@@ -954,47 +988,17 @@ function renderLive0(){ const out=$('#liveOut'), t=$('#liveIn').value||' '; cons
 if($('#liveIn')) $('#liveIn').addEventListener('input',renderLive0);
 if($('#liveModes')) $('#liveModes').onclick=e=>{const b=e.target.closest('button'); if(!b)return; liveMode=+b.dataset.m; $$('#liveModes [data-m]').forEach(x=>x.setAttribute('aria-pressed',x===b)); renderLive0()};
 
-/* ---------- 여섯 요소 조립 ---------- */
-const fill=t=>esc(t).replaceAll('{부스}',S.booth?'<mark>'+esc(S.booth)+'</mark>':'<mark>[부스 이름]</mark>');
-const BP=[
- ['역할','누구로서 답할지','너는 대학 축제 부스를 여러 번 운영해 본 운영 총괄이야.'],
- ['맥락','상황과 배경','우리는 {부스} 부스를 운영하는 대학생 팀이야. 축제는 이틀 동안 열려.'],
- ['과제','정확히 무엇을','부스 예산안을 만들어 줘. 손익분기 판매 수량도 계산해 줘.'],
- ['형식','어떤 모양으로','표로 정리해 줘. 열은 항목, 수량, 단가, 금액, 근거.'],
- ['조건','지켜야 할 선','총액은 우리가 정한 최대 금액을 넘지 않게 해 줘. 가격은 검색해서 출처를 달아 줘.'],
- ['되묻기','부족하면 물어보게','시작하기 전에 부족한 정보가 있으면 나에게 먼저 질문해 줘.']];
-const on=new Set(); let lastAdd=-1;
-const SAY=['이대로 보내면 Claude가 전부 추측합니다','누가 답하는지는 정해졌습니다','상황이 보이기 시작합니다','할 일이 분명해졌습니다','결과를 바로 쓸 수 있는 모양입니다','지어내지 못하게 막았습니다','이제 일을 맡겨도 되는 프롬프트입니다'];
-$('#parts').innerHTML=BP.map((p,i)=>`<button type="button" data-i="${i}" aria-pressed="false"><b>${i+1}</b><span>${p[0]}<small>${p[1]}</small></span></button>`).join('');
-$('#parts').onclick=e=>{const b=e.target.closest('button'); if(!b)return; const i=+b.dataset.i; if(on.has(i)){on.delete(i);lastAdd=-1}else{on.add(i);lastAdd=i} b.setAttribute('aria-pressed',on.has(i)); renderBuilder()};
-function renderBuilder(){ const lines=BP.map((p,i)=>on.has(i)?`<span class="${i===lastAdd?'add':''}">${fill(p[2])}</span>`:null).filter(Boolean);
-  if(!on.has(2)) lines.splice([0,1].filter(i=>on.has(i)).length,0,'축제 부스 예산 짜 줘.');
-  $('#bldOut').innerHTML=lines.join('\n'); $$('#meter i').forEach((m,i)=>m.classList.toggle('f',i<on.size));
-  $('#bldSay').textContent=SAY[on.size]; $('#bldCnt').textContent=on.size+' / 6 요소' }
-$('#b1').value=S.booth; $('#b1').addEventListener('input',()=>{S.booth=$('#b1').value.trim(); LS.set('cl_booth',S.booth); renderBuilder()});
-
-/* ---------- 커넥터 ---------- */
-const APPS=[
- ['노션','노션에서 우리 팀 회의록을 찾아서 할 일만 뽑아 줘.','기록과 일정을 읽고 씁니다. 강사는 모든 작업 기록을 여기에 둡니다.'],
- ['캔바','이 개요로 16:9 발표 자료를 만들어 줘.','디자인을 찾고, 만들고, 내보냅니다. 다음 주 실습에서 씁니다.'],
- ['구글 드라이브','드라이브에 있는 작년 축제 결산 파일을 찾아서 요약해 줘.','내 파일을 찾아 읽습니다.'],
- ['내 컴퓨터','바탕화면의 홍보 영상 폴더에서 가장 최근 파일을 찾아 줘.','데스크톱 앱에서 연결하면 내 컴퓨터의 파일을 다룹니다.'],
- ['편집 프로그램','지금 타임라인의 첫 컷을 따뜻한 색감으로 보정해 줘.','MCP 서버가 있는 프로그램은 Claude가 직접 다룹니다.']];
-$('#mcpApps').innerHTML=APPS.map((a,i)=>`<button type="button" data-i="${i}" aria-pressed="${i===0}">${a[0]}</button>`).join('');
-function mcpPick(i){$$('#mcpApps button').forEach((b,j)=>b.setAttribute('aria-pressed',j===i)); $('#mcpSay').textContent='"'+APPS[i][1]+'"'; $('#mcpNote').textContent=APPS[i][2]}
-$('#mcpApps').onclick=e=>{const b=e.target.closest('button'); if(b) mcpPick(+b.dataset.i)}; mcpPick(0);
-
 /* ---------- films: opening and part intros ---------- */
 const INTRO={
- 1:{t:'처음 열기',kw:['접속','메뉴','버튼','첫 대화'],m:'ui'},
+ 1:{t:'Claude 알기',kw:['대화','화면','질문','검색'],m:'ui'},
  2:{t:'프롬프트',kw:['역할','맥락','형식','조건'],m:'pr'},
- 3:{t:'응용',kw:['사진','파일','매뉴얼','확인'],m:'fl'},
+ 3:{t:'연결과 응용',kw:['커넥터','노션','캔바','매뉴얼'],m:'lk'},
  4:{t:'실제 작업 하나',kw:['기획','프롬프트','기록','자막'],m:'mv'},
  5:{t:'문서와 파일',kw:['엑셀','워드','PDF','자막'],m:'fl'},
  6:{t:'검증',kw:['숫자','출처','규정','확인'],m:'vf'},
  7:{t:'연결',kw:['노션','캔바','내 PC','스킬'],m:'lk'}};
 function motif(m){
-  if(m==='ui') return '<div class="mo m-ui"><div class="w"><i>채팅</i></div><div class="w"><i>아티팩트</i></div><div class="w"><i>프로젝트</i></div></div>';
+  if(m==='ui') return '<div class="mo m-ui2"><div class="bar"><span>claude.ai</span></div><div class="ask">오늘 어떤 도움을 드릴까요?</div><div class="chips3"><i>새로 만들기</i><i>입력창</i><i>+ 버튼</i></div></div>';
   if(m==='pr') return '<div class="mo m-pr"><p class="one">부스 홍보 문구 써 줘</p>'+ELEMS.map((e,i)=>`<div class="l" style="animation-delay:${(.2+i*.42).toFixed(2)}s"><b>${e[1]}</b><i style="animation-delay:${(.3+i*.42).toFixed(2)}s;width:${52+((i*37)%44)}%"></i></div>`).join('')+'</div>';
   if(m==='fr') return '<div class="mo m-fr"><video src="media/mv_loop.mp4" muted autoplay loop playsinline></video><div class="grid">'+Array.from({length:12},(_,i)=>`<span style="animation-delay:${(.2+i*.24).toFixed(2)}s">00:${String(i*2).padStart(2,'0')}</span>`).join('')+'</div></div>';
   if(m==='mv') return '<div class="mo m-mv"><video src="media/mv_loop.mp4" muted autoplay loop playsinline></video><div class="ttl">HEY DAY</div><div class="ver">v2 → v5 → v7</div></div>';
@@ -1064,7 +1068,7 @@ const Film=(()=>{
     at(12,()=>st.insertAdjacentHTML('beforeend','<div class="f-tagc">만든다</div>'));
     at(14,()=>{st.innerHTML='<div class="f-drop"><div class="w">'+[...'CLAUDE'].map((c,i)=>`<span style="animation-delay:${i*.16}s">${c}</span>`).join('')+'</div><div class="s">제대로 쓰는 법</div><div class="b"></div></div>'});
     at(16,()=>$('.f-drop .s').classList.add('in')); at(16.5,()=>$('.f-drop .b').classList.add('in'));
-    const C=[[2,'주 동안'],[5,'시간 동안'],[3,'번의 실습으로'],[1,'권의 운영 매뉴얼을, 팀마다']];
+    const C=[[2,'주 동안'],[5,'시간 동안'],[100,'% 직접 해 보면서'],[1,'권의 운영 매뉴얼을, 팀마다']];
     at(18,()=>{st.innerHTML='<div class="f-count">'+C.map(c=>`<div><b>0</b><span>${c[1]}</span></div>`).join('')+'</div>'});
     C.forEach((c,i)=>{at(18+i,()=>{const d=$$('.f-count div')[i];d.classList.add('in')});
       for(let k=1;k<=8;k++)at(18+i+k*.05,()=>{$$('.f-count b')[i].textContent=Math.round(c[0]*k/8)})});
@@ -1107,7 +1111,7 @@ $('#playS').onclick=()=>Film.play('open');
 
 
 /* ---------- 시작 ---------- */
-renderBuilder(); renderTools();
+renderTools();
 scenes.forEach((sc,i)=>{const n=sc.querySelector('.sh .no'); if(n) n.textContent=String(i).padStart(2,'0')});
 connect();
 const h0=byId(location.hash.slice(1)); show(h0>=0?h0:0); setPill();

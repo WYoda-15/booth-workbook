@@ -139,6 +139,7 @@ pre.refp{white-space:pre-wrap;font-family:var(--f-b);margin:0;color:var(--dim)}
 .ms .mh b{font-family:var(--f-d);font-weight:400;font-size:1.7rem;color:var(--acc)}
 .ms .mh strong{font-size:1.15rem}
 .ms p{margin:.3em 0 .6em;color:var(--text)}
+.exnote{margin:0 0 12px;padding:10px 14px;border-radius:10px;background:#2a2619;border:1px solid var(--quiz);color:var(--quiz);font-size:.92rem}
 .ms small{display:block;color:var(--dim);font-size:.8rem;margin-bottom:4px}
 .ms .say{display:flex;gap:10px;align-items:center;background:var(--bg);border:1px dashed var(--dim);border-radius:10px;padding:10px 12px;margin-bottom:10px}
 .ms .say span{flex:1;min-width:0}
@@ -166,7 +167,7 @@ pre.refp{white-space:pre-wrap;font-family:var(--f-b);margin:0;color:var(--dim)}
 <div id="login">
  <div class="box">
   <h1>Claude 특강 <em>교재</em></h1>
-  <p>팀을 고르고 이름을 쓰면 들어갑니다. 앞 화면이 실습으로 넘어가면 이 화면도 자동으로 바뀝니다.</p>
+  <p>팀을 고르고 이름을 쓰면 들어갑니다. 혼자인 팀도 됩니다. 앞 화면이 실습으로 넘어가면 이 화면도 자동으로 바뀝니다.</p>
   <span class="lab">팀</span>
   <div id="teamSel" role="group" aria-label="팀 고르기"></div>
   <label class="lab" for="nameIn">이름</label>
@@ -247,7 +248,7 @@ function connect(){
   try{
     firebase.initializeApp({databaseURL:DB_URL}); rdb=firebase.database(); db=adapter(rdb,base); mode='db';
     db.doc('class/config').onSnapshot(s=>{ const n=s.exists?+((s.data()||{}).teams):TEAM_DEFAULT; CFG.teams=Math.max(1,Math.min(TEAM_MAX,n||TEAM_DEFAULT)); subAll(); renderLogin(); renderTeacher() },()=>{});
-    db.doc('class/state').onSnapshot(s=>{ const d=s.exists?(s.data()||{}):{}; CLS={step:String(d.step||''),slide:String(d.slide||'')}; onState() },()=>{});
+    db.doc('class/state').onSnapshot(s=>{ const d=s.exists?(s.data()||{}):{}; CLS={step:String(d.step||''),slide:String(d.slide||''),qend:+d.qend||0}; onState() },()=>{});
     db.collection('class/reveal').onSnapshot(rows=>{ REVEAL={}; rows.forEach(([id,v])=>{if(v)REVEAL[id]=true}); refresh() },()=>{});
     db.doc('class/epoch').onSnapshot(s=>{ const e=s.exists?String(s.data()):''; const KICK='강사가 전체 초기화를 했습니다. 다시 들어와 주세요.';
       if(ep0===null){ ep0=e; const mine=LS.get('wb_epoch',''); LS.set('wb_epoch',e); if(me&&e&&mine!==e) kick(KICK) }
@@ -320,11 +321,9 @@ const wbox=(n,title,who,inner)=>`<section class="write"><div class="wl"><b>쓰�
 function ctx(){ const names=Object.values(T().members).map(m=>m.name).join(', '); const def=txt(T().results.w1s2_def);
   return {booth:txt(T().finals.booth)||'[부스 이름]',names:names||'[팀원 이름]',def:def?`<부스 정의서>\n${def}\n</부스 정의서>`:'[부스 정의서를 여기에 붙여 넣습니다]'} }
 function taskHtml(s,t,multi){
-  const g=`<div class="guide"><p>${esc(t.brief)}</p><div class="cols">${t.talk?`<div><h4>먼저 팀이 말로 정합니다</h4><ul>${t.talk.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}<div><h4>프롬프트에 넣을 것</h4><ul>${t.must.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div>`;
-  let n=2; const body=g+
-   wbox(1,'내 프롬프트','나만 씁니다',`<textarea id="dr_${t.tid}" data-k="dr" data-id="${t.tid}" rows="4" placeholder="여기에 직접 씁니다. 완벽하지 않아도 됩니다."></textarea>`)+
-   `<details id="pe_${t.tid}"><summary>팀원이 쓴 프롬프트 <span id="pc_${t.tid}">0개</span></summary><div id="pl_${t.tid}"></div></details>`+
-   wbox(2,'팀 프롬프트','팀이 함께 씁니다 · 팀장이 Claude에 보냅니다',`<textarea id="tp_${t.tid}" data-k="tp" data-id="${t.tid}" rows="4" placeholder="팀에서 하나를 골라 다듬습니다."></textarea><div class="row"><button type="button" data-mine="${t.tid}">내 프롬프트 가져오기</button><button type="button" data-copy="tp_${t.tid}">복사</button></div>`)+
+  const g=`<div class="guide"><p>${esc(t.brief)}</p><div class="cols">${t.talk?`<div><h4>먼저 팀이 의논합니다</h4><ul>${t.talk.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}<div><h4>프롬프트에 넣을 것</h4><ul>${t.must.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div>`;
+  let n=1; const body=g+
+   wbox(1,'우리 팀 프롬프트','팀이 함께 씁니다 · 다 쓰면 팀에서 한 명이 Claude에 보냅니다',`<textarea id="tp_${t.tid}" data-k="tp" data-id="${t.tid}" rows="5" placeholder="의논한 내용을 넣어 직접 씁니다. 완벽하지 않아도 됩니다."></textarea><div class="row"><button type="button" data-copy="tp_${t.tid}">복사</button></div>`)+
    t.outs.map(o=>wbox(++n,o.label,'팀이 함께 씁니다 · Claude의 답을 붙여 넣습니다',`<textarea id="res_${o.rid}" data-k="res" data-id="${o.rid}" rows="3" placeholder="${esc(o.ph||'Claude의 답을 붙여 넣습니다.')}"></textarea>`)).join('')+
    `<details id="rf_${t.tid}" data-ref="${t.tid}"><summary>예시 프롬프트 <span id="rl_${t.tid}"></span></summary><div><pre class="refp" id="rb_${t.tid}"></pre></div></details>`;
   return multi?`<details class="task" name="tasks" id="tk_${t.tid}"><summary>${esc(t.title)} <span id="ts_${t.tid}"></span></summary><div class="tb">${body}</div></details>`:body;
@@ -334,7 +333,9 @@ function stepHtml(s){
   if(s.show) h+=`<div class="showbox">${s.show.map(x=>`<div><b>${esc(x[0])}</b>${esc(x[1])}</div>`).join('')}</div>`;
   if(s.kind==='wall') h+=`<p class="qq">${esc(s.q)}</p>`+wbox(1,'내 답','나만 씁니다 · 앞 화면에 나타납니다',`<textarea id="ans_${s.id}" data-k="ans" data-id="${s.id}" rows="2" placeholder="${esc(s.ph||'')}"></textarea>`);
   else if(s.kind==='check') h+=`<div class="checks" id="cks">${s.checks.map((c,i)=>`<button type="button" data-ck="${i}" aria-pressed="false">${esc(c)}</button>`).join('')}</div><p class="hint">팀이 함께 쓰는 목록입니다. 한 사람이 누르면 팀 전체에 표시됩니다.</p>`;
-  else if(s.kind==='mission') h+=`<div class="missions" id="cks">${s.missions.map((m,i)=>`<div class="ms"><div class="mh"><b>${i+1}</b><strong>${esc(m.t)}</strong></div><p>${esc(m.how)}</p><small>이렇게 입력해 봅니다</small><div class="say"><span>${esc(m.say)}</span><button type="button" data-say="${i}">복사</button></div><button type="button" class="done" data-ck="${i}" aria-pressed="false">해 봤습니다</button></div>`).join('')}</div><p class="hint">팀이 함께 쓰는 목록입니다. 한 사람이 누르면 팀 전체에 표시됩니다.</p>`;
+  else if(s.kind==='solo') h+=`<div class="guide"><p>${esc(s.how)}</p><div class="cols"><div><h4>좋은 프롬프트를 쓰려면</h4><ul>${s.tips.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div>
+    <p class="exnote">아래 문장은 예시입니다. 내가 원하는 내용으로 고쳐서 써도 됩니다.</p>
+    <div class="missions" id="cks">${s.moves.map((m,i)=>`<div class="ms"><div class="mh"><b>${i+1}</b><strong>${esc(m.t)}</strong></div>${m.say?`<small>예시</small><div class="say"><span>${esc(m.say)}</span><button type="button" data-say="${i}">복사</button></div>`:`<p>${esc(m.note||'')}</p>`}<button type="button" class="done" data-sk="${i}" aria-pressed="false">해 봤습니다</button></div>`).join('')}</div>`;
   else if(s.kind==='poll'||s.kind==='quiz') h+=`<p class="qq">${esc(s.q)}</p>${s.quote?`<div class="quote">${esc(s.quote)}</div>`:''}<div class="opts" id="opts">${s.opts.map((o,i)=>`<button type="button" data-opt="${i}"><b>${'ABCD'[i]||i+1}</b><span>${esc(o)}</span></button>`).join('')}</div><p id="qmsg" role="status"></p>`;
   else { const multi=s.tasks.length>1; if(multi) h+=`<p class="hint" style="margin:0 0 12px">맡은 파트를 눌러 엽니다.</p>`;
     h+=s.tasks.map(t=>taskHtml(s,t,multi)).join('');
@@ -358,29 +359,28 @@ function refresh(){ if(view!=='app'||!me) return; setPill();
   $('#mS').textContent=s.kind==='quiz'?`퀴즈 · ${s.pt}점`:`${KIND[s.kind]} · ${s.w==='w1'?'1주차':'2주차'}`;
   $('#followBtn').hidden=follow||!CLS.slide;
   if(s.kind==='wall') setVal($('#ans_'+s.id),txt(T().answers[s.id+'__'+me.key]));
-  else if(s.kind==='check'||s.kind==='mission'){ const it=(T().checks[s.id]&&T().checks[s.id].items)||{}; $$('#cks [data-ck]').forEach(b=>{ b.setAttribute('aria-pressed',!!it[b.dataset.ck]); const m=b.closest('.ms'); if(m) m.classList.toggle('ok',!!it[b.dataset.ck]) }) }
+  else if(s.kind==='solo'){ const a=T().answers[s.id+'__'+me.key], it=(a&&a.items)||{}; $$('#cks [data-sk]').forEach(b=>{ b.setAttribute('aria-pressed',!!it[b.dataset.sk]); b.closest('.ms').classList.toggle('ok',!!it[b.dataset.sk]) }) }
+  else if(s.kind==='check'){ const it=(T().checks[s.id]&&T().checks[s.id].items)||{}; $$('#cks [data-ck]').forEach(b=>b.setAttribute('aria-pressed',!!it[b.dataset.ck])) }
   else if(s.kind==='poll'||s.kind==='quiz'){ const a=T().answers[s.id+'__'+me.key], pick=a&&a.opt>=0?a.opt:-1, rev=s.kind==='quiz'&&REVEAL[s.id], msg=$('#qmsg');
     $$('#opts button').forEach(b=>{ const i=+b.dataset.opt; b.className=rev?(i===s.ans?'ok':i===pick?'no':''):(i===pick?'sel':''); b.disabled=!!rev });
     msg.className='';
     if(s.kind==='poll') msg.textContent=pick>=0?'고른 답은 앞 화면에 모입니다. 바꿀 수 있습니다.':'';
-    else if(!rev) msg.textContent=pick>=0?'답을 보냈습니다. 정답이 공개되기 전까지 바꿀 수 있습니다.':'하나를 고릅니다.';
+    else if(!rev){ const left=CLS.qend?Math.max(0,Math.ceil((CLS.qend-Date.now())/1000)):0; msg.textContent=(left?`남은 시간 ${left}초 · `:'')+(pick>=0?'답을 보냈습니다. 정답이 공개되기 전까지 바꿀 수 있습니다.':'하나를 고릅니다.') }
     else { const ok=pick===s.ans; msg.className=ok?'ok':'no'; msg.textContent=(ok?`정답입니다. +${s.pt}점. `:pick>=0?`아쉽습니다. 정답은 ${'ABCD'[s.ans]}입니다. `:`답을 고르지 않았습니다. 정답은 ${'ABCD'[s.ans]}입니다. `)+s.why } }
   else s.tasks.forEach(t=>{
-    setVal($('#dr_'+t.tid),txt(T().drafts[t.tid+'__'+me.key])); setVal($('#tp_'+t.tid),txt(T().tprompts[t.tid]));
-    t.outs.forEach(o=>setVal($('#res_'+o.rid),txt(T().results[o.rid])));
-    const others=Object.values(T().drafts).filter(d=>d&&d.t===t.tid&&txt(d)&&d.name!==me.name).sort((a,b)=>(a.at||0)-(b.at||0));
-    $('#pc_'+t.tid).textContent=others.length+'개';
-    setHTML($('#pl_'+t.tid),others.length?others.map(d=>`<div class="peer"><b>${esc(d.name)}</b><p>${esc(txt(d))}</p><button type="button" data-take="${esc(t.tid)}" data-from="${esc(d.name)}">팀 프롬프트로 가져오기</button></div>`).join(''):'<div class="peer">아직 없습니다.</div>');
+    setVal($('#tp_'+t.tid),txt(T().tprompts[t.tid])); t.outs.forEach(o=>setVal($('#res_'+o.rid),txt(T().results[o.rid])));
     const tp=txt(T().tprompts[t.tid]), open=tp.length>=20, rf=$('#rf_'+t.tid);
     $('#rl_'+t.tid).textContent=open?'':'팀 프롬프트를 쓴 뒤에 열립니다'; if(!open) rf.open=false;
     if(open) $('#rb_'+t.tid).textContent=t.ref(ctx());
     const ts=$('#ts_'+t.tid); if(ts) ts.textContent=[tp?'팀 프롬프트 있음':'',t.outs.every(o=>txt(T().results[o.rid]))?'결과 있음':''].filter(Boolean).join(' · ') });
 }
+setInterval(()=>{ if(view==='app'&&me&&!watching()&&stepById(cur).kind==='quiz'&&CLS.qend&&!REVEAL[cur]) refresh() },500);
 document.addEventListener('toggle',e=>{ const d=e.target; if(d.dataset&&d.dataset.ref&&d.open&&txt(T().tprompts[d.dataset.ref]).length<20) d.open=false; if(d.open) $$('textarea',d).forEach(grow) },true);
 document.addEventListener('click',e=>{ if(view!=='app'||!me) return; const s=stepById(cur); let b;
   if((b=e.target.closest('[data-opt]'))){ if(s.kind==='quiz'&&REVEAL[s.id]) return; const i=+b.dataset.opt; put('answers',s.id+'__'+me.key,{s:s.id,name:me.name,opt:i,text:s.opts[i],at:Date.now()}) }
   else if((b=e.target.closest('[data-ck]'))){ const c=T().checks[s.id]||{items:{}}; const items=Object.assign({},c.items); items[b.dataset.ck]=!items[b.dataset.ck]; put('checks',s.id,{items,by:me.name,at:Date.now()}) }
-  else if((b=e.target.closest('[data-say]'))) copyText(s.missions[+b.dataset.say].say,b);
+  else if((b=e.target.closest('[data-say]'))) copyText(s.moves[+b.dataset.say].say,b);
+  else if((b=e.target.closest('[data-sk]'))){ const a=T().answers[s.id+'__'+me.key]||{}; const items=Object.assign({},a.items); items[b.dataset.sk]=!items[b.dataset.sk]; put('answers',s.id+'__'+me.key,{s:s.id,name:me.name,items,at:Date.now()}) }
   else if((b=e.target.closest('[data-copy]'))) copyText($('#'+b.dataset.copy).value,b);
   else if((b=e.target.closest('[data-mine]'))){ const tid=b.dataset.mine, v=$('#dr_'+tid).value.trim(); if(!v) return; const el=$('#tp_'+tid); el.value=v; grow(el); put('tprompts',tid,{text:v,by:me.name,at:Date.now()}) }
   else if((b=e.target.closest('[data-take]'))){ const tid=b.dataset.take, d=Object.values(T().drafts).find(x=>x&&x.t===tid&&x.name===b.dataset.from); if(!d) return; const el=$('#tp_'+tid); el.value=txt(d); grow(el); put('tprompts',tid,{text:txt(d),by:me.name,at:Date.now()}); el.scrollIntoView({block:'center',behavior:'smooth'}) }
@@ -388,7 +388,7 @@ document.addEventListener('click',e=>{ if(view!=='app'||!me) return; const s=ste
 });
 
 /* ---------- 실습 목록 ---------- */
-function renderList(){ const done=s=>s.kind==='work'?s.tasks.some(t=>t.outs.some(o=>txt(T().results[o.rid]))):(s.kind==='check'||s.kind==='mission')?!!T().checks[s.id]:!!T().answers[s.id+'__'+me.key];
+function renderList(){ const done=s=>s.kind==='work'?s.tasks.some(t=>t.outs.some(o=>txt(T().results[o.rid]))):s.kind==='check'?!!T().checks[s.id]:!!T().answers[s.id+'__'+me.key];
   $('#listBody').innerHTML=['w1','w2'].map(w=>`<h3>${w==='w1'?'1주차':'2주차'}</h3>`+STEPS[w].map(s=>`<button type="button" class="it${s.kind==='quiz'?' q':''}" data-s="${s.id}" aria-current="${s.id===cur}"><b>${s.k}</b>${esc(s.n)}${done(s)?'<i>함</i>':''}</button>`).join('')).join('') }
 $('#openList').onclick=()=>{ renderList(); $('#list').classList.add('on') };
 $('#closeList').onclick=()=>$('#list').classList.remove('on');
