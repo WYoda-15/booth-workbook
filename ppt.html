@@ -419,6 +419,14 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 .vw{grid-template-rows:minmax(0,1fr)}
 .vw>video,.vw>.phones,.vw>.sitebig{height:100%;min-height:0}
 .phones video{height:100%;width:auto;min-width:0}
+/* 미션 목록, 유튜브 */
+.mlist{margin:0 0 16px;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px;counter-reset:m;font-size:24px}
+.mlist li{counter-increment:m;border:1px solid var(--line);border-radius:99px;padding:.15em .9em;background:var(--ink2)}
+.mlist li::before{content:counter(m) "  ";color:var(--hot);font-family:var(--f-ko)}
+.vw>.ytbox{height:100%;min-height:0;aspect-ratio:16/9;border-radius:14px;border:1px solid var(--line);background:#000;overflow:hidden}
+.ytbox iframe{width:100%;height:100%;border:0;display:block}
+.tabs button{font-size:23px}
+.g3>.card>.pc pre{font-size:26px}
 </style>
 </head>
 <body>
@@ -438,91 +446,82 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
  <div class="cv-b"><button class="hotb" id="playS" type="button">오프닝 재생</button><button id="skipIn" type="button">바로 수업으로</button></div>
 </section>
 
-<section class="scene" id="live" data-title="라이브 타이포">
- <header class="sh"><span class="no">00</span><h2>방금 그 영상, <em>영상 파일이 아닙니다</em></h2>
- <p class="lede">화면도 소리도 코드로 만든 것입니다. 아무 단어나 불러 주세요.</p></header>
- <div class="field"><label for="liveIn">단어</label><input id="liveIn" type="text" maxlength="12" value="축제" autocomplete="off">
-  <div class="chips" id="liveModes" role="group" aria-label="모션 종류"><button type="button" data-m="0" aria-pressed="true">SLAM</button><button type="button" data-m="1" aria-pressed="false">WAVE</button><button type="button" data-m="2" aria-pressed="false">GLITCH</button></div></div>
- <div id="liveOut" class="m0" aria-live="off"></div>
-</section>
-
 <section class="scene act" data-act="w1c0" data-title="체크인" data-join="1"></section>
 
-<section class="scene" id="map" data-title="오늘의 진행">
- <header class="sh"><span class="no">00</span><h2>오늘은 듣다가 <em>바로 해 봅니다</em></h2>
- <p class="lede">앞 화면이 실습으로 넘어가면 여러분의 교재도 같은 실습으로 바뀝니다.</p></header>
- <div class="grid g3">
-  <div class="card"><span class="k">1 · 보여 주기</span><h3>강사가 먼저 합니다</h3><p>이때 교재에는 "앞 화면을 봐 주세요"가 뜹니다.</p></div>
-  <div class="card hot"><span class="k">2 · 해 보기</span><h3>교재에 직접 씁니다</h3><p>앞 화면과 교재에 같은 번호와 같은 색 띠가 나타납니다.</p></div>
-  <div class="card"><span class="k">3 · 퀴즈</span><h3>맞히면 점수가 쌓입니다</h3><p>여섯 문제가 점점 어려워집니다. 마지막에 순위를 봅니다.</p></div>
- </div>
- <div class="plist" id="partList"></div>
-</section>
-
-<!-- PART 1 -->
-<section class="scene" id="why" data-part="1" data-title="Claude가 잘하는 것">
- <header class="sh"><span class="no">00</span><h2>질문에 답하는 것 말고도 <em>할 수 있는 일</em></h2>
- <p class="lede">오늘 이 여섯 가지를 차례로 써 봅니다.</p></header>
- <div class="grid g3 fill">
-  <div class="card"><span class="k">1</span><h3>쓰고 다듬기</h3><p>초안보다 <b>고쳐 쓰기</b>에서 차이가 납니다.</p></div>
-  <div class="card"><span class="k">2</span><h3>보고 읽기</h3><p>사진, PDF, 표를 읽습니다. <b>영상은 장면을 뽑아서</b> 봅니다.</p></div>
-  <div class="card"><span class="k">3</span><h3>파일 만들기</h3><p>엑셀, 워드, PDF, 자막을 <b>실제 파일</b>로 만듭니다.</p></div>
-  <div class="card"><span class="k">4</span><h3>아티팩트</h3><p>대화 옆에 열리는 결과물. <b>작은 프로그램</b>까지 만듭니다.</p></div>
-  <div class="card"><span class="k">5</span><h3>찾아보기</h3><p>웹을 검색해서 <b>출처와 함께</b> 답합니다.</p></div>
-  <div class="card"><span class="k">6</span><h3>연결하기</h3><p>노션, 캔바 같은 <b>다른 앱을 직접</b> 다룹니다.</p></div>
- </div>
-</section>
-
-<section class="scene" id="made" data-title="만든 것들">
- <header class="sh"><span class="no">00</span><h2>이런 것까지 <em>만들어 봤습니다</em></h2></header>
- <div class="tabs" id="madeTabs" role="group" aria-label="만든 것"><button type="button" data-v="0" aria-pressed="true">몽글섬 이야기</button><button type="button" data-v="1" aria-pressed="false">던전 게임</button><button type="button" data-v="2" aria-pressed="false">웹사이트</button><span class="tabnote">모두 말로 설명하고, 써 보고, 고쳐 달라고 하면서 만들었습니다.</span></div>
- <div class="viewer">
-  <div class="vw on" data-v="0"><video class="zv" src="media/game_island.mp4" muted loop playsinline preload="metadata"></video>
+<section class="scene" id="made" data-title="Claude로 한 것들">
+ <header class="sh"><span class="no">00</span><h2>Claude로 <em>이런 것을 합니다</em></h2></header>
+ <div class="tabs" id="madeTabs" role="group" aria-label="예시"><button type="button" data-v="0" aria-pressed="true">게임 1</button><button type="button" data-v="1" aria-pressed="false">게임 2</button><button type="button" data-v="2" aria-pressed="false">웹사이트</button><button type="button" data-v="3" aria-pressed="false">뮤직비디오</button><button type="button" data-v="4" aria-pressed="false">유튜브 1</button><button type="button" data-v="5" aria-pressed="false">유튜브 2</button></div>
+ <div class="viewer"><div class="vw on" data-v="0"><video class="zv" src="media/game_island.mp4" muted loop playsinline preload="metadata"></video>
    <div class="card"><span class="k">게임</span><h3>몽글섬 이야기</h3><p>마을을 돌아다니는 3D 게임입니다.</p><p>영상을 누르면 화면 가득 커집니다.</p></div></div>
   <div class="vw" data-v="1"><div class="phones"><video class="zv" src="media/game_dungeon2.mp4" muted loop playsinline preload="metadata"></video><video class="zv" src="media/game_dungeon.mp4" muted loop playsinline preload="metadata"></video><video class="zv" src="media/game_dungeon3.mp4" muted loop playsinline preload="metadata"></video></div>
    <div class="card"><span class="k">게임</span><h3>던전 게임</h3><p>휴대폰으로 하는 게임입니다. 레벨이 오르면 기술을 고릅니다.</p><p>영상을 누르면 화면 가득 커집니다.</p></div></div>
   <div class="vw" data-v="2"><div class="sitebig"><span>TriadAudioLAB</span><i>오디오 연구와 플러그인을 소개하는 웹사이트</i><b class="names">SonicMass · Resonaire · ToneDNA · MORA</b><a class="linkb big" href="https://www.triadaudiolab.com/" target="_blank" rel="noopener">사이트 열기</a></div>
    <div class="card"><span class="k">웹사이트</span><h3>직접 만들어 운영 중</h3><p>버튼을 눌러 실제 사이트를 열어서 보여 줍니다.</p></div></div>
+  <div class="vw" data-v="3"><video id="mvVid" src="media/mv_excerpt.mp4" poster="media/mv_poster.jpg" controls playsinline preload="metadata"></video>
+   <div class="card"><span class="k">뮤직비디오</span><h3>레트로폴리탄 · Heyday</h3><p>기획, 장면마다 쓴 프롬프트, 기록, 자막 파일에 Claude를 썼습니다. 영상 자체는 전용 생성 도구로 만들었습니다.</p><div class="row2"><button type="button" class="zb hotb" data-z="mvVid">크게 보기</button><a class="linkb" href="https://www.youtube.com/watch?v=NJjZ9IYkfNY" target="_blank" rel="noopener">유튜브</a></div></div></div>
+  <div class="vw yt" data-v="4" data-yt="0"><div class="ytbox"></div><div class="card"><span class="k">유튜브 · Anthropic 공식</span><h3 class="ytT"></h3><p>영어 영상입니다. 화면만 보아도 무엇을 하는지 알 수 있습니다.</p><a class="linkb ytL" target="_blank" rel="noopener">유튜브에서 열기</a></div></div>
+  <div class="vw yt" data-v="5" data-yt="1"><div class="ytbox"></div><div class="card"><span class="k">유튜브 · Anthropic 공식</span><h3 class="ytT"></h3><p>영어 영상입니다. 화면만 보아도 무엇을 하는지 알 수 있습니다.</p><a class="linkb ytL" target="_blank" rel="noopener">유튜브에서 열기</a></div></div>
  </div>
 </section>
 
-<section class="scene" id="ui" data-title="화면 익히기">
- <header class="sh"><span class="no">00</span><h2>화면에서 알아 둘 <em>여섯 가지</em></h2>
- <p class="lede">맥이든 윈도우든 브라우저에서 claude.ai를 열면 화면은 같습니다.</p></header>
+<!-- PART 1 -->
+
+<section class="scene" id="what" data-part="1" data-title="Claude는 무엇인가">
+ <header class="sh"><span class="no">00</span><h2>Claude는 <em>말로 일을 시키는 AI</em>입니다</h2>
+ <p class="lede">검색창처럼 단어를 넣는 곳이 아닙니다. 사람에게 부탁하듯 문장으로 말합니다.</p></header>
  <div class="grid g3 fill">
-  <div class="card"><span class="k">1</span><h3>새 채팅</h3><p>주제가 바뀌면 <b>새 채팅</b>을 엽니다.</p></div>
-  <div class="card"><span class="k">2</span><h3>첨부</h3><p>사진, PDF, 표, 영상을 올립니다. 설명보다 <b>보여 주는 것</b>이 빠릅니다.</p></div>
-  <div class="card"><span class="k">3</span><h3>모델 선택</h3><p>가벼운 일에는 <b>가벼운 모델</b>을 고릅니다.</p></div>
-  <div class="card"><span class="k">4</span><h3>아티팩트</h3><p>결과물은 대화 <b>옆에 따로</b> 열립니다.</p></div>
-  <div class="card"><span class="k">5</span><h3>프로젝트</h3><p>자료를 넣어 두면 그 안의 대화가 <b>같은 자료</b>를 봅니다.</p></div>
-  <div class="card"><span class="k">6</span><h3>설정</h3><p>메모리, 파일 만들기, 커넥터를 <b>켜고 끕니다.</b></p></div>
+  <div class="card"><span class="k">1</span><h3>대화한다</h3><p>묻고, 이어서 묻고, 고쳐 달라고 합니다. <b>앞에서 한 말을 기억합니다.</b></p></div>
+  <div class="card"><span class="k">2</span><h3>본다</h3><p>사진, PDF, 표를 올리면 <b>내용을 읽고</b> 답합니다.</p></div>
+  <div class="card"><span class="k">3</span><h3>만든다</h3><p>글, 표, 파일, 작은 프로그램까지 <b>결과물로</b> 만들어 줍니다.</p></div>
+ </div>
+ <p class="note"><b>틀릴 수 있습니다.</b> 숫자와 사실은 사람이 확인합니다.</p>
+</section>
+
+<section class="scene" id="enter" data-title="들어가기">
+ <header class="sh"><span class="no">00</span><h2>먼저 <em>들어가 봅니다</em></h2>
+ <p class="lede">팀장 노트북 한 대로 함께 합니다. 맥이든 윈도우든 브라우저만 있으면 됩니다.</p></header>
+ <div class="grid g3 fill">
+  <div class="card"><span class="k">1 · 주소</span><h3>claude.ai</h3><p>브라우저 주소창에 입력합니다.</p></div>
+  <div class="card"><span class="k">2 · 로그인</span><h3>나눠 드린 계정으로</h3><p>막히면 손을 듭니다. 혼자 해결하려고 시간을 쓰지 않습니다.</p></div>
+  <div class="card hot"><span class="k">3 · 약속</span><h3>한 계정을 여러 팀이 씁니다</h3><p>첫 문장 앞에 <b>[조 이름]</b>을 붙이고, 다른 팀의 채팅은 열지 않습니다.</p></div>
  </div>
 </section>
 
-<section class="scene" id="setup" data-title="설정 두 가지">
- <header class="sh"><span class="no">00</span><h2>먼저 켜 둘 <em>설정 두 가지</em></h2>
- <p class="lede">팀 계정은 미리 켜 두었습니다. 자기 계정으로 쓸 때는 설정에서 직접 확인합니다.</p></header>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">설정 → 기능</span><h3>코드 실행 및 파일 생성</h3><p>파일 만들기, 영상에서 장면 뽑기, 영상 자르기가 모두 여기에 달려 있습니다.</p><p><b>꺼져 있으면 오늘 실습의 절반이 안 됩니다.</b></p></div>
-  <div class="card"><span class="k">설정 → 기능</span><h3>네트워크 접속 허용</h3><p>Claude가 작업에 필요한 도구를 내려받을 수 있게 합니다.</p><p>꺼 두면 <b>미리 깔린 도구만</b> 쓸 수 있습니다.</p></div>
- </div>
- <p class="note"><b>시크릿 채팅에서는 파일을 만들지 못합니다.</b> 실습은 일반 채팅에서 합니다.</p>
-</section>
-
-<section class="scene" id="memory" data-title="메모리와 사용량">
- <header class="sh"><span class="no">00</span><h2>기억하게 하고, <em>아껴 씁니다</em></h2>
- <p class="lede">메모리는 매번 처음부터 설명하지 않게 해 줍니다. 사용량에는 한도가 있습니다.</p></header>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">메모리</span><h3>나를 기억합니다</h3><ul class="tight"><li>대화를 바탕으로 나에 대해 기억하고, <b>지난 대화를 찾아</b> 참고합니다.</li><li>기억시킬 때는 <b>"이건 기억해 줘"</b>라고 말합니다.</li><li>무엇을 기억하는지는 설정에서 <b>보고 고칩니다.</b></li></ul></div>
-  <div class="card"><span class="k">사용량</span><h3>한도가 있습니다</h3><ul class="tight"><li><b>글 길이, 첨부 파일, 대화 길이, 모델</b>에 따라 달라집니다.</li><li>Claude에는 <b>팀장만</b> 보냅니다. 각자는 교재에 씁니다.</li><li>주제가 바뀌면 <b>새 채팅</b>을 엽니다.</li></ul></div>
+<section class="scene" id="tour" data-title="화면 둘러보기">
+ <header class="sh"><span class="no">00</span><h2>화면에서 <em>이것만 알면 됩니다</em></h2>
+ <p class="lede">실제 화면을 함께 보면서 하나씩 눌러 봅니다.</p></header>
+ <div class="grid g3 fill">
+  <div class="card"><span class="k">1</span><h3>새 채팅</h3><p>새 대화를 시작합니다. <b>주제가 바뀌면</b> 누릅니다.</p></div>
+  <div class="card"><span class="k">2</span><h3>채팅 목록</h3><p>지난 대화가 쌓입니다. 눌러서 <b>이어 갈 수</b> 있습니다.</p></div>
+  <div class="card"><span class="k">3</span><h3>입력창</h3><p>부탁할 말을 쓰는 곳입니다. <b>Enter</b>를 누르면 보냅니다.</p></div>
+  <div class="card"><span class="k">4</span><h3>+ 버튼</h3><p><b>사진이나 파일</b>을 올립니다.</p></div>
+  <div class="card"><span class="k">5</span><h3>모델 선택</h3><p>답하는 AI의 종류를 고릅니다. 오늘은 <b>그대로 둡니다.</b></p></div>
+  <div class="card"><span class="k">6</span><h3>아티팩트</h3><p>결과물이 대화 <b>옆에 따로</b> 열리는 창입니다.</p></div>
  </div>
 </section>
 
-<section class="scene act" data-act="w1c1" data-title="화면 찾기"></section>
+<section class="scene" id="first" data-title="첫 대화 시연">
+ <header class="sh"><span class="no">00</span><h2>첫 대화를 <em>같이 봅니다</em></h2>
+ <p class="lede">강사가 먼저 해 봅니다. 세 가지를 눈여겨봅니다.</p></header>
+ <div class="grid g3 fill">
+  <div class="card"><span class="k">1</span><h3>문장으로 말한다</h3><article class="pc"><pre>안녕? 너는 무엇을 할 수 있어? 대학생에게 쓸모 있는 것 다섯 가지만 알려 줘.</pre></article></div>
+  <div class="card"><span class="k">2</span><h3>이어서 묻는다</h3><article class="pc"><pre>3번을 초등학생도 알아듣게 다시 설명해 줘.</pre></article></div>
+  <div class="card"><span class="k">3</span><h3>고쳐 달라고 한다</h3><article class="pc"><pre>방금 답을 절반 길이로 줄이고 표로 바꿔 줘.</pre></article></div>
+ </div>
+ <p class="note"><b>한 번에 끝내지 않습니다.</b> 마음에 들지 않으면 다시 시키면 됩니다.</p>
+</section>
+
+<section class="scene act" data-act="w1m1" data-title="실습 1 · 첫 대화"></section>
+
+<section class="scene act" data-act="w1c1" data-title="돌아보기"></section>
+
 <section class="scene act" data-act="w1q1" data-title="퀴즈 1"></section>
 
+<section class="scene act" data-act="w1q2" data-title="퀴즈 2"></section>
+
 <!-- PART 2 -->
-<section class="scene act" data-part="2" data-act="w1c2" data-title="어느 쪽이 나을까"></section>
+
+<section class="scene act" data-act="w1c2" data-title="어느 쪽이 나을까" data-part="2"></section>
 
 <section class="scene" id="compare" data-title="한 줄과 상세">
  <header class="sh"><span class="no">00</span><h2>대충 쓰면 <em>대충 답합니다</em></h2></header>
@@ -548,9 +547,6 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
  </div>
 </section>
 
-<section class="scene act" data-act="w1s1" data-title="기초 연습"></section>
-<section class="scene act" data-act="w1q2" data-title="퀴즈 2"></section>
-
 <section class="scene" id="ask" data-title="되묻게 하기">
  <header class="sh"><span class="no">00</span><h2>모르면 지어냅니다. <em>먼저 묻게 합니다</em></h2>
  <p class="lede">정보가 부족하면 Claude는 그럴듯한 내용으로 빈칸을 채웁니다.</p></header>
@@ -564,84 +560,25 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
  </div>
 </section>
 
-<section class="scene act" data-act="w1s2" data-title="부스 정의"></section>
+<section class="scene act" data-act="w1s1" data-title="실습 2 · 프롬프트 고쳐 쓰기"></section>
+
 <section class="scene act" data-act="w1q3" data-title="퀴즈 3"></section>
 
-<!-- PART 3 -->
-<section class="scene" id="see" data-part="3" data-title="보고 읽기">
- <header class="sh"><span class="no">00</span><h2>사진은 그대로, 영상은 <em>장면을 뽑아서</em></h2>
- <p class="lede">Claude는 영상을 통째로 보지 못합니다. 일정한 간격으로 장면을 이미지로 뽑아서 보게 합니다.</p></header>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">사진</span><h3>올리고 묻는다</h3>
-   <article class="pc"><pre>첨부한 사진은 우리 부스 포스터 시안이야. 처음 보는 사람이 3초 안에 무슨 부스인지 알 수 있는지 보고, 고칠 점 3가지를 알려 줘.</pre></article></div>
-  <div class="card"><span class="k">영상</span><h3>장면을 뽑아서 보게 한다</h3>
-   <article class="pc"><pre>너는 영상을 그대로 볼 수 없으니, 먼저 코드로 2초 간격의 장면을 이미지로 뽑아서 살펴봐. 그다음 잘된 점과 고칠 점을 몇 초 장면인지와 함께 알려 줘.</pre></article></div>
- </div>
- <p class="note"><b>한계도 같이 압니다.</b> 뽑은 장면만 보므로 소리와 움직임의 빠르기는 알지 못합니다. 파일은 30MB 이하로 올립니다.</p>
-</section>
-
-<section class="scene act" data-act="w1v" data-title="영상 분석"></section>
-
-<!-- PART 4 -->
-<section class="scene" id="mv" data-part="4" data-title="Heyday MV">
- <header class="sh"><span class="no">00</span><h2>실제 작업 하나: <em>Heyday 뮤직비디오</em></h2></header>
- <div class="mvwrap">
-  <video id="mvVid" src="media/mv_excerpt.mp4" poster="media/mv_poster.jpg" controls playsinline preload="metadata"></video>
-  <div class="mvside">
-   <div class="card"><span class="k">작품</span><h3>레트로폴리탄 · Heyday</h3><p>3분 41초 가운데 30초만 봅니다. 영상은 AI로 만들었습니다.</p><div class="row2"><button type="button" class="zb hotb" data-z="mvVid">크게 보기</button><a class="linkb" href="https://www.youtube.com/watch?v=NJjZ9IYkfNY" target="_blank" rel="noopener">유튜브</a></div></div>
-   <div class="card"><span class="k">보면서 생각할 것</span><p>이 영상을 만들기 전에 <b>무엇을 정해야 했을까요?</b></p></div>
-  </div>
- </div>
-</section>
-
-<section class="scene act" data-act="w1c3" data-title="기획 고르기"></section>
-
-<section class="scene" id="seven" data-title="일곱 번 고친 기획">
- <header class="sh"><span class="no">00</span><h2>기획은 <em>일곱 번째 판</em>에서 끝났습니다</h2>
- <p class="lede">방금 고른 세 가지는 모두 실제로 있었던 기획입니다. 무엇을 버릴지는 사람이 정했습니다.</p></header>
- <div class="grid g5 vline">
-  <div class="card"><b class="v">v2</b><h3>사물 속 도시</h3><p>얼굴 없이 레코드판과 회로를 도시처럼.</p></div>
-  <div class="card"><b class="v">v3</b><h3>방법을 바꿈</h3><p>기준 이미지 5장을 먼저 만든다.</p></div>
-  <div class="card"><b class="v">v5</b><h3>롤러스케이트</h3><p>주인공이 생겼다. 결정 12건을 기록.</p></div>
-  <div class="card"><b class="v">v6</b><h3>52세와 거울</h3><p>지금과 스무 살 무렵을 오간다.</p></div>
-  <div class="card hot"><b class="v">v7</b><h3>최종</h3><p>3막 구조, 50개 쇼트의 스토리보드.</p></div>
- </div>
- <div class="grid g2 fill" style="margin-top:22px">
-  <div class="card"><span class="k">v5에서 버린 것과 이유</span><ul class="tight"><li><b>락커룸 장면.</b> 소품이 많고 동선이 복잡하다.</li><li><b>불꽃 효과.</b> 기계 고장으로 읽힐 수 있다.</li><li><b>첫 장면.</b> 주인공이 3초 안에 나와야 한다.</li></ul></div>
-  <div class="card"><span class="k">여기서 배울 것</span><h3>안은 Claude가 내고, 버리는 것은 사람이 정한다</h3><p>버린 이유를 적어 두었기 때문에 다음 판이 나아졌습니다.</p></div>
- </div>
-</section>
-
-<section class="scene" id="used" data-title="Claude를 쓴 네 곳">
- <header class="sh"><span class="no">00</span><h2>이 작업에서 Claude를 쓴 <em>네 곳</em></h2>
- <p class="lede">이미지와 영상을 만들어 낸 것은 전용 생성 도구입니다. Claude는 그 앞과 뒤를 맡았습니다.</p></header>
- <div class="grid g4 fill">
-  <div class="card"><span class="k">1</span><h3>기획</h3><p>가사와 곡 구조를 주고 안을 받는다.</p></div>
-  <div class="card"><span class="k">2</span><h3>프롬프트</h3><p>생성 도구가 알아듣는 글을 장면마다 쓴다.</p></div>
-  <div class="card"><span class="k">3</span><h3>기록</h3><p>기획서와 결정 이유를 노션에 남긴다.</p></div>
-  <div class="card"><span class="k">4</span><h3>파일</h3><p>가사와 시간을 주고 자막 파일을 받는다.</p></div>
- </div>
- <p class="note"><b>오늘 여러분이 할 일도 같습니다.</b> 기획하고, 프롬프트를 쓰고, 기록하고, 파일로 받습니다.</p>
-</section>
-
-<!-- PART 5 -->
-<section class="scene" id="files" data-part="5" data-title="문서와 파일">
- <header class="sh"><span class="no">00</span><h2>답을 <em>파일로</em> 받습니다</h2>
- <p class="lede">어떤 파일로 받을지, 안에 무엇이 어떻게 들어가야 하는지를 말합니다.</p></header>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">형식</span><h3>열 이름까지 말한다</h3>
-   <article class="pc"><pre>이 예산을 엑셀 파일로 만들어 줘. 열은 항목, 수량, 단가, 금액, 근거. 금액과 합계는 수식으로 넣어 줘.</pre></article></div>
-  <div class="card"><span class="k">조건</span><h3>지어내지 못하게 한다</h3>
-   <article class="pc"><pre>가격은 추측하지 말고 검색해서 출처 링크를 달아 줘. 확인하지 못한 값은 "추정"이라고 표시해 줘.</pre></article></div>
- </div>
- <div class="fchips" aria-hidden="true"><span>.xlsx</span><span>.docx</span><span>.pptx</span><span>.pdf</span><span>.srt</span></div>
-</section>
-
-<section class="scene act" data-act="w1s3" data-title="파트 제작"></section>
 <section class="scene act" data-act="w1q4" data-title="퀴즈 4"></section>
 
-<!-- PART 6 -->
-<section class="scene" id="verify" data-part="6" data-title="검증">
+<!-- PART 3 -->
+
+<section class="scene" id="apply" data-part="3" data-title="보여 주고, 파일로 받기">
+ <header class="sh"><span class="no">00</span><h2>보여 주고, <em>파일로 받습니다</em></h2>
+ <p class="lede">말로 설명하기 어려운 것은 올려서 보여 주고, 결과는 파일로 달라고 합니다.</p></header>
+ <div class="grid g2 fill">
+  <div class="card"><span class="k">올리기</span><h3>사진과 파일을 보여 준다</h3><article class="pc"><pre>첨부한 사진은 우리 부스 포스터 시안이야. 처음 보는 사람이 3초 안에 무슨 부스인지 알 수 있는지 보고, 고칠 점 세 가지를 알려 줘.</pre></article></div>
+  <div class="card"><span class="k">받기</span><h3>결과를 파일로 받는다</h3><article class="pc"><pre>방금 만든 운영 매뉴얼을 워드 파일로 만들어 줘. 표지에는 부스 이름과 팀원 이름을 넣어 줘.</pre></article></div>
+ </div>
+ <p class="note">파일은 <b>30MB 이하</b>로 올립니다.</p>
+</section>
+
+<section class="scene" id="verify" data-title="검증">
  <header class="sh"><span class="no">00</span><h2>그럴듯한 답을 <em>의심합니다</em></h2>
  <p class="lede">Claude의 답은 매끄럽게 읽혀도 틀릴 수 있습니다. 숫자와 출처는 사람이 직접 확인합니다.</p></header>
  <div class="grid g3 fill">
@@ -652,38 +589,11 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
  <p class="note"><b>검증 프롬프트.</b> 너는 이 축제의 예산을 심사하는 사람이야. 허점 5개를 심각한 순서로 지적해 줘. 칭찬은 빼 줘.</p>
 </section>
 
-<section class="scene act" data-act="w1s4" data-title="검증 실습"></section>
+<section class="scene act" data-act="w1s2" data-title="실습 3 · 운영 매뉴얼 초안"></section>
+
 <section class="scene act" data-act="w1q5" data-title="퀴즈 5"></section>
 
-<!-- PART 7 -->
-<section class="scene" id="mcp" data-part="7" data-title="커넥터, MCP, 스킬">
- <header class="sh"><span class="no">00</span><h2>MCP는 <em>AI용 USB-C</em></h2>
- <p class="lede">MCP는 AI를 바깥의 도구와 자료에 연결하는 공개 규격입니다.</p></header>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">앱을 눌러 보세요</span><div class="chips" id="mcpApps" role="group" aria-label="연결할 앱"></div><div id="mcpSay" class="say"></div><p id="mcpNote"></p></div>
-  <div class="card"><span class="k">셋의 차이</span><ul class="tight"><li><b>커넥터.</b> Claude가 다른 앱에 들어가서 읽고 쓴다.</li><li><b>MCP.</b> 그 연결을 가능하게 하는 공통 규격.</li><li><b>스킬.</b> 자주 하는 일의 순서와 요령을 저장해 두면 Claude가 꺼내 쓴다.</li></ul></div>
- </div>
-</section>
-
-<section class="scene" id="mine" data-title="내 작업 환경">
- <header class="sh"><span class="no">00</span><h2>말만 하면 되는 환경, <em>그래도 판단은 사람</em></h2>
- <p class="lede">저는 모든 기록을 노션에 두고, Claude에 노션과 제 컴퓨터를 연결해 두었습니다.</p></header>
- <div class="chain">
-  <div class="c me"><b>나</b><span>원하는 것을 말한다</span></div>
-  <div class="c"><b>Claude</b><span>계획하고 실행한다</span></div>
-  <div class="c"><b>노션</b><span>기록과 일정을 읽고 쓴다</span></div>
-  <div class="c"><b>내 컴퓨터</b><span>파일을 찾고 편집한다</span></div>
-  <div class="c me"><b>나</b><span>결과를 고르고 버린다</span></div>
- </div>
- <div class="grid g2 fill">
-  <div class="card"><span class="k">지금 보여 드립니다</span><h3>노션 커넥터 시연</h3>
-   <article class="pc"><pre>노션에서 Heyday MV 페이지를 찾아서, v5와 v7 기획이 무엇이 달라졌는지 표로 정리해 줘.</pre></article></div>
-  <div class="card hot"><span class="k">잊지 말 것</span><h3>사람의 의견이 들어가야 결과가 좋아집니다</h3><p>Claude는 시킨 만큼 해 옵니다. AI를 쓸수록 <b>판단하는 힘</b>이 더 중요해집니다.</p></div>
- </div>
-</section>
-
 <section class="scene act" data-act="w1q6" data-title="퀴즈 6"></section>
-<section class="scene act" data-act="w1s5" data-title="합치고 제출"></section>
 
 <section class="scene" id="rank" data-title="오늘의 순위">
  <header class="sh"><span class="no">00</span><h2>오늘의 <em>순위</em></h2>
@@ -712,7 +622,71 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
   <li><a href="https://support.claude.com/en/articles/12512176-what-are-skills" target="_blank" rel="noopener">Claude 도움말: 스킬</a> : 스킬의 뜻과 작동 방식</li>
   <li><a href="https://modelcontextprotocol.io/docs/2025-06-18/getting-started/intro.md" target="_blank" rel="noopener">MCP 공식 소개</a> : 정의와 USB-C 비유</li>
   <li><a href="https://www.youtube.com/watch?v=NJjZ9IYkfNY" target="_blank" rel="noopener">레트로폴리탄 Heyday MV</a> : 유튜브 공개 영상</li>
+  <li><a href="https://claude.com/resources/videos" target="_blank" rel="noopener">Claude 공식 영상 모음</a> : 예시로 보여 주는 유튜브 영상의 출처</li>
  </ul>
+</section>
+
+<!-- 부록 -->
+
+<section class="scene" id="setup" data-title="부록 · 설정 두 가지">
+ <header class="sh"><span class="no">00</span><h2>먼저 켜 둘 <em>설정 두 가지</em></h2>
+ <p class="lede">팀 계정은 미리 켜 두었습니다. 자기 계정으로 쓸 때는 설정에서 직접 확인합니다.</p></header>
+ <div class="grid g2 fill">
+  <div class="card"><span class="k">설정 → 기능</span><h3>코드 실행 및 파일 생성</h3><p>파일 만들기, 영상에서 장면 뽑기, 영상 자르기가 모두 여기에 달려 있습니다.</p><p><b>꺼져 있으면 오늘 실습의 절반이 안 됩니다.</b></p></div>
+  <div class="card"><span class="k">설정 → 기능</span><h3>네트워크 접속 허용</h3><p>Claude가 작업에 필요한 도구를 내려받을 수 있게 합니다.</p><p>꺼 두면 <b>미리 깔린 도구만</b> 쓸 수 있습니다.</p></div>
+ </div>
+ <p class="note"><b>시크릿 채팅에서는 파일을 만들지 못합니다.</b> 실습은 일반 채팅에서 합니다.</p>
+</section>
+
+<section class="scene" id="memory" data-title="부록 · 메모리와 사용량">
+ <header class="sh"><span class="no">00</span><h2>기억하게 하고, <em>아껴 씁니다</em></h2>
+ <p class="lede">메모리는 매번 처음부터 설명하지 않게 해 줍니다. 사용량에는 한도가 있습니다.</p></header>
+ <div class="grid g2 fill">
+  <div class="card"><span class="k">메모리</span><h3>나를 기억합니다</h3><ul class="tight"><li>대화를 바탕으로 나에 대해 기억하고, <b>지난 대화를 찾아</b> 참고합니다.</li><li>기억시킬 때는 <b>"이건 기억해 줘"</b>라고 말합니다.</li><li>무엇을 기억하는지는 설정에서 <b>보고 고칩니다.</b></li></ul></div>
+  <div class="card"><span class="k">사용량</span><h3>한도가 있습니다</h3><ul class="tight"><li><b>글 길이, 첨부 파일, 대화 길이, 모델</b>에 따라 달라집니다.</li><li>Claude에는 <b>팀장만</b> 보냅니다. 각자는 교재에 씁니다.</li><li>주제가 바뀌면 <b>새 채팅</b>을 엽니다.</li></ul></div>
+ </div>
+</section>
+
+<section class="scene" id="seven" data-title="부록 · 일곱 번 고친 기획">
+ <header class="sh"><span class="no">00</span><h2>기획은 <em>일곱 번째 판</em>에서 끝났습니다</h2>
+ <p class="lede">방금 고른 세 가지는 모두 실제로 있었던 기획입니다. 무엇을 버릴지는 사람이 정했습니다.</p></header>
+ <div class="grid g5 vline">
+  <div class="card"><b class="v">v2</b><h3>사물 속 도시</h3><p>얼굴 없이 레코드판과 회로를 도시처럼.</p></div>
+  <div class="card"><b class="v">v3</b><h3>방법을 바꿈</h3><p>기준 이미지 5장을 먼저 만든다.</p></div>
+  <div class="card"><b class="v">v5</b><h3>롤러스케이트</h3><p>주인공이 생겼다. 결정 12건을 기록.</p></div>
+  <div class="card"><b class="v">v6</b><h3>52세와 거울</h3><p>지금과 스무 살 무렵을 오간다.</p></div>
+  <div class="card hot"><b class="v">v7</b><h3>최종</h3><p>3막 구조, 50개 쇼트의 스토리보드.</p></div>
+ </div>
+ <div class="grid g2 fill" style="margin-top:22px">
+  <div class="card"><span class="k">v5에서 버린 것과 이유</span><ul class="tight"><li><b>락커룸 장면.</b> 소품이 많고 동선이 복잡하다.</li><li><b>불꽃 효과.</b> 기계 고장으로 읽힐 수 있다.</li><li><b>첫 장면.</b> 주인공이 3초 안에 나와야 한다.</li></ul></div>
+  <div class="card"><span class="k">여기서 배울 것</span><h3>안은 Claude가 내고, 버리는 것은 사람이 정한다</h3><p>버린 이유를 적어 두었기 때문에 다음 판이 나아졌습니다.</p></div>
+ </div>
+</section>
+
+<section class="scene" id="mcp" data-title="부록 · 커넥터, MCP, 스킬">
+ <header class="sh"><span class="no">00</span><h2>MCP는 <em>AI용 USB-C</em></h2>
+ <p class="lede">MCP는 AI를 바깥의 도구와 자료에 연결하는 공개 규격입니다.</p></header>
+ <div class="grid g2 fill">
+  <div class="card"><span class="k">앱을 눌러 보세요</span><div class="chips" id="mcpApps" role="group" aria-label="연결할 앱"></div><div id="mcpSay" class="say"></div><p id="mcpNote"></p></div>
+  <div class="card"><span class="k">셋의 차이</span><ul class="tight"><li><b>커넥터.</b> Claude가 다른 앱에 들어가서 읽고 쓴다.</li><li><b>MCP.</b> 그 연결을 가능하게 하는 공통 규격.</li><li><b>스킬.</b> 자주 하는 일의 순서와 요령을 저장해 두면 Claude가 꺼내 쓴다.</li></ul></div>
+ </div>
+</section>
+
+<section class="scene" id="mine" data-title="부록 · 내 작업 환경">
+ <header class="sh"><span class="no">00</span><h2>말만 하면 되는 환경, <em>그래도 판단은 사람</em></h2>
+ <p class="lede">저는 모든 기록을 노션에 두고, Claude에 노션과 제 컴퓨터를 연결해 두었습니다.</p></header>
+ <div class="chain">
+  <div class="c me"><b>나</b><span>원하는 것을 말한다</span></div>
+  <div class="c"><b>Claude</b><span>계획하고 실행한다</span></div>
+  <div class="c"><b>노션</b><span>기록과 일정을 읽고 쓴다</span></div>
+  <div class="c"><b>내 컴퓨터</b><span>파일을 찾고 편집한다</span></div>
+  <div class="c me"><b>나</b><span>결과를 고르고 버린다</span></div>
+ </div>
+ <div class="grid g2 fill">
+  <div class="card"><span class="k">지금 보여 드립니다</span><h3>노션 커넥터 시연</h3>
+   <article class="pc"><pre>노션에서 Heyday MV 페이지를 찾아서, v5와 v7 기획이 무엇이 달라졌는지 표로 정리해 줘.</pre></article></div>
+  <div class="card hot"><span class="k">잊지 말 것</span><h3>사람의 의견이 들어가야 결과가 좋아집니다</h3><p>Claude는 시킨 만큼 해 옵니다. AI를 쓸수록 <b>판단하는 힘</b>이 더 중요해집니다.</p></div>
+ </div>
 </section>
 </main>
 
@@ -773,6 +747,7 @@ $$('.scene.act').forEach(sc=>{ const st=stepById(sc.dataset.act), quiz=st.kind==
   sc.innerHTML=`<div class="band"><span class="no">${st.k}</span><div class="tt"><b>${esc(st.n)}</b><span>${quiz?`퀴즈 · ${st.pt}점`:`교재 ${st.k}번 · ${KIND[st.kind]} · 약 ${st.t}분`}</span></div><span class="sync">교재가 이 화면으로 바뀝니다</span><span class="cnt" id="cnt_${st.id}"></span></div>
    ${sc.dataset.join?`<div class="joinbox"><div class="url">wyoda-15.github.io/booth-workbook</div><p><b>1</b>휴대폰이나 노트북에서 위 주소를 엽니다</p><p><b>2</b>팀을 고르고 이름을 씁니다</p><p><b>3</b>질문에 한 줄로 답합니다</p></div>`:''}
    ${st.goal&&!sc.dataset.join&&st.kind!=='poll'&&st.kind!=='quiz'?`<p class="goal">${esc(st.goal)}</p>`:''}
+   ${st.kind==='mission'?`<ol class="mlist">${st.missions.map(m=>`<li>${esc(m.t)}</li>`).join('')}</ol>`:''}
    ${st.show?`<div class="showbox">${st.show.map(x=>`<div class="card"><b>${esc(x[0])}</b><p>${esc(x[1])}</p></div>`).join('')}</div>`:''}
    <div class="live" id="lv_${st.id}"></div>`});
 
@@ -787,7 +762,7 @@ function show(i){
   $('#prev').disabled=i===0; $('#next').disabled=i===scenes.length-1;
   try{history.replaceState(null,'','#'+sc.id)}catch(e){}
   $$('video').forEach(v=>{ if(!sc.contains(v)){try{v.pause()}catch(e){}} });
-  unzoom(); if(sc.id==='made') $$('#made .vw.on video').forEach(v=>{try{v.play().catch(()=>{})}catch(e){}});
+  unzoom(); $$('.ytbox').forEach(b=>{ if(!sc.contains(b)) b.innerHTML='' }); if(sc.id==='made') $$('#made .vw.on video').forEach(v=>{try{ if(v.muted) v.play().catch(()=>{}) }catch(e){}});
   if(sc.id==='live') renderLive0();
   pushState(); refreshLive();
 }
@@ -804,7 +779,7 @@ function go(i){
   setTimeout(()=>{wipe.classList.remove('run');busy=false},1000);
 }
 $('#prev').onclick=()=>go(cur-1); $('#next').onclick=()=>go(cur+1);
-$('#skipIn').onclick=()=>go(byId('live'));
+$('#skipIn').onclick=()=>go(1);
 addEventListener('keydown',e=>{
   if(/INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
   if($('#film').classList.contains('on')){ if(e.key==='Escape'||e.key==='ArrowRight') Film.stop(true); return }
@@ -874,9 +849,9 @@ function renderLive(st){
   const ans=t=>Object.values(D[t].answers).filter(a=>a&&a.s===st.id);
   if(st.kind==='wall'){ const all=[]; T.forEach(t=>ans(t).forEach(a=>{ if(txt(a)){all.push([t,a]); people.add(t+'/'+a.name)} })); all.sort((x,y)=>(y[1].at||0)-(x[1].at||0));
     h=`<div class="wall">${all.length?all.slice(0,24).map(([t,a])=>`<div class="t"><b>${teamLabel(t)} · ${esc(a.name)}</b><span>${esc(txt(a))}</span></div>`).join(''):'<div class="none">답을 쓰면 여기에 바로 나타납니다.</div>'}</div>` }
-  else if(st.kind==='check'){ h=teamsGrid(T.map(t=>{ const it=(D[t].checks[st.id]&&D[t].checks[st.id].items)||{}; const n=st.checks.filter((c,i)=>it[i]).length; const mem=Object.values(D[t].members);
+  else if(st.kind==='check'||st.kind==='mission'){ h=teamsGrid(T.map(t=>{ const it=(D[t].checks[st.id]&&D[t].checks[st.id].items)||{}; const n=st.checks.filter((c,i)=>it[i]).length; const mem=Object.values(D[t].members);
       mem.forEach(m=>people.add(t+'/'+m.name));
-      return `<div class="tm">${head(t)}<div class="who">${mem.length?mem.map(m=>esc(m.name)).join(', '):'아직 없음'}</div><div class="bar"><u style="width:${n/st.checks.length*100}%"></u></div><div class="st"><span class="${n===st.checks.length?'y':''}">${n} / ${st.checks.length} 찾음</span></div>${CFG.teams<=4?`<ul class="ck">${st.checks.map((c,i)=>`<li class="${it[i]?'y':''}">${esc(c)}</li>`).join('')}</ul>`:''}</div>` })) }
+      return `<div class="tm">${head(t)}<div class="who">${mem.length?mem.map(m=>esc(m.name)).join(', '):'아직 없음'}</div><div class="bar"><u style="width:${n/st.checks.length*100}%"></u></div><div class="st"><span class="${n===st.checks.length?'y':''}">${n} / ${st.checks.length} ${st.kind==='mission'?'완료':'찾음'}</span></div>${CFG.teams<=4?`<ul class="ck">${st.checks.map((c,i)=>`<li class="${it[i]?'y':''}">${esc(c)}</li>`).join('')}</ul>`:''}</div>` })) }
   else if(st.kind==='poll'){ const cnt=st.opts.map(()=>0); T.forEach(t=>ans(t).forEach(a=>{ if(a.opt>=0&&a.opt<cnt.length){cnt[a.opt]++; people.add(t+'/'+a.name)} })); const mx=Math.max(1,...cnt), on=revealed[st.id];
     h=`<p class="qq">${esc(st.q)}</p><div class="poll ${on?'':'hide'}">${st.opts.map((o,i)=>`<div class="b"><span>${esc(o)}</span><i><u style="width:${cnt[i]/mx*100}%"></u></i><em>${cnt[i]}</em></div>`).join('')}</div>
       <div class="qfoot"><span>고른 사람 ${people.size}명</span><button type="button" class="hotb" data-reveal="${st.id}">${on?'결과 숨기기':'결과 보기'}</button></div>` }
@@ -914,13 +889,15 @@ function unzoom(){ $$('video.zoomed').forEach(v=>v.classList.remove('zoomed')); 
 function zoom(v){ if(!v) return; unzoom(); v.classList.add('zoomed'); $('#unzoom').hidden=false }
 $('#unzoom').onclick=unzoom;
 $('#madeTabs').onclick=e=>{ const b=e.target.closest('button'); if(!b) return; unzoom(); $$('#madeTabs button').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  $$('#made .vw').forEach(v=>{ const on=v.dataset.v===b.dataset.v; v.classList.toggle('on',on); $$('video',v).forEach(x=>{try{ on?x.play().catch(()=>{}):x.pause() }catch(err){}}) }) };
+  $$('#made .vw').forEach(v=>{ const on=v.dataset.v===b.dataset.v; v.classList.toggle('on',on); $$('video',v).forEach(x=>{try{ on?(x.muted&&x.play().catch(()=>{})):x.pause() }catch(err){}});
+    const box=v.querySelector('.ytbox'); if(box) box.innerHTML=on?`<iframe src="https://www.youtube-nocookie.com/embed/${YT[+v.dataset.yt][1]}?rel=0" title="${esc(YT[+v.dataset.yt][0])}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`:'' }) };
+$$('#made .vw.yt').forEach(v=>{ const y=YT[+v.dataset.yt]; v.querySelector('.ytT').textContent=y[0]; v.querySelector('.ytL').href='https://www.youtube.com/watch?v='+y[1] });
 document.addEventListener('click',e=>{ const b=e.target.closest('.zb'); if(b){ zoom($('#'+b.dataset.z)); return }
   const v=e.target.closest('video.zv'); if(v){ v.classList.contains('zoomed')?unzoom():zoom(v) } });
 
 /* ---------- 오늘의 진행 ---------- */
 const PLIST=[['1','Claude와 화면','why'],['2','프롬프트','a_w1c2'],['3','보고 읽기','see'],['4','사례: Heyday MV','mv'],['5','문서와 파일','files'],['6','검증','verify'],['7','연결','mcp'],['★','순위 발표','rank']];
-$('#partList').innerHTML=PLIST.map(p=>`<button type="button" data-goto="${p[2]}"><b>${p[0]}</b>${p[1]}</button>`).join('');
+if($('#partList')) $('#partList').innerHTML=PLIST.map(p=>`<button type="button" data-goto="${p[2]}"><b>${p[0]}</b>${p[1]}</button>`).join('');
 
 /* ---------- 한 줄과 여섯 요소 ---------- */
 $('#cmpA').textContent=DEMO.A; $('#cmpAa').textContent=DEMO.ansA;
@@ -935,8 +912,8 @@ let liveMode=0;
 function renderLive0(){ const out=$('#liveOut'), t=$('#liveIn').value||' '; const n=[...t].length; const fs=Math.max(60,Math.min(330,(out.clientWidth-40)/(n*0.98)));
   out.className='m'+liveMode;
   out.innerHTML=[...t].map((c,i)=>`<span style="font-size:${fs}px;animation-delay:${liveMode===0?i*45:i*90}ms;--r:${(Math.random()*24-12).toFixed(1)}deg">${esc(c)}</span>`).join('') }
-$('#liveIn').addEventListener('input',renderLive0);
-$('#liveModes').onclick=e=>{const b=e.target.closest('button'); if(!b)return; liveMode=+b.dataset.m; $$('#liveModes [data-m]').forEach(x=>x.setAttribute('aria-pressed',x===b)); renderLive0()};
+if($('#liveIn')) $('#liveIn').addEventListener('input',renderLive0);
+if($('#liveModes')) $('#liveModes').onclick=e=>{const b=e.target.closest('button'); if(!b)return; liveMode=+b.dataset.m; $$('#liveModes [data-m]').forEach(x=>x.setAttribute('aria-pressed',x===b)); renderLive0()};
 
 /* ---------- 여섯 요소 조립 ---------- */
 const fill=t=>esc(t).replaceAll('{부스}',S.booth?'<mark>'+esc(S.booth)+'</mark>':'<mark>[부스 이름]</mark>');
@@ -970,9 +947,9 @@ $('#mcpApps').onclick=e=>{const b=e.target.closest('button'); if(b) mcpPick(+b.d
 
 /* ---------- films: opening and part intros ---------- */
 const INTRO={
- 1:{t:'Claude와 화면',kw:['글','파일','검색','연결'],m:'ui'},
+ 1:{t:'처음 열기',kw:['접속','메뉴','버튼','첫 대화'],m:'ui'},
  2:{t:'프롬프트',kw:['역할','맥락','형식','조건'],m:'pr'},
- 3:{t:'보고 읽기',kw:['사진','문서','영상','장면'],m:'fr'},
+ 3:{t:'응용',kw:['사진','파일','매뉴얼','확인'],m:'fl'},
  4:{t:'실제 작업 하나',kw:['기획','프롬프트','기록','자막'],m:'mv'},
  5:{t:'문서와 파일',kw:['엑셀','워드','PDF','자막'],m:'fl'},
  6:{t:'검증',kw:['숫자','출처','규정','확인'],m:'vf'},
@@ -1060,7 +1037,7 @@ const Film=(()=>{
     at(33.5,()=>{$('.f-code b').textContent='전부 코드.'}); at(34.5,()=>$('.f-code').insertAdjacentHTML('beforeend','<small class="in">HTML · CSS · JAVASCRIPT · 소리까지</small>'));
     at(36,()=>{st.className='';st.innerHTML='<div class="f-end"><div class="a">CLAUDE</div><div class="b">제대로 쓰는 법</div><div class="c">정우진 · 2026.11.19 · 지금부터 직접 해 봅니다</div></div>'});
     at(40.5,()=>stop(true));
-    Q.sort((a,b)=>a[0]-b[0]); onEnd=()=>show(byId('live')); return types;
+    Q.sort((a,b)=>a[0]-b[0]); onEnd=()=>show(1); return types;
   }
   function buildIntro(n){
     Q=[]; const P=INTRO[n];

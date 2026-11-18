@@ -132,6 +132,19 @@ pre.refp{white-space:pre-wrap;font-family:var(--f-b);margin:0;color:var(--dim)}
 .checks button[aria-pressed=true]{border-color:var(--ok);background:#1d2a22}
 .checks button[aria-pressed=true]::before{background:var(--ok);border-color:var(--ok);box-shadow:inset 0 0 0 5px #1d2a22}
 .hint{color:var(--dim);font-size:.9rem;margin:10px 0 0}
+.missions{display:grid;gap:12px}
+.ms{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.ms.ok{border-color:var(--ok)}
+.ms .mh{display:flex;gap:12px;align-items:baseline}
+.ms .mh b{font-family:var(--f-d);font-weight:400;font-size:1.7rem;color:var(--acc)}
+.ms .mh strong{font-size:1.15rem}
+.ms p{margin:.3em 0 .6em;color:var(--text)}
+.ms small{display:block;color:var(--dim);font-size:.8rem;margin-bottom:4px}
+.ms .say{display:flex;gap:10px;align-items:center;background:var(--bg);border:1px dashed var(--dim);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+.ms .say span{flex:1;min-width:0}
+.ms .say button{min-height:38px;font-size:.85rem;padding:.2em .8em;flex:none}
+.ms .done{width:100%;border-width:2px;font-weight:700}
+.ms .done[aria-pressed=true]{background:var(--ok);border-color:var(--ok);color:#10261a}
 
 /* 실습 목록 */
 #list{position:fixed;inset:0;z-index:20;background:rgba(10,10,12,.7);display:none}
@@ -321,6 +334,7 @@ function stepHtml(s){
   if(s.show) h+=`<div class="showbox">${s.show.map(x=>`<div><b>${esc(x[0])}</b>${esc(x[1])}</div>`).join('')}</div>`;
   if(s.kind==='wall') h+=`<p class="qq">${esc(s.q)}</p>`+wbox(1,'내 답','나만 씁니다 · 앞 화면에 나타납니다',`<textarea id="ans_${s.id}" data-k="ans" data-id="${s.id}" rows="2" placeholder="${esc(s.ph||'')}"></textarea>`);
   else if(s.kind==='check') h+=`<div class="checks" id="cks">${s.checks.map((c,i)=>`<button type="button" data-ck="${i}" aria-pressed="false">${esc(c)}</button>`).join('')}</div><p class="hint">팀이 함께 쓰는 목록입니다. 한 사람이 누르면 팀 전체에 표시됩니다.</p>`;
+  else if(s.kind==='mission') h+=`<div class="missions" id="cks">${s.missions.map((m,i)=>`<div class="ms"><div class="mh"><b>${i+1}</b><strong>${esc(m.t)}</strong></div><p>${esc(m.how)}</p><small>이렇게 입력해 봅니다</small><div class="say"><span>${esc(m.say)}</span><button type="button" data-say="${i}">복사</button></div><button type="button" class="done" data-ck="${i}" aria-pressed="false">해 봤습니다</button></div>`).join('')}</div><p class="hint">팀이 함께 쓰는 목록입니다. 한 사람이 누르면 팀 전체에 표시됩니다.</p>`;
   else if(s.kind==='poll'||s.kind==='quiz') h+=`<p class="qq">${esc(s.q)}</p>${s.quote?`<div class="quote">${esc(s.quote)}</div>`:''}<div class="opts" id="opts">${s.opts.map((o,i)=>`<button type="button" data-opt="${i}"><b>${'ABCD'[i]||i+1}</b><span>${esc(o)}</span></button>`).join('')}</div><p id="qmsg" role="status"></p>`;
   else { const multi=s.tasks.length>1; if(multi) h+=`<p class="hint" style="margin:0 0 12px">맡은 파트를 눌러 엽니다.</p>`;
     h+=s.tasks.map(t=>taskHtml(s,t,multi)).join('');
@@ -344,7 +358,7 @@ function refresh(){ if(view!=='app'||!me) return; setPill();
   $('#mS').textContent=s.kind==='quiz'?`퀴즈 · ${s.pt}점`:`${KIND[s.kind]} · ${s.w==='w1'?'1주차':'2주차'}`;
   $('#followBtn').hidden=follow||!CLS.slide;
   if(s.kind==='wall') setVal($('#ans_'+s.id),txt(T().answers[s.id+'__'+me.key]));
-  else if(s.kind==='check'){ const it=(T().checks[s.id]&&T().checks[s.id].items)||{}; $$('#cks button').forEach(b=>b.setAttribute('aria-pressed',!!it[b.dataset.ck])) }
+  else if(s.kind==='check'||s.kind==='mission'){ const it=(T().checks[s.id]&&T().checks[s.id].items)||{}; $$('#cks [data-ck]').forEach(b=>{ b.setAttribute('aria-pressed',!!it[b.dataset.ck]); const m=b.closest('.ms'); if(m) m.classList.toggle('ok',!!it[b.dataset.ck]) }) }
   else if(s.kind==='poll'||s.kind==='quiz'){ const a=T().answers[s.id+'__'+me.key], pick=a&&a.opt>=0?a.opt:-1, rev=s.kind==='quiz'&&REVEAL[s.id], msg=$('#qmsg');
     $$('#opts button').forEach(b=>{ const i=+b.dataset.opt; b.className=rev?(i===s.ans?'ok':i===pick?'no':''):(i===pick?'sel':''); b.disabled=!!rev });
     msg.className='';
@@ -366,6 +380,7 @@ document.addEventListener('toggle',e=>{ const d=e.target; if(d.dataset&&d.datase
 document.addEventListener('click',e=>{ if(view!=='app'||!me) return; const s=stepById(cur); let b;
   if((b=e.target.closest('[data-opt]'))){ if(s.kind==='quiz'&&REVEAL[s.id]) return; const i=+b.dataset.opt; put('answers',s.id+'__'+me.key,{s:s.id,name:me.name,opt:i,text:s.opts[i],at:Date.now()}) }
   else if((b=e.target.closest('[data-ck]'))){ const c=T().checks[s.id]||{items:{}}; const items=Object.assign({},c.items); items[b.dataset.ck]=!items[b.dataset.ck]; put('checks',s.id,{items,by:me.name,at:Date.now()}) }
+  else if((b=e.target.closest('[data-say]'))) copyText(s.missions[+b.dataset.say].say,b);
   else if((b=e.target.closest('[data-copy]'))) copyText($('#'+b.dataset.copy).value,b);
   else if((b=e.target.closest('[data-mine]'))){ const tid=b.dataset.mine, v=$('#dr_'+tid).value.trim(); if(!v) return; const el=$('#tp_'+tid); el.value=v; grow(el); put('tprompts',tid,{text:v,by:me.name,at:Date.now()}) }
   else if((b=e.target.closest('[data-take]'))){ const tid=b.dataset.take, d=Object.values(T().drafts).find(x=>x&&x.t===tid&&x.name===b.dataset.from); if(!d) return; const el=$('#tp_'+tid); el.value=txt(d); grow(el); put('tprompts',tid,{text:txt(d),by:me.name,at:Date.now()}); el.scrollIntoView({block:'center',behavior:'smooth'}) }
@@ -373,7 +388,7 @@ document.addEventListener('click',e=>{ if(view!=='app'||!me) return; const s=ste
 });
 
 /* ---------- 실습 목록 ---------- */
-function renderList(){ const done=s=>s.kind==='work'?s.tasks.some(t=>t.outs.some(o=>txt(T().results[o.rid]))):s.kind==='check'?!!T().checks[s.id]:!!T().answers[s.id+'__'+me.key];
+function renderList(){ const done=s=>s.kind==='work'?s.tasks.some(t=>t.outs.some(o=>txt(T().results[o.rid]))):(s.kind==='check'||s.kind==='mission')?!!T().checks[s.id]:!!T().answers[s.id+'__'+me.key];
   $('#listBody').innerHTML=['w1','w2'].map(w=>`<h3>${w==='w1'?'1주차':'2주차'}</h3>`+STEPS[w].map(s=>`<button type="button" class="it${s.kind==='quiz'?' q':''}" data-s="${s.id}" aria-current="${s.id===cur}"><b>${s.k}</b>${esc(s.n)}${done(s)?'<i>함</i>':''}</button>`).join('')).join('') }
 $('#openList').onclick=()=>{ renderList(); $('#list').classList.add('on') };
 $('#closeList').onclick=()=>$('#list').classList.remove('on');
