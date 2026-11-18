@@ -448,6 +448,13 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 .legend.compact li::before{top:8px}
 .legend.compact li{padding-top:4px;padding-bottom:4px}
 .legend.compact li::before{top:6px}
+/* 오프닝: 문단 여백을 없애고 세 줄이 화면 안에 들어오게 */
+#fstage p{margin:0}
+.f-line{font-size:150px;line-height:1.12}
+.f-slam{line-height:1}
+.f-slam .sm{margin-bottom:24px}
+.f-slam .xl{font-size:430px;line-height:.95}
+.f-code b{font-size:290px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -748,7 +755,7 @@ video.zoomed{position:fixed!important;left:0;top:56px;width:1600px!important;hei
 <script>
 const DB_URL="https://claude-tg-e2e08-default-rtdb.asia-southeast1.firebasedatabase.app";
 const CLASS_CODE="wyd-1119-k7q2";
-const TEACHER_PIN="4827";
+const TEACHER_PIN="960105";
 (()=>{
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1057,7 +1064,7 @@ const Film=(()=>{
     at(12,()=>st.insertAdjacentHTML('beforeend','<div class="f-tagc">만든다</div>'));
     at(14,()=>{st.innerHTML='<div class="f-drop"><div class="w">'+[...'CLAUDE'].map((c,i)=>`<span style="animation-delay:${i*.16}s">${c}</span>`).join('')+'</div><div class="s">제대로 쓰는 법</div><div class="b"></div></div>'});
     at(16,()=>$('.f-drop .s').classList.add('in')); at(16.5,()=>$('.f-drop .b').classList.add('in'));
-    const C=[[2,'주 동안'],[5,'시간 동안'],[3,'개의 부스를'],[3,'권의 운영 매뉴얼로']];
+    const C=[[2,'주 동안'],[5,'시간 동안'],[3,'번의 실습으로'],[1,'권의 운영 매뉴얼을, 팀마다']];
     at(18,()=>{st.innerHTML='<div class="f-count">'+C.map(c=>`<div><b>0</b><span>${c[1]}</span></div>`).join('')+'</div>'});
     C.forEach((c,i)=>{at(18+i,()=>{const d=$$('.f-count div')[i];d.classList.add('in')});
       for(let k=1;k<=8;k++)at(18+i+k*.05,()=>{$$('.f-count b')[i].textContent=Math.round(c[0]*k/8)})});
