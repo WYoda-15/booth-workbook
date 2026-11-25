@@ -166,6 +166,7 @@ pre.refp{white-space:pre-wrap;font-family:var(--f-b);margin:0;color:var(--dim)}
 .appv .ai a.filebtn{color:var(--text);font-size:.88rem}
 .glinks{margin:10px 0 0;display:flex;gap:8px;flex-wrap:wrap}
 .glinks a.filebtn{border-color:var(--acc);color:var(--acc)}
+label.filebtn.pri,button.pri{border-color:var(--acc);background:var(--acc);color:#1b1c1f;font-weight:700}
 .filebtn input{position:absolute;width:1px;height:1px;opacity:0}
 .filebtn:focus-within{outline:3px solid var(--acc);outline-offset:2px}
 .tapbig{width:100%;min-height:200px;font-family:var(--f-d);font-size:3rem;background:var(--acc);border-color:var(--acc);color:#1b1410;border-radius:20px;touch-action:manipulation}
@@ -419,12 +420,12 @@ function codeWarn(v){ const w=[], u=txt(T().finals.dburl);
   else if(u&&v.indexOf(u.replace(/^https:\/\//,''))<0) w.push('코드에 우리 팀 데이터베이스 주소가 없습니다. 프롬프트에 주소를 넣었는지 확인해 주세요.');
   return w }
 async function uploadCode(raw,btn){ const v=cleanCode(raw);
-  if(v.length<200||!/<(html|body|script|div|!doctype)/i.test(v)){ CODEMSG='HTML 코드가 아닌 것 같습니다. Claude가 만든 코드를 처음부터 끝까지 복사했는지 확인해 주세요.'; refresh(); return }
+  if(v.length<200||!/<(html|body|script|div|!doctype)/i.test(v)){ CODEMSG='HTML 파일이 아닌 것 같습니다. 프로젝트 폴더의 index.html 을 골랐는지 확인해 주세요.'; refresh(); return }
   if(v.length>600000){ CODEMSG='코드가 너무 큽니다(60만 자 이상). 사진 같은 큰 자료는 빼 달라고 Claude에게 부탁해 주세요.'; refresh(); return }
   if(mode!=='db'){ CODEMSG='지금은 연결되어 있지 않아 올릴 수 없습니다.'; refresh(); return }
   const n=((T().finals.app&&+T().finals.app.n)||0)+1, at=Date.now(); if(btn) btn.disabled=true; CODEMSG='올리는 중입니다'; refresh();
   try{ await rdb.ref(base+'/apps/'+me.team).set({html:v,by:me.name,at,n}); put('finals','app',{text:n+'번째 올림',n,size:v.length,by:me.name,at});
-    const w=codeWarn(v); CODEMSG='올렸습니다. 열려 있는 기기는 몇 초 안에 새 코드로 바뀝니다.'+(w.length?'\n확인해 주세요: '+w.join(' '):''); $$('.codein').forEach(t=>{t.value=''}) }
+    const w=codeWarn(v); CODEMSG='올렸습니다. 열려 있는 기기는 몇 초 안에 새 것으로 바뀝니다.'+(w.length?'\n확인해 주세요: '+w.join(' '):''); $$('.codein').forEach(t=>{t.value=''}) }
   catch(e){ CODEMSG='올리지 못했습니다. 잠시 뒤에 다시 눌러 주세요.' }
   if(btn) btn.disabled=false; refresh() }
 function appBox(){ const a=T().finals.app, u=appUrl(me.team);
@@ -444,7 +445,7 @@ function ctx(){ const R=T().results, F=T().finals, g=(id,d)=>txt(R[id])||d, name
   return {booth:txt(F.booth)||'[부스 이름]',team:teamLabel(me.team),names:names||'[팀원 이름]',def:def?`<부스 정의서>\n${def}\n</부스 정의서>`:'[부스 정의서를 여기에 붙여 넣습니다]',
     name:g('w2s1_name','[만들 프로그램과 하는 일]'),who:g('w2s1_who','[누가, 어떤 기기로 쓰는지]'),live:g('w2s1_live','[여러 기기에서 바로 바뀌어야 하는 것]'),nums:g('w2s1_nums','[정해 둔 운영 숫자]'),
     dburl:u||'[우리 팀 데이터베이스 주소]',path:(u&&CFG.spare&&u===CFG.spare)?'booth_'+me.team:'booth',
-    fix:g('w2s4_fix','[무엇을 눌렀더니 무엇이 나왔는지, 원래 어떻게 되어야 하는지]'),one:g('w2s6_one','[꼭 전할 한 가지]'),n:g('w2s6_n','[몇 장, 어떤 순서]')} }
+    refurl:g('w2s4_ref','[참고할 화면의 주소]'),take:g('w2s4_take','[그 화면에서 가져올 것]'),one:g('w2s6_one','[꼭 전할 한 가지]'),n:g('w2s6_n','[몇 장, 어떤 순서]')} }
 function taskHtml(s,t,multi){
   const g=`<div class="guide"><p>${esc(t.brief)}</p><div class="cols">${t.talk?`<div><h4>먼저 팀이 의논합니다</h4><ul>${t.talk.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}<div><h4>프롬프트에 넣을 것</h4><ul>${t.must.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div>`;
   let n=1; const body=g+
@@ -464,8 +465,9 @@ function kitHtml(s){ let n=0; const Wb=(title,who,inner)=>wbox(++n,title,who,inn
     if(x.b==='says') return `<p class="exnote">아래 문장은 예시입니다. 우리 팀에 맞게 고쳐서 써도 됩니다.</p><div class="missions">${x.items.map((m,j)=>`<div class="ms"><div class="mh"><b>${j+1}</b><strong>${esc(m.t)}</strong></div><div class="say"><span data-sayt="${i}_${j}"></span><button type="button" data-saycp="${i}_${j}">복사</button></div></div>`).join('')}</div>`;
     if(x.b==='dburl') return Wb('우리 팀 데이터베이스 주소','팀이 함께 씁니다 · Firebase에서 복사한 주소를 붙여 넣습니다',`<input type="text" id="dburl" data-k="dburl" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://....firebasedatabase.app"><div class="row"><button type="button" id="probeBtn">연결 확인</button><span id="probeMsg" class="pmsg" role="status"></span></div><div class="row" id="spareRow" hidden><span class="pmsg">끝까지 막히면 강사가 준비한 예비 주소를 씁니다.</span><button type="button" id="spareBtn">예비 주소 쓰기</button></div>`);
     if(x.b==='code'){ const view=`<div class="appv" data-appv="1"></div>`; if(x.view) return view;
-      const up=Wb(x.again?'고친 코드 올리기':'Claude가 만든 코드 올리기','팀에서 한 명이 올립니다 · 다시 올리면 새 코드로 바뀝니다',`<textarea class="codein" id="code_${i}" rows="5" spellcheck="false" placeholder="Claude가 만든 HTML 코드를 처음부터 끝까지 복사해서 붙여 넣습니다. 내려받은 .html 파일을 골라도 됩니다."></textarea><div class="row"><button type="button" data-upload="code_${i}">올리기</button><label class="filebtn">파일 고르기<input type="file" accept=".html,.htm,text/html" data-file="code_${i}"></label></div><p class="cwarn" data-cmsg="1" role="status"></p>`);
+      const up=Wb(x.again?'바꾼 파일 다시 올리기':'Claude가 만든 파일 올리기','팀에서 한 명이 올립니다 · 다시 올리면 새 것으로 바뀌고 링크는 그대로입니다',`<div class="row" style="margin:0 0 8px"><label class="filebtn pri">파일 고르기<input type="file" accept=".html,.htm,text/html" data-file="code_${i}"></label><span class="hint">프로젝트 폴더의 index.html 을 고릅니다</span></div><textarea class="codein" id="code_${i}" rows="3" spellcheck="false" placeholder="파일 대신 HTML 코드를 처음부터 끝까지 복사해서 붙여 넣어도 됩니다."></textarea><div class="row"><button type="button" data-upload="code_${i}">붙여 넣은 코드 올리기</button></div><p class="cwarn" data-cmsg="1" role="status"></p>`);
       return x.again?up:up+view }
+    if(x.b==='bundle'&&x.file) return `<section class="write"><div class="wl"><b>자료</b><strong>우리 팀 기획안</strong><i>지난주에 만든 것과 방금 정한 것을 파일 하나로 모았습니다</i></div><div class="bparts" data-bparts="1"></div><details><summary>기획안 내용 보기</summary><div><pre class="refp" data-btext="1"></pre></div></details><div class="row"><button type="button" class="pri" data-planfile="1">기획안 파일 받기</button><button type="button" data-copybundle="1">내용 복사</button></div><p class="hint" style="margin:8px 0 0">받은 파일 booth-plan.md 는 보통 "다운로드" 폴더에 있습니다. 프로젝트 폴더로 옮깁니다. "없음"으로 나온 것은 지난주 단계에 붙여 넣으면 들어옵니다.</p></section>`;
     if(x.b==='bundle') return `<section class="write"><div class="wl"><b>자료</b><strong>우리 팀 자료 묶음</strong><i>지난주와 오늘 쓴 것을 자동으로 모았습니다</i></div><div class="bparts" data-bparts="1"></div>${x.small?'':`<details><summary>묶음 내용 보기</summary><div><pre class="refp" data-btext="1"></pre></div></details><p class="hint" style="margin:0 0 8px">"없음"으로 나온 것은 실습 목록의 지난주 단계에 붙여 넣으면 여기에 들어옵니다.</p>`}<div class="row"><button type="button" data-copybundle="1">자료 묶음 복사</button></div></section>`;
     if(x.b==='link') return Wb(x.label,'팀이 함께 씁니다 · 주소를 붙여 넣으면 저장됩니다',`<input type="text" id="fin_${x.id}_${i}" data-k="fin" data-id="${x.id}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://www.canva.com/design/..."><div class="row"><a class="filebtn" data-open="${x.id}" href="#" target="_blank" rel="noopener" hidden>캔바에서 열기</a><span class="pmsg" data-linkmsg="${x.id}"></span></div>${x.hint?`<p class="hint" style="margin:6px 0 0">${esc(x.hint)}</p>`:''}`);
     return '' }).join('') }
@@ -538,7 +540,7 @@ function refresh(){ if(view!=='app'||!me) return; setPill();
 setInterval(()=>{ if(view!=='app'||!me) return; if(quizMode()) gate(); if(!watching()&&stepById(cur).kind==='quiz'&&CLS.qend&&!REVEAL[cur]) refresh() },500);
 document.addEventListener('toggle',e=>{ const d=e.target; if(d.dataset&&d.dataset.ref&&d.open&&txt(T().tprompts[d.dataset.ref]).length<20) d.open=false; if(d.open) $$('textarea',d).forEach(grow) },true);
 document.addEventListener('change',e=>{ const f=e.target; if(!f.dataset||!f.dataset.file||!f.files||!f.files[0]) return; const ta=$('#'+f.dataset.file), rd=new FileReader();
-  rd.onload=()=>{ ta.value=String(rd.result||''); grow(ta); CODEMSG='파일을 읽었습니다. "올리기"를 누르면 올라갑니다.'; refresh() }; rd.onerror=()=>{ CODEMSG='파일을 읽지 못했습니다.'; refresh() }; rd.readAsText(f.files[0]); f.value='' });
+  rd.onload=()=>{ uploadCode(String(rd.result||''),null) }; rd.onerror=()=>{ CODEMSG='파일을 읽지 못했습니다.'; refresh() }; rd.readAsText(f.files[0]); f.value='' });
 document.addEventListener('click',e=>{ if(view!=='app'||!me) return; const s=stepById(cur); let b;
   if((b=e.target.closest('[data-opt]'))){ if(s.kind==='quiz'&&REVEAL[s.id]) return; const id=s.id+'__'+me.key, a0=T().answers[id]; if(a0&&a0.left) return; if(s.kind==='quiz'&&quizMode()&&!fsIn()) return;
     const i=+b.dataset.opt, d={s:s.id,name:me.name,opt:i,text:s.opts[i],at:Date.now()};
@@ -550,6 +552,8 @@ document.addEventListener('click',e=>{ if(view!=='app'||!me) return; const s=ste
   else if((b=e.target.closest('[data-saycp]'))) copyText($(`[data-sayt="${b.dataset.saycp}"]`).textContent,b);
   else if((b=e.target.closest('[data-copyref]'))) copyText(s.blocks[+b.dataset.copyref].text(ctx()),b);
   else if((b=e.target.closest('[data-copybundle]'))) copyText(bundle().text,b);
+  else if((b=e.target.closest('[data-planfile]'))){ const tx='# '+teamLabel(me.team)+' 부스 기획안\n\n'+bundle().text+'\n', u=URL.createObjectURL(new Blob([tx],{type:'text/markdown;charset=utf-8'})), l=document.createElement('a');
+    l.href=u; l.download='booth-plan.md'; document.body.appendChild(l); l.click(); l.remove(); setTimeout(()=>URL.revokeObjectURL(u),2000); const o=b.textContent; b.textContent='받았습니다'; setTimeout(()=>{b.textContent=o},1500) }
   else if((b=e.target.closest('[data-copyurl]'))) copyText(appUrl(me.team),b);
   else if((b=e.target.closest('[data-copycode]'))){ const btn=b; if(mode==='db') rdb.ref(base+'/apps/'+me.team).once('value').then(v=>copyText(String(((v.val()||{}).html)||''),btn),()=>copyText('',btn)) }
   else if((b=e.target.closest('[data-upload]'))) uploadCode($('#'+b.dataset.upload).value,b);

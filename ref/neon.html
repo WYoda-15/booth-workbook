@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOVA ARCADE 점수판 · 수업용 레퍼런스 1</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--bg:#07060d;--c:#39f3ff;--m:#ff3fd0;--y:#f8ff5a;--t:#e9f7ff}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--t);font-family:"Courier New",ui-monospace,monospace;min-height:100vh;padding:20px 16px 40px;
+ background-image:linear-gradient(rgba(57,243,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(57,243,255,.07) 1px,transparent 1px);background-size:32px 32px}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 2px,transparent 2px 4px)}
+.wrap{max-width:520px;margin:0 auto;display:grid;gap:18px}
+header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--c);padding-bottom:12px;box-shadow:0 10px 18px -14px var(--c)}
+.logo{font-weight:700;letter-spacing:.18em;color:var(--c);text-shadow:0 0 12px var(--c)}
+.live{font-size:.78rem;color:var(--bg);background:var(--y);padding:3px 10px;border-radius:2px;animation:bl 1s steps(2) infinite}
+@keyframes bl{50%{opacity:.35}}
+.hero{border:2px solid var(--m);border-radius:6px;padding:22px 18px;text-align:center;box-shadow:0 0 22px rgba(255,63,208,.55),inset 0 0 22px rgba(255,63,208,.18)}
+.hero small{display:block;letter-spacing:.4em;color:var(--m);font-size:.8rem}
+.hero b{display:block;font-size:6.2rem;line-height:1;color:var(--y);text-shadow:0 0 18px var(--y),4px 4px 0 var(--m);margin:10px 0 4px;font-variant-numeric:tabular-nums}
+.hero span{color:var(--c)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{border:1px solid var(--c);padding:12px 8px;text-align:center;border-radius:4px;background:rgba(57,243,255,.06)}
+.stat b{display:block;font-size:1.7rem;color:var(--c);text-shadow:0 0 10px var(--c)}
+.stat i{font-style:normal;font-size:.75rem;letter-spacing:.12em;opacity:.8}
+ol{list-style:none;padding:0;display:grid;gap:6px}
+ol li{display:grid;grid-template-columns:38px 1fr auto;gap:8px;align-items:center;padding:10px 12px;border-left:4px solid var(--m);background:rgba(255,63,208,.08)}
+ol li:first-child{border-color:var(--y);background:rgba(248,255,90,.1)}
+ol li em{font-style:normal;color:var(--y)}
+button{font:inherit;font-weight:700;font-size:1.25rem;letter-spacing:.2em;color:var(--bg);background:var(--c);border:0;border-radius:999px;padding:18px;width:100%;box-shadow:0 0 26px var(--c);cursor:pointer}
+button:active{transform:translateY(2px);box-shadow:0 0 10px var(--c)}
+footer{text-align:center;font-size:.75rem;opacity:.6;letter-spacing:.08em}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header><div class="logo">NOVA ARCADE</div><div class="live">LIVE</div></header>
+ <section class="hero"><small>NOW PLAYING</small><b>042</b><span>지금 차례인 번호</span></section>
+ <section class="stats">
+  <div class="stat"><b>12</b><i>기다리는 팀</i></div>
+  <div class="stat"><b>03:20</b><i>한 판 시간</i></div>
+  <div class="stat"><b>9,870</b><i>오늘 최고점</i></div>
+ </section>
+ <ol>
+  <li><em>01</em><span>은하수 팀</span><b>9,870</b></li>
+  <li><em>02</em><span>달토끼 팀</span><b>9,120</b></li>
+  <li><em>03</em><span>혜성 팀</span><b>8,460</b></li>
+ </ol>
+ <button type="button">INSERT COIN</button>
+ <footer>수업용 레퍼런스 1 · 네온 오락실 · 자유롭게 참고해도 됩니다</footer>
+</div>
+</body>
+</html>

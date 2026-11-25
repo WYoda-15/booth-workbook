@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>오후 상점 번호표 · 수업용 레퍼런스 2</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--paper:#f4ecd8;--ink:#1d1a16;--red:#c8372d;--line:#b9ad90}
+*{box-sizing:border-box;margin:0}
+body{background:#d9cfb6;color:var(--ink);font-family:Georgia,"Nanum Myeongjo","Batang",serif;min-height:100vh;padding:26px 14px 48px;
+ background-image:radial-gradient(rgba(0,0,0,.06) 1px,transparent 1px);background-size:5px 5px}
+.ticket{max-width:440px;margin:0 auto;background:var(--paper);padding:22px 22px 26px;position:relative;box-shadow:0 14px 30px rgba(60,40,10,.28);transform:rotate(-.6deg)}
+.ticket::before,.ticket::after{content:"";position:absolute;left:0;right:0;height:14px;background:radial-gradient(circle at 7px 0,#d9cfb6 6px,transparent 7px) repeat-x;background-size:14px 14px}
+.ticket::before{top:0}.ticket::after{bottom:0;transform:rotate(180deg)}
+header{text-align:center;border-bottom:3px double var(--ink);padding:10px 0 14px}
+header h1{font-size:1.9rem;letter-spacing:.22em;font-weight:400}
+header p{font-family:"Courier New",monospace;font-size:.8rem;letter-spacing:.14em;margin-top:6px}
+.hero{display:grid;grid-template-columns:1fr auto;align-items:end;gap:10px;padding:20px 0 14px;border-bottom:2px dashed var(--line)}
+.hero small{font-family:"Courier New",monospace;letter-spacing:.2em;font-size:.8rem}
+.hero b{display:block;font-family:"Courier New",monospace;font-size:5.6rem;line-height:.95;letter-spacing:-.04em}
+.stamp{width:104px;height:104px;border:4px solid var(--red);border-radius:50%;color:var(--red);display:grid;place-items:center;text-align:center;font-weight:700;line-height:1.15;transform:rotate(14deg);opacity:.86;font-size:.95rem;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 5px var(--red)}
+table{width:100%;border-collapse:collapse;font-family:"Courier New",monospace;margin:12px 0}
+td{padding:9px 0;border-bottom:1px dotted var(--line)}
+td:last-child{text-align:right;font-weight:700}
+.total td{border-top:3px double var(--ink);border-bottom:0;font-size:1.2rem;padding-top:12px}
+.note{font-size:.9rem;line-height:1.6;border-left:4px solid var(--red);padding:2px 0 2px 12px;margin:14px 0 18px}
+button{font:inherit;font-size:1.15rem;letter-spacing:.3em;width:100%;padding:15px;background:var(--ink);color:var(--paper);border:0;border-radius:0;cursor:pointer}
+button:active{background:var(--red)}
+.bar{height:44px;margin-top:18px;background:repeating-linear-gradient(90deg,var(--ink) 0 3px,transparent 3px 5px,var(--ink) 5px 6px,transparent 6px 10px,var(--ink) 10px 14px,transparent 14px 16px)}
+footer{text-align:center;font-family:"Courier New",monospace;font-size:.72rem;margin-top:10px;letter-spacing:.06em}
+</style>
+</head>
+<body>
+<div class="ticket">
+ <header><h1>오후 상점</h1><p>NO. 1126 · 손으로 만든 것만 팝니다</p></header>
+ <section class="hero"><div><small>대기 번호</small><b>017</b></div><div class="stamp">접수<br>완료</div></section>
+ <table>
+  <tr><td>앞에 기다리는 사람</td><td>4명</td></tr>
+  <tr><td>한 사람에 걸리는 시간</td><td>약 5분</td></tr>
+  <tr><td>오늘 남은 수량</td><td>23개</td></tr>
+  <tr class="total"><td>예상 시각</td><td>14:40</td></tr>
+ </table>
+ <p class="note">번호가 불리면 이 표를 보여 주세요. 세 번 불러도 오지 않으면 다음 번호로 넘어갑니다.</p>
+ <button type="button">번호표 뽑기</button>
+ <div class="bar"></div>
+ <footer>수업용 레퍼런스 2 · 종이 영수증 · 자유롭게 참고해도 됩니다</footer>
+</div>
+</body>
+</html>
