@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>부스 프로그램</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+html,body{margin:0;height:100%;background:#17181B;color:#E7E4DC;font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif}
+#f{position:fixed;inset:0;width:100%;height:100%;border:0;background:#fff;display:none}
+#msg{position:fixed;inset:0;display:grid;place-items:center;text-align:center;padding:24px;line-height:1.6;word-break:keep-all}
+#msg b{display:block;font-size:1.5rem;margin-bottom:.3em}
+#msg span{color:#A9A59C}
+#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#F08A5D;color:#1b1410;font-weight:700;border-radius:99px;padding:.4em 1.2em;display:none;z-index:2;white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="msg"><div><b id="mT">불러오는 중입니다</b><span id="mS"></span></div></div>
+<iframe id="f" title="부스 프로그램" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-downloads" allow="clipboard-write; fullscreen"></iframe>
+<div id="toast" role="status">새 코드로 바꿨습니다</div>
+<script>
+const DB_URL="https://claude-tg-e2e08-default-rtdb.asia-southeast1.firebasedatabase.app";
+const CLASS_CODE="wyd-1119-k7q2";
+/* 팀이 교재에 올린 HTML을 그대로 보여 준다. 새로 올리면 몇 초 안에 다시 연다. */
+(()=>{
+const $=id=>document.getElementById(id);
+const t=(new URLSearchParams(location.search).get('t')||'').replace(/[^a-z0-9]/gi,'').slice(0,6);
+const label=/^t\d+$/.test(t)?t.slice(1)+'조':'';
+const api=p=>DB_URL+'/wb/'+CLASS_CODE+'/apps/'+t+p+'.json';
+let cur=0, busy=false, fails=0;
+/* 프로그램이 쓰는 저장 공간에 팀마다 다른 이름표를 붙여서, 교재의 기록과 섞이지 않게 한다 */
+const SHIM='<script>(function(){try{var P="app_'+t+'_",L=window.localStorage,A={getItem:function(k){return L.getItem(P+k)},setItem:function(k,v){L.setItem(P+k,String(v))},removeItem:function(k){L.removeItem(P+k)},clear:function(){for(var i=L.length-1;i>=0;i--){var k=L.key(i);if(k&&k.indexOf(P)===0)L.removeItem(k)}},key:function(i){var n=0;for(var j=0;j<L.length;j++){var k=L.key(j);if(k&&k.indexOf(P)===0){if(n===i)return k.slice(P.length);n++}}return null}};Object.defineProperty(A,"length",{get:function(){var n=0;for(var j=0;j<L.length;j++){var k=L.key(j);if(k&&k.indexOf(P)===0)n++}return n}});Object.defineProperty(window,"localStorage",{configurable:true,get:function(){return A}})}catch(e){}})();<\/script>';
+function withShim(html){ const m=html.match(/<head[^>]*>/i)||html.match(/<html[^>]*>/i); if(m){ const i=m.index+m[0].length; return html.slice(0,i)+SHIM+html.slice(i) } return SHIM+html }
+function say(a,b){ $('f').style.display='none'; $('msg').style.display=''; $('mT').textContent=a; $('mS').textContent=b||'' }
+function show(d,again){ cur=d.at||1; $('msg').style.display='none'; const f=$('f'); f.style.display='block'; f.srcdoc=withShim(String(d.html));
+  if(again){ const o=$('toast'); o.style.display='block'; setTimeout(()=>{o.style.display='none'},2200) } }
+async function load(again){ if(busy) return; busy=true;
+  try{ const r=await fetch(api(''),{cache:'no-store'}); if(!r.ok) throw new Error(r.status); const d=await r.json(); fails=0;
+    if(d&&d.html){ if((d.at||1)!==cur) show(d,again) } else { cur=0; say((label?label+' ':'')+'프로그램이 아직 없습니다','교재에서 코드를 올리면 이 화면이 자동으로 바뀝니다.') } }
+  catch(e){ if(!cur&&++fails>=2) say('불러오지 못했습니다','인터넷 연결을 확인해 주세요. 자동으로 다시 시도합니다.') }
+  busy=false }
+async function poll(){ if(document.hidden) return; if(!cur){ load(false); return }
+  try{ const r=await fetch(api('/at'),{cache:'no-store'}); if(!r.ok) return; const at=await r.json(); if(at&&at!==cur) load(true); else if(at===null){ cur=0; load(false) } }catch(e){} }
+if(!label){ say('주소가 올바르지 않습니다','교재에 나온 링크나 QR로 다시 열어 주세요.') }
+else { document.title=label+' 프로그램'; load(false); setInterval(poll,4000); document.addEventListener('visibilitychange',()=>{ if(!document.hidden) poll() }) }
+})();
+</script>
+</body>
+</html>

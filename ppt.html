@@ -928,10 +928,13 @@ $('#tMinus').onclick=()=>setTeams(CFG.teams-1); $('#tPlus').onclick=()=>setTeams
 $('#syncBtn').onclick=()=>{ if(!canSync){$('#index').classList.remove('on');$('#gate').classList.add('on');return} syncOn=!syncOn; renderTools(); setPill(); if(syncOn)pushState() };
 let wipeArm=0;
 $('#tWipe').onclick=async()=>{ if(!db||!canSync) return; const m=$('#tWipeMsg');
-  if(Date.now()-wipeArm>5000){ wipeArm=Date.now(); m.textContent='정말 지우려면 5초 안에 한 번 더 누릅니다.'; return }
+  if(Date.now()-wipeArm>5000){ wipeArm=Date.now(); m.textContent='지난주 기록까지 모두 지워집니다. 2주차 수업이 이 기록을 씁니다. 그래도 지우려면 5초 안에 한 번 더 누릅니다.'; return }
   wipeArm=0; m.textContent='지우는 중';
-  try{ await rdb.ref(base+'/teams').remove(); await rdb.ref(base+'/presence').remove(); await rdb.ref(base+'/class/reveal').remove(); await rdb.ref(base+'/class/epoch').set(Date.now());
-    teamIds(TEAM_MAX).forEach(t=>COLS.forEach(c=>{D[t][c]={}})); REVEAL={}; m.textContent='모든 팀의 기록과 점수를 지웠습니다.'; pushState(); refreshLive() }
+  try{ /* 지우기 전에 전체 기록을 파일로 내려받아 둔다 */
+    const all=(await rdb.ref(base).once('value')).val()||{}; const a=document.createElement('a'), u=URL.createObjectURL(new Blob([JSON.stringify(all,null,1)],{type:'application/json'}));
+    a.href=u; a.download='claude-class-backup-before-reset-'+new Date().toISOString().slice(0,10)+'.json'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),2000);
+    await rdb.ref(base+'/teams').remove(); await rdb.ref(base+'/presence').remove(); await rdb.ref(base+'/class/reveal').remove(); await rdb.ref(base+'/class/epoch').set(Date.now());
+    teamIds(TEAM_MAX).forEach(t=>COLS.forEach(c=>{D[t][c]={}})); REVEAL={}; m.textContent='모든 팀의 기록과 점수를 지웠습니다. 지우기 전 기록은 파일로 내려받았습니다.'; pushState(); refreshLive() }
   catch(e){ m.textContent='지우지 못했습니다. 다시 눌러 주세요.' } };
 
 /* ---------- 실시간 표시 ---------- */

@@ -94,78 +94,177 @@ w1:[
   opts:['쇼츠 아이디어를 다섯 개 추천받기','올린 영상에서 장면을 뽑아 분석하기','내 노션에 새 페이지를 만들어 달라고 하기','방금 받은 답을 표로 바꾸기'],ans:2,why:'다른 앱 안에서 읽고 쓰는 일에 커넥터가 필요합니다. 파일을 올려서 보여 주는 것은 커넥터가 아닙니다.'}
 ],
 w2:[
- {id:'w2s2',kind:'work',n:'편집',t:15,goal:'발표에 넣을 사진 3장의 색감을 맞추고, 홍보 영상에서 15초를 잘라 냅니다. 편집 프로그램 없이 Claude 안에서 합니다.',
-  tasks:[{id:'p',brief:'사진 3장을 올리고 색감을 맞춰 달라고 부탁합니다. "예쁘게" 대신 밝기, 대비, 색 방향처럼 바꿀 것을 나눠서 말합니다. 영상은 따로 부탁합니다.',
-   talk:['우리 부스의 분위기를 형용사 3개로','영상에서 쓸 15초 구간'],
-   must:['기준이 되는 사진이 어느 것인지','밝기, 대비, 색 방향을 각각 어떻게 할지','보정 전과 후를 나란히 보여 달라는 요청','무엇을 바꿨는지 알려 달라는 요청'],
-   ref:c=>`첨부한 사진 3장을 같은 발표 자료에 넣을 거야. 우리 부스 "${c.booth}"의 분위기는 [형용사 3개]야.
+ {id:'w2c0',kind:'wall',n:'체크인',t:3,q:'지난 한 주 동안 AI를 어디에 써 보았나요?',ph:'한 줄이면 됩니다. 없으면 "없음"이라고 씁니다.'},
 
-첫 번째 사진을 기준으로, 세 장이 한 세트처럼 보이게 밝기와 색감을 맞춰 줘. 대비는 조금 높게, 피부색은 자연스럽게 유지해. 보정 전후를 나란히 놓은 비교 이미지도 만들고, 무엇을 얼마나 바꿨는지 사진마다 한 줄씩 알려 줘.
+ {id:'w2q1',kind:'quiz',n:'퀴즈 1',t:1,pt:10,sec:15,
+  q:'지난주에 배운 프롬프트의 네 가지 요소가 아닌 것은 무엇인가요?',
+  opts:['역할','맥락','분량','형식'],ans:2,why:'네 가지 요소는 역할, 맥락, 과제, 형식입니다.'},
 
-(영상은 따로) 첨부한 홍보 영상에서 [시작 시각]부터 15초만 잘라 줘. 가로 16:9는 유지하고, 시작과 끝에 0.5초 페이드를 넣어 줘. mp4로 저장하고 길이와 파일 크기를 알려 줘.`,
-   outs:[{id:'tone',label:'바꾼 내용',ph:'Claude가 알려 준 보정 내용과 영상 길이를 붙여 넣습니다.'}]}]},
+ {id:'w2q2',kind:'quiz',n:'퀴즈 2',t:1,pt:10,sec:15,
+  q:'다음 중 Claude의 모델 이름이 아닌 것은 무엇인가요?',
+  opts:['Sonnet','Haiku','Gemini','Opus'],ans:2,why:'Gemini는 Google의 AI입니다. Claude의 모델에는 Fable, Opus, Sonnet, Haiku가 있습니다.'},
 
- {id:'w2s1',kind:'work',n:'부스 프로그램',t:30,goal:'부스에서 실제로 쓸 간단한 프로그램을 팀마다 하나 만듭니다. 무엇을 만들지는 Claude가 우리에게 질문해서 함께 정합니다.',
-  tasks:[
-   {id:'make',title:'무엇을 만들까',brief:'예상되는 문제를 알려 주고, Claude가 질문 몇 개로 필요한 기능을 정리하게 합니다. 만들기 전에 화면 구성을 글로 먼저 보여 달라고 합니다.',
-    talk:['축제 당일 가장 혼란이 예상되는 일','판매할 품목, 가격, 수량'],
-    must:['누가 어떤 상황에서 쓰는지 (맥락)','정하기 전에 우리에게 질문하라는 요청 (되묻기)','질문은 한 번에 하나씩, 5개 이내 (조건)','만들기 전에 화면 구성을 글로 보여 달라는 요청','휴대폰에서 쓸 수 있어야 한다는 조건'],
-    ref:c=>`우리는 대학 축제에서 "${c.booth}" 부스를 운영해. 당일에 스태프가 휴대폰으로 쓸 간단한 프로그램을 하나 만들고 싶어. 재고 관리, 계산, 대기번호처럼 부스 운영을 돕는 것이면 돼.
+ {id:'w2t1',kind:'tap',n:'함께 누르기',t:2,goal:'각자 PC의 교재에서 버튼을 누르면 앞 화면의 숫자가 바로 올라갑니다. 모든 기기가 같은 저장소를 보고 있기 때문입니다.'},
 
-[당일에 가장 혼란스러울 것으로 예상하는 일]
-[판매할 품목, 가격, 수량]
+ {id:'w2s1',kind:'kit',n:'무엇을 만들지 정하기',t:10,pv:'name',
+  goal:'Claude를 쓰지 않고 팀이 말로 정합니다. 프로그램을 정하려면 부스를 어떻게 운영할지부터 정해야 합니다.',
+  blocks:[
+   {b:'guide',text:'지난주에 만든 운영 매뉴얼을 떠올리며 의논합니다. 정한 내용은 아래 네 칸에 적습니다. 한 사람이 적으면 팀 전체 화면에 나타납니다.',
+    talk:['축제 당일에 가장 헷갈리거나 붐빌 것 같은 일은 무엇인가요?','그 일을 여러 사람이 동시에 보거나 눌러야 하나요?','수량, 시간, 순서 가운데 아직 정하지 않은 것은 무엇인가요?']},
+   {b:'field',id:'name',label:'만들 프로그램과 하는 일',ph:'예: 대기 번호판. 방문객이 번호를 받고, 운영자가 다음 번호를 부릅니다.'},
+   {b:'field',id:'who',label:'누가, 어떤 기기로 쓰나요',ph:'예: 운영자 두 명은 각자 휴대폰으로 누르고, 방문객은 부스 앞 화면으로 봅니다.'},
+   {b:'field',id:'live',label:'여러 기기에서 바로 바뀌어야 하는 것',ph:'예: 지금 부르는 번호, 기다리는 사람 수'},
+   {b:'field',id:'nums',label:'정해 둔 운영 숫자',ph:'예: 한 번에 3명 입장, 체험 한 번에 5분, 하루 30개 한정'}]},
 
-어떤 프로그램이 가장 도움이 될지 정하기 전에, 나에게 먼저 질문해 줘. 한 번에 한 질문씩, 5개 이내로. 질문이 끝나면 만들 프로그램을 한 가지로 제안하고, 화면 구성을 글로 먼저 보여 줘. 내가 확인하면 아티팩트로 만들어 줘.
+ {id:'w2q3',kind:'quiz',n:'퀴즈 3',t:1,pt:20,sec:15,
+  q:'여러 기기에서 같은 내용이 바로 보이려면, 데이터는 어디에 있어야 하나요?',
+  opts:['각자의 휴대폰 안','인터넷에 있는 공용 저장소','HTML 파일 안','Claude 대화창'],ans:1,why:'모든 기기가 같은 저장소를 읽고 쓰기 때문에 같은 내용이 보입니다. 오늘은 그 저장소로 Firebase를 씁니다.'},
 
-조건: 휴대폰 한 손으로 쓸 수 있게 버튼을 크게, 글자는 한글로, 잘못 눌렀을 때 되돌릴 수 있게 해 줘.`,
-    outs:[{id:'plan',label:'정한 프로그램',ph:'Claude가 제안한 프로그램과 화면 구성을 붙여 넣습니다.'}]},
-   {id:'fix',title:'써 보고 고치기',brief:'직접 써 보고 찾은 문제를 Claude에게 전해 고치게 합니다. 무엇을 눌렀더니 무엇이 나왔는지 그대로 말합니다.',
-    talk:['직접 써 보니 어떤 문제가 있었나요?'],
-    must:['무엇을 눌렀는지','기대한 결과와 실제로 나온 결과','다른 기능은 건드리지 말라는 조건'],
-    ref:c=>`휴대폰으로 써 보니 아래 문제가 있어. 위에서부터 차례로 고치고, 무엇을 바꿨는지 한 줄씩 알려 줘. 다른 기능은 건드리지 마.
+ {id:'w2q4',kind:'quiz',n:'퀴즈 4',t:1,pt:20,sec:15,
+  q:'AI가 사실이 아닌 내용을 그럴듯하게 지어내는 현상을 무엇이라고 하나요?',
+  opts:['미세 조정','환각','토큰화','과적합'],ans:1,why:'환각(할루시네이션)이라고 합니다. 그래서 숫자와 출처는 사람이 직접 확인합니다.'},
 
-[무엇을 눌렀더니 무엇이 나왔는지]
+ {id:'w2s2',kind:'kit',n:'저장소 만들기',t:12,
+  goal:'팀에서 Claude를 맡은 사람이 자기 구글 계정으로 Firebase에 저장소를 만듭니다. 앞 화면의 순서를 따라 합니다.',
+  blocks:[
+   {b:'guide',text:'다른 팀원은 옆에서 순서를 불러 주고, 다 되면 아래 칸을 함께 확인합니다.',
+    steps:['console.firebase.google.com 을 열고 구글 계정으로 로그인합니다.','"프로젝트 만들기"를 누르고 이름을 씁니다. 추가 설정은 끄고 만듭니다.','왼쪽 메뉴에서 "Realtime Database"를 찾아 "데이터베이스 만들기"를 누릅니다.','위치는 싱가포르(asia-southeast1), 보안 규칙은 "테스트 모드"를 고릅니다.','화면 위쪽의 https:// 로 시작하는 주소를 복사해서 아래 칸에 붙여 넣습니다.'],
+    links:[{t:'Firebase 콘솔 열기',u:'https://console.firebase.google.com/'}]},
+   {b:'checks',items:['프로젝트를 만들었습니다','Realtime Database를 테스트 모드로 만들었습니다']},
+   {b:'dburl'}]},
 
-그리고 이 화면을 닫았다 열면 입력한 기록이 남는지 알려 줘. 남지 않는다면 지금까지의 기록을 글자로 한 번에 복사하는 버튼을 추가해 줘.`,
-    outs:[{id:'system',label:'완성한 프로그램',ph:'아티팩트 링크 또는 이름, 마지막으로 고친 내용을 적습니다.'}]}]},
+ {id:'w2s3',kind:'kit',n:'Claude에게 만들게 하기',t:15,
+  goal:'정한 내용과 저장소 주소를 넣어 프롬프트를 쓰고, Claude가 만든 코드를 교재에 올립니다. 올리면 어느 기기에서나 열리는 링크가 생깁니다.',
+  blocks:[
+   {b:'guide',text:'팀이 함께 프롬프트를 쓰고, Claude를 맡은 사람이 보냅니다. Claude의 미리보기 창에서는 저장소에 연결되지 않아 "연결 안 됨"으로 보일 수 있습니다. 링크로 열어서 확인합니다.',
+    must:['누구로서 만들지 (역할)','우리 부스와 정한 내용 (맥락)','무엇을 만들지 (과제)','HTML 파일 하나, 휴대폰에서 쓰기 좋게 (형식)','연동 정보: 저장소 주소와 연결 방식']},
+   {b:'prompt',id:'p',label:'우리 팀 프롬프트',ph:'정한 내용과 저장소 주소를 넣어 직접 씁니다. 완벽하지 않아도 됩니다.'},
+   {b:'ref',of:'p',text:c=>`너는 행사 현장에서 쓰는 간단한 웹 프로그램을 많이 만들어 본 개발자야. 우리는 "${c.booth}" 부스를 준비하고 있어. 부스에서 쓸 프로그램을 만들어 줘.
 
- {id:'w2s3',kind:'work',n:'발표 자료',t:30,goal:'운영 매뉴얼을 4분 발표용으로 줄이고, 그 개요로 Canva 발표 자료를 만듭니다.',
-  tasks:[{id:'p',brief:'먼저 매뉴얼을 발표용 개요로 줄여 달라고 부탁합니다. 개요가 마음에 들면 "이 개요로 Canva 발표 자료를 만들어 줘"로 이어 갑니다.',
-   talk:['발표에서 반드시 전달할 한 가지','소개할 프롬프트 (효과적이었던 것 하나, 실패한 것 하나)'],
-   must:['발표 시간과 듣는 사람 (맥락)','몇 장으로 줄일지, 장마다 무엇을 적을지 (형식)','Canva로 만들 때의 모양: 화면 비율, 글자 수 (조건)'],
-   ref:c=>`아래 운영 매뉴얼을 4분 발표용 8장 개요로 줄여 줘. 듣는 사람은 교수님과 다른 팀이야. 장마다 제목, 핵심 한 문장, 넣을 표나 이미지, 발표자가 할 말 2문장을 적어 줘.
+만들 것: ${c.name}
+쓰는 사람과 기기: ${c.who}
+여러 기기에서 바로 바뀌어야 하는 것: ${c.live}
+정해 둔 숫자: ${c.nums}
 
-[반드시 전달할 한 가지]
-[소개할 프롬프트]
-[운영 매뉴얼을 여기에 붙여 넣습니다]
+아래 방식은 꼭 지켜 줘.
+1. HTML 파일 하나로 만들어 줘. 휴대폰에서 한 손으로 누를 수 있게 버튼과 글자를 크게 해 줘.
+2. 여러 기기에서 동시에 열어도 같은 내용이 바로 보이게 Firebase Realtime Database에 저장해 줘. 데이터베이스 주소는 ${c.dburl} 이야.
+3. 로그인은 쓰지 않아. 아래 두 스크립트를 불러와서 firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
+   https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js
+   https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-database-compat.js
+4. 데이터는 "${c.path}" 아래에만 저장해 줘.
+5. 화면 위쪽에 "연결됨" 또는 "연결 안 됨"을 보여 줘. 연결이 안 되어도 화면은 보이게 해 줘.
+6. 잘못 눌렀을 때 되돌리는 버튼과, 처음 상태로 되돌리는 버튼을 넣어 줘.
 
-(이어서 보낼 말) 이 개요로 Canva 프레젠테이션을 만들어 줘. 16:9, 장마다 글자는 30자 이내로. 후보가 여러 개 나오면 보여 주고 내가 고를게.`,
-   outs:[{id:'deck',label:'Canva 링크',ph:'만든 발표 자료의 링크를 붙여 넣습니다.'}]}]},
+화면 구성을 두세 줄로 먼저 말해 주고 바로 만들어 줘.`},
+   {b:'code'}]},
 
- {id:'w2s4',kind:'work',n:'팀 발표',t:15,goal:'팀당 4분. 발표 전에 Claude를 까다로운 청중으로 세워 예상 질문을 받아 봅니다.',
-  tasks:[{id:'p',brief:'교수님이 할 만한 날카로운 질문을 미리 받아 봅니다.',
-   must:['Claude에게 맡길 역할','질문을 몇 개 받을지','질문마다 매뉴얼의 어느 부분으로 답하면 되는지 알려 달라는 요청'],
-   ref:c=>`너는 축제 기획을 평가하는 교수야. 우리 발표를 듣고 할 만한 날카로운 질문 5개를 만들어 줘. 질문마다 우리 매뉴얼의 어느 부분으로 답하면 되는지 알려 줘.
+ {id:'w2s4',kind:'kit',n:'열어 보고 고치기',t:13,pv:'fix',
+  goal:'휴대폰 두 대 이상으로 링크를 열어서 실제로 써 봅니다. 문제를 찾으면 Claude에게 정확히 전해서 고칩니다.',
+  blocks:[
+   {b:'guide',text:'팀원 모두 휴대폰으로 QR을 찍어 동시에 열어 봅니다. 아래 네 가지를 확인하고, 문제는 "무엇을 눌렀더니 무엇이 나왔는지"로 적습니다.'},
+   {b:'code',view:1},
+   {b:'checks',items:['한 기기에서 바꾸면 다른 기기에서도 바로 바뀝니다','새로 고침해도 내용이 남아 있습니다','잘못 눌렀을 때 되돌릴 수 있습니다','처음 보는 사람도 설명 없이 쓸 수 있습니다']},
+   {b:'field',id:'fix',label:'고칠 점',ph:'예: "다음 번호"를 두 사람이 동시에 누르면 번호가 2씩 늘어납니다. 1씩만 늘어야 합니다.',rows:3},
+   {b:'prompt',id:'fx',label:'고쳐 달라는 프롬프트',ph:'고칠 점을 넣어 직접 씁니다.'},
+   {b:'ref',of:'fx',text:c=>`만들어 준 프로그램을 휴대폰 두 대로 써 보니 아래 문제가 있어. 위에서부터 차례로 고쳐 줘.
 
-[운영 매뉴얼을 여기에 붙여 넣습니다]`,
-   outs:[{id:'qa',label:'예상 질문과 우리 답'}]}]}
+${c.fix}
+
+Firebase 연결 방식과 데이터베이스 주소는 그대로 두고, 말하지 않은 기능은 건드리지 마. 고친 뒤에는 무엇을 바꿨는지 한 줄씩 알려 주고, 전체 코드를 다시 줘.`},
+   {b:'code',again:1}]},
+
+ {id:'w2q5',kind:'quiz',n:'퀴즈 5',t:1,pt:20,sec:15,
+  q:'프로그램이 이상하게 움직일 때, Claude에게 가장 도움이 되는 말은 무엇인가요?',
+  opts:['이상해. 고쳐 줘.','처음부터 다시 만들어 줘.','"다음"을 누르면 번호가 2씩 늘어. 1씩 늘게 해 줘.','더 좋게 만들어 줘.'],ans:2,why:'무엇을 눌렀더니 무엇이 나왔는지, 원래 어떻게 되어야 하는지를 말해야 정확히 고칩니다.'},
+
+ {id:'w2q6',kind:'quiz',n:'퀴즈 6',t:1,pt:30,sec:15,
+  q:'Firebase 저장소를 "테스트 모드"로 만들었을 때의 설명으로 맞는 것은 무엇인가요?',
+  opts:['만든 사람만 읽고 쓸 수 있다','누구나 읽고 쓸 수 있고, 기한이 지나면 막힌다','30일 뒤에 데이터가 모두 지워진다','휴대폰에서는 열리지 않는다'],ans:1,why:'테스트 모드는 누구나 읽고 쓸 수 있게 열어 두는 방식이고, 30일이 지나면 접속이 막힙니다. 데이터가 지워지는 것은 아닙니다.'},
+
+ {id:'w2w1',kind:'wall',n:'서로 써 보기',t:6,apps:1,goal:'앞 화면의 QR을 휴대폰으로 찍어 다른 팀의 프로그램을 써 봅니다.',q:'다른 팀 프로그램을 써 보고, 좋았던 점이나 헷갈린 점을 한 줄로 남깁니다.',ph:'어느 팀인지 먼저 씁니다. 예: 3조, 번호가 바로 바뀌어서 좋았습니다.'},
+
+ {id:'w2s6',kind:'kit',n:'캔바 연결과 자료 모으기',t:9,pv:'one',
+  goal:'캔바를 Claude에 연결하고, 지금까지 만든 것을 한 묶음으로 모읍니다. 발표에서 무엇을 전할지는 팀이 정합니다.',
+  blocks:[
+   {b:'guide',text:'Claude를 맡은 사람이 연결하는 동안, 다른 팀원은 자료 묶음을 읽고 발표 구성을 의논합니다. 모두 같은 캔바 계정을 쓰므로 다른 팀의 디자인은 건드리지 않습니다.',
+    steps:['"캔바 열기"를 눌러, 나눠 드린 캔바 계정으로 로그인합니다.','"Claude 커넥터 화면 열기"를 누릅니다. Claude 왼쪽 메뉴의 Customize 안에 있는 Connectors(커넥터)와 같은 화면입니다.','Canva를 찾아 누르고 연결 버튼(Connect to Claude)을 누릅니다. 캔바 화면이 나오면 허용합니다. 목록에 없으면 Discover에서 Canva를 검색합니다.','새 대화를 열고, 입력창의 + 버튼에 있는 Connectors(커넥터)에서 Canva를 켭니다.'],
+    links:[{t:'캔바 열기',u:'https://www.canva.com/'},{t:'Claude 커넥터 화면 열기',u:'https://claude.ai/customize/connectors'}]},
+   {b:'checks',items:['나눠 드린 캔바 계정으로 로그인했습니다','Claude의 커넥터에서 Canva를 연결했습니다','새 대화에서 Canva가 켜져 있습니다']},
+   {b:'bundle'},
+   {b:'field',id:'one',label:'발표에서 꼭 전할 한 가지',ph:'예: 우리 부스는 기다리는 시간도 놀이가 됩니다.'},
+   {b:'field',id:'n',label:'몇 장으로, 어떤 순서로',ph:'예: 6장. 부스 소개, 방문객이 하는 일, 운영 방법, 프로그램, 예산과 준비물, 마무리'}]},
+
+ {id:'w2q7',kind:'quiz',n:'퀴즈 7',t:1,pt:30,sec:15,
+  q:'LLM은 무엇의 줄임말인가요?',
+  opts:['Large Language Model','Long Learning Machine','Logical Language Memory','Large Learning Method'],ans:0,why:'Large Language Model, 우리말로 거대 언어 모델입니다. Claude, ChatGPT, Gemini는 모두 LLM을 바탕으로 움직입니다.'},
+
+ {id:'w2q8',kind:'quiz',n:'퀴즈 8',t:1,pt:30,sec:15,
+  q:'Claude를 캔바 같은 다른 앱에 연결하는 공통 규격 MCP는 무엇의 줄임말인가요?',
+  opts:['Model Context Protocol','Multi Connect Platform','Main Control Program','Model Canvas Plugin'],ans:0,why:'Model Context Protocol입니다. 이 규격 덕분에 Claude가 캔바, 노션 같은 앱 안에서 직접 일합니다.'},
+
+ {id:'w2s7',kind:'kit',n:'개요를 받고 캔바로 만들기',t:12,
+  goal:'자료 묶음을 주고 개요부터 받습니다. 개요가 마음에 들면 캔바로 만들게 합니다.',
+  blocks:[
+   {b:'guide',text:'한 번에 만들게 하지 않습니다. 개요를 먼저 보고, 고칠 것을 말한 다음에 캔바로 넘깁니다.',
+    must:['자료 묶음 (맥락)','듣는 사람과 꼭 전할 한 가지 (맥락)','몇 장으로 만들지, 장마다 무엇을 적을지 (형식)','자료에 없는 것은 지어내지 말라는 조건']},
+   {b:'bundle',small:1},
+   {b:'prompt',id:'p',label:'우리 팀 프롬프트',ph:'자료 묶음을 붙여 넣고, 듣는 사람과 전할 한 가지, 장 수를 직접 씁니다.'},
+   {b:'ref',of:'p',text:c=>`아래는 우리 팀이 지금까지 만든 자료야. 이 자료로 우리 부스를 소개하는 발표 자료를 만들려고 해.
+
+[교재의 "자료 묶음 복사"로 복사한 내용을 여기에 붙여 넣습니다]
+
+듣는 사람은 교수님과 다른 팀이야. 발표에서 꼭 전하고 싶은 한 가지는 "${c.one}"이야.
+구성은 이렇게 생각하고 있어: ${c.n}
+먼저 이 구성으로 개요를 보여 줘. 장마다 제목과 핵심 한 문장만 적어 줘.
+자료에 없는 숫자나 사실은 지어내지 말고 "확인 필요"라고 적어 줘. 아직 캔바로 만들지는 마.`},
+   {b:'says',items:[
+     {t:'개요를 고칠 때',say:'3장과 4장을 하나로 합치고, 오늘 만든 프로그램을 소개하는 장을 하나 넣어 줘.'},
+     {t:'캔바로 만들 때',say:'좋아. 이 개요로 캔바에서 16:9 발표 자료를 만들어 줘.'},
+     {t:'링크가 보이지 않을 때',say:'방금 만든 디자인을 캔바에서 열 수 있는 링크를 줘.'}]},
+   {b:'link',id:'canva',label:'캔바 디자인 링크',hint:'Claude가 캔바를 써도 되는지 물으면 허용합니다. 만드는 데 시간이 걸리고, 장이 많을수록 더 걸립니다. 다 되면 Claude가 준 링크로 캔바를 열고, 그 화면의 주소를 여기에 붙여 넣습니다.'}]},
+
+ {id:'w2s8',kind:'kit',n:'캔바에서 다듬기',t:12,
+  goal:'캔바에서 디자인을 열어 직접 고칩니다. AI가 만든 초안을 발표할 수 있는 자료로 만드는 것은 사람의 일입니다.',
+  blocks:[
+   {b:'guide',text:'링크를 눌러 캔바에서 엽니다. 글자는 눌러서 바로 고치고, 크게 바꿀 것은 Claude에게 말로 부탁해도 됩니다. 디자인 이름은 화면 위쪽 도구 줄의 제목을 눌러 바꿉니다.'},
+   {b:'link',id:'canva',label:'캔바 디자인 링크'},
+   {b:'checks',items:['틀린 내용과 "확인 필요"로 남은 숫자를 고쳤습니다','프로그램 화면이나 QR을 한 장에 넣었습니다','디자인 이름을 "조 · 부스 이름"으로 바꿨습니다','장 제목만 읽어도 흐름을 알 수 있습니다']},
+   {b:'code',view:1}]},
+
+ {id:'w2q9',kind:'quiz',n:'퀴즈 9',t:1,pt:40,sec:15,
+  q:'다음 중 실시간 연동이 필요 없는 것은 무엇인가요?',
+  opts:['여러 명이 입찰하는 경매판','운영자 둘이 함께 쓰는 재고판','모두의 선택이 모이는 투표 결과판','혼자 자기 휴대폰으로만 보는 준비물 목록'],ans:3,why:'한 기기에서만 쓰는 것은 공용 저장소가 필요 없습니다. 나머지는 여러 기기가 같은 내용을 보아야 합니다.'},
+
+ {id:'w2q10',kind:'quiz',n:'퀴즈 10',t:1,pt:40,sec:15,
+  q:'다음 요청에는 연동에 꼭 필요한 정보가 하나 빠져 있습니다. 무엇인가요?',
+  quote:'대기 번호 프로그램을 HTML 파일 하나로 만들어 줘. 여러 휴대폰에서 같은 번호가 보이게 해 줘.',
+  opts:['파일 형식','데이터베이스 주소','만들 프로그램','여러 기기에서 쓴다는 점'],ans:1,why:'형식(HTML 파일 하나), 만들 것(대기 번호 프로그램), 쓰는 상황(여러 휴대폰)은 있습니다. 어느 저장소에 연결할지 알려 주는 데이터베이스 주소가 없습니다.'}
 ]};
 const ALL=[...STEPS.w1,...STEPS.w2];
-const KIND={wall:'한 줄 쓰기',solo:'각자 하기',check:'찾아서 누르기',poll:'고르기',quiz:'퀴즈',work:'팀 실습'};
-Object.keys(STEPS).forEach(w=>{let k=(w==='w1'?-1:0); STEPS[w].forEach(s=>{s.w=w; s.tasks=s.tasks||[];
+const KIND={wall:'한 줄 쓰기',solo:'각자 하기',check:'찾아서 누르기',poll:'고르기',quiz:'퀴즈',work:'팀 실습',kit:'팀 실습',tap:'함께 누르기'};
+const WEEK='w2';                                   /* 지금 수업하는 주차 */
+const WEEK2_FROM=Date.parse('2026-11-25T00:00:00+09:00');   /* 이 시각 이후에 처음 들어온 이름은 2주차 기록으로 본다 */
+Object.keys(STEPS).forEach(w=>{let k=-1; STEPS[w].forEach(s=>{s.w=w; s.tasks=s.tasks||[]; s.blocks=s.blocks||[];
   if(s.kind==='quiz'){s.k='Q'+s.n.replace(/\D/g,'')} else {k++; s.k=String(k).padStart(2,'0')}
-  s.tasks.forEach(t=>{t.tid=s.id+'_'+t.id; t.outs=t.outs||[]; t.outs.forEach(o=>{o.rid=s.id+'_'+o.id})})})});
+  s.tasks.forEach(t=>{t.tid=s.id+'_'+t.id; t.outs=t.outs||[]; t.outs.forEach(o=>{o.rid=s.id+'_'+o.id})});
+  s.blocks.forEach(x=>{ if(x.b==='field') x.rid=s.id+'_'+x.id; if(x.b==='prompt') x.tid=s.id+'_'+x.id; if(x.b==='ref') x.tid=s.id+'_'+x.of })})});
 const stepById=id=>ALL.find(s=>s.id===id);
 const QUIZ=ALL.filter(s=>s.kind==='quiz');
 const teamIds=n=>Array.from({length:Math.max(1,Math.min(TEAM_MAX,n||TEAM_DEFAULT))},(_,i)=>'t'+(i+1));
 const teamLabel=t=>t.slice(1)+'조';
-/* 점수: 공개된 퀴즈에서 정답을 고른 사람에게 점수를 준다. D[team].answers 를 읽는다. */
-function scoreboard(D,reveal){
+const DBURL_RE=/^https:\/\/[a-z0-9-]+(\.[a-z0-9-]+)*\.(firebaseio\.com|firebasedatabase\.app)$/i;
+const cleanDbUrl=v=>String(v||'').trim().replace(/\/+$/,'');
+/* 점수: 공개된 퀴즈에서 정답을 고른 사람에게 점수를 준다. 화면을 벗어나 무효가 된 답(left)은 0점이다.
+   week 를 주면 그 주차의 퀴즈만 센다. 점수가 같으면 정답을 더 빨리 고른 사람(ms 합이 작은 사람)이 위다. */
+function scoreboard(D,reveal,week){
   const rows={};
-  Object.keys(D).forEach(t=>{const A=D[t].answers||{}; Object.values(D[t].members||{}).forEach(m=>{if(m&&m.name)rows[t+'/'+m.name]={team:t,name:m.name,pt:0,ok:0}});
-    Object.values(A).forEach(a=>{ if(!a||!a.name) return; const s=stepById(a.s); if(!s||s.kind!=='quiz'||!reveal[s.id]) return;
-      const key=t+'/'+a.name; rows[key]=rows[key]||{team:t,name:a.name,pt:0,ok:0}; if(a.opt===s.ans){rows[key].pt+=s.pt; rows[key].ok++} })});
-  const list=Object.values(rows).sort((a,b)=>b.pt-a.pt||a.name.localeCompare(b.name,'ko'));
-  let rank=0,prev=null; list.forEach((r,i)=>{ if(r.pt!==prev){rank=i+1;prev=r.pt} r.rank=rank });
+  Object.keys(D).forEach(t=>{const A=D[t].answers||{}; Object.values(D[t].members||{}).forEach(m=>{if(m&&m.name)rows[t+'/'+m.name]={team:t,name:m.name,pt:0,ok:0,ms:0,left:0}});
+    Object.values(A).forEach(a=>{ if(!a||!a.name) return; const s=stepById(a.s); if(!s||s.kind!=='quiz'||!reveal[s.id]||(week&&s.w!==week)) return;
+      const key=t+'/'+a.name, r=rows[key]=rows[key]||{team:t,name:a.name,pt:0,ok:0,ms:0,left:0}; if(a.left){r.left++; return}
+      if(a.opt===s.ans){r.pt+=s.pt; r.ok++; r.ms+=Math.max(0,+a.ms||0)} })});
+  const byMs=!!week;   /* 시간으로 순서를 가르는 것은 한 주차 안에서만 한다 */
+  const list=Object.values(rows).sort((a,b)=>b.pt-a.pt||(byMs?a.ms-b.ms:0)||a.name.localeCompare(b.name,'ko'));
+  let rank=0,pp=null,pm=null; list.forEach((r,i)=>{ if(r.pt!==pp||(byMs&&r.ms!==pm)){rank=i+1;pp=r.pt;pm=r.ms} r.rank=rank });
   return list;
 }
