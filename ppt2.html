@@ -1059,10 +1059,10 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
  <p class="lede">새로 쓰는 것이 아닙니다. 프로젝트 폴더에 이미 있는 것을 모아서, 처음 듣는 사람이 알아듣게 다시 엮습니다.</p></header>
  <div class="grid g3 fill">
   <div class="card"><span class="k">Claude</span><h3>내용을 엮습니다</h3><p>프로젝트 폴더의 기획안과 오늘 만든 파일을 읽고, 장마다 무엇을 말할지 구성을 짭니다.</p></div>
-  <div class="card"><span class="k">캔바</span><h3>모양을 만듭니다</h3><p>Claude가 캔바 안에서 직접 일합니다. 템플릿을 찾고, 우리 구성을 채우고, 발표자 노트에 대본을 씁니다.</p></div>
-  <div class="card hot"><span class="k">사람</span><h3>고르고 확인합니다</h3><p>무엇을 전할지 정하고, 템플릿을 고르고, 미리보기를 확인한 뒤에 저장을 맡깁니다.</p></div>
+  <div class="card"><span class="k">캔바</span><h3>모양을 만듭니다</h3><p>Claude가 캔바 안에서 직접 일합니다. 안을 만들어 보여 주고, 고른 틀로 전체를 만들고, 발표자 노트에 대본을 씁니다.</p></div>
+  <div class="card hot"><span class="k">사람</span><h3>고르고 확인합니다</h3><p>무엇을 전할지 정하고, 안을 고르고, 미리보기를 확인한 뒤에 저장을 맡깁니다.</p></div>
  </div>
- <p class="note"><b>순서</b> 캔바 연결 → 구성 받기 → 템플릿 안 세 가지에서 고르기 → 이미지로 확인하고 저장 요청 → 마음에 들 때까지 고치기 → 발표 대본 쓰기</p>
+ <p class="note"><b>순서</b> 캔바 연결 → 구성 받기 → 표지 안 세 가지에서 고르기 → 전체 만들기 → 이미지로 확인하며 마음에 들 때까지 고치기 → 발표 대본 쓰기</p>
 </section>
 
 <section class="scene gsc" id="cv1" data-guide="cv1" data-wb="w2s6" data-title="따라 하기: 캔바 연결">
@@ -1083,19 +1083,19 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
 
 <section class="scene act" data-act="w2q8" data-title="퀴즈 8"></section>
 
-<section class="scene" id="tpl0" data-title="템플릿에서 시작합니다">
- <header class="sh"><span class="no">00</span><h2>새로 만들지 않고 <em>템플릿에서 시작합니다</em></h2>
- <p class="lede">1부의 레퍼런스와 같은 이치입니다. 잘 만든 틀을 먼저 고르고, 그 위에 우리 내용을 채웁니다.</p></header>
+<section class="scene" id="tpl0" data-title="틀을 먼저 고릅니다">
+ <header class="sh"><span class="no">00</span><h2>한 번에 만들지 않고 <em>틀을 먼저 고릅니다</em></h2>
+ <p class="lede">1부의 레퍼런스와 같은 이치입니다. 마음에 드는 틀을 먼저 고르고, 그 틀로 전체를 만듭니다.</p></header>
  <ol class="steps">
   <li><div>구성을 먼저 받습니다<small>프로젝트 폴더의 자료를 읽고, 장마다 제목과 핵심 한 문장만 쓰게 합니다. 아직 캔바로 만들지 않습니다.</small></div></li>
-  <li><div>템플릿 안을 세 가지 받습니다<small>캔바에서 발표용 템플릿을 먼저 찾게 하고, 서로 느낌이 다른 세 가지를 미리보기 이미지로 봅니다.</small></div></li>
-  <li><div>하나를 고릅니다<small>고른 안의 배치와 색은 그대로 두고, 내용만 우리 구성으로 채우게 합니다.</small></div></li>
-  <li><div>이미지로 확인하고 저장을 요청합니다<small>Claude가 보여 주는 것은 미리보기입니다. "캔바에 저장해 줘"라고 해야 캔바에 저장됩니다.</small></div></li>
+  <li><div>안을 세 가지 받습니다<small>템플릿을 먼저 찾게 하고, 없으면 표지 한 장짜리 안을 세 가지 만들게 합니다. 한 장에 30초쯤 걸립니다.</small></div></li>
+  <li><div>하나를 고릅니다<small>고른 표지의 배치와 색, 글꼴을 살려서 전체를 만들게 합니다. 여섯 장에 1~2분쯤 걸립니다.</small></div></li>
+  <li><div>이미지로 확인하고 링크를 받습니다<small>장마다 미리보기로 확인합니다. 고친 것은 "저장해 줘"라고 해야 캔바에 반영됩니다.</small></div></li>
  </ol>
- <p class="note">Claude가 템플릿을 찾지 못하면, 캔바의 "템플릿"에서 우리가 직접 고르고 채우는 일만 맡깁니다. 방법은 교재 09번에 있습니다.</p>
+ <p class="note">세 가지가 모두 마음에 들지 않으면 다시 받거나, 캔바의 "템플릿"에서 직접 고릅니다. 방법은 교재 09번에 있습니다.</p>
 </section>
 
-<section class="scene act" data-act="w2s7" data-title="템플릿을 고르고 캔바로 만들기"></section>
+<section class="scene act" data-act="w2s7" data-title="안을 고르고 캔바로 만들기"></section>
 
 <section class="scene gsc" id="cv2" data-guide="cv2" data-wb="w2s8" data-title="따라 하기: 고치고 저장하기">
  <header class="sh"><span class="no">00</span><h2>따라 하기 · <em>마음에 들 때까지 고치기</em></h2>
