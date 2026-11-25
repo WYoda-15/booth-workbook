@@ -764,6 +764,16 @@ button.qrc:hover{border-color:var(--hot)}
 .heldmsg{margin:auto;text-align:center;font-size:46px;line-height:1.5;color:var(--paper)}
 .heldmsg b{color:var(--hot)}
 .heldmsg small{display:block;font-size:26px;color:var(--dim);margin-top:10px}
+
+/* 시간 계획: 아래 막대 오른쪽에 이 장면에 쓸 시간과 여기까지의 계획을 보여 준다 */
+#timeT{font-size:19px;color:var(--dim);white-space:nowrap}
+#timeT b{color:var(--flash);font-weight:500}
+#idxList button{display:flex;align-items:baseline;gap:8px}
+#idxList button i{margin-right:0}
+#idxList button span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+#idxList button em{flex:none;font-style:normal;font-family:var(--f-m);font-size:14px;color:var(--dim)}
+#index .row .t0lab{margin-left:auto}
+#index .row input#t0In{width:7.2em;color-scheme:dark}
 </style>
 </head>
 <body>
@@ -1223,7 +1233,7 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
 </section>
 </main>
 
-<div id="nav"><button id="prev" type="button" aria-label="이전 장면">이전</button><span id="whereT"></span><div id="prog"><i></i></div><button id="next" type="button" aria-label="다음 장면">다음</button></div>
+<div id="nav"><button id="prev" type="button" aria-label="이전 장면">이전</button><span id="whereT"></span><div id="prog"><i></i></div><span id="timeT" title="이 장면에 쓸 시간과, 이 장면을 마칠 때까지의 계획입니다"></span><button id="next" type="button" aria-label="다음 장면">다음</button></div>
 
 <button id="unzoom" type="button" hidden>작게 보기</button>
 <div id="toast" role="status"></div>
@@ -1233,7 +1243,8 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
 <div class="ov" id="index"><div class="box">
  <h2>목차와 도구<button id="closeIdx" type="button">닫기</button></h2>
  <div class="row"><span>팀 수</span><button id="tMinus" type="button" aria-label="팀 줄이기">−</button><span id="tN">3팀</span><button id="tPlus" type="button" aria-label="팀 늘리기">+</button>
-  <button id="syncBtn" type="button" aria-pressed="false">교재 연동</button><button id="sndBtn" type="button" aria-pressed="true">소리</button><button id="fsBtn" type="button">전체 화면</button></div>
+  <button id="syncBtn" type="button" aria-pressed="false">교재 연동</button><button id="sndBtn" type="button" aria-pressed="true">소리</button><button id="fsBtn" type="button">전체 화면</button>
+  <span class="t0lab" title="넣으면 장면마다 쓸 시간 옆에 '몇 시 몇 분까지'가 보입니다. 비워 두면 누적 시간으로 보여 줍니다.">수업 시작</span><input id="t0In" type="time" aria-label="수업 시작 시각"><button id="t0Now" type="button">지금</button><button id="t0Clr" type="button">지움</button></div>
  <div class="row"><span>짧은 교재 주소</span><input id="shortIn" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예: is.gd/wydclass (없으면 비워 둡니다)" aria-label="짧은 교재 주소"><button id="shortGo" type="button">저장</button><span id="shortMsg" class="tmsg"></span></div>
  <div class="row"><span>예비 저장소 주소</span><input id="spareIn" type="text" autocomplete="off" spellcheck="false" placeholder="https://....firebasedatabase.app" aria-label="예비 저장소 주소"><button id="spareGo" type="button">저장</button><span id="spareMsg" class="tmsg"></span></div>
  <div class="row"><span>따라 하기 사진</span><span id="shotInfo" class="tmsg"></span></div>
@@ -1329,8 +1340,26 @@ const isQz=sc=>!!sc&&(sc.classList.contains('qtitle')||(!!sc.dataset.act&&stepBy
 const backFrom={};   /* 건너뛰어 들어온 장면에서 "이전"을 누르면 떠나온 장면으로 돌아간다 */
 const nextOf=i=>{ const sc=scenes[i]; return sc.dataset.next?byId(sc.dataset.next):i+1 };
 const prevOf=i=>{ const sc=scenes[i]; return sc.dataset.prev?byId(sc.dataset.prev):backFrom[i]!=null?backFrom[i]:i-1 };
+/* ---------- 시간 계획 ----------
+   장면마다 쓸 시간(분)이다. 실습 장면은 steps.js 의 t, 퀴즈는 1분, 그 밖의 장면은 아래 표를 쓴다.
+   "다음"만 눌러 가는 길을 모두 더하면 150분(쉬는 시간 10분 포함)이다. 순위에서 따로 들어가는 추가 퀴즈는 계획 밖이다.
+   수업 시작 시각을 넣어 두면 누적 시간 대신 "몇 시 몇 분까지"로 보여 준다. 시계나 남은 시간은 보여 주지 않는다. */
+const MIN={recap:1,today:1,qt1:1,k1:1,k2:2,k2b:1,k2c:.5,k3:1,three:1,types:1,types2:.5,cc0:1,cc1:1.5,cc2:1.5,qt2:.5,rea0:1,fb0:1,fb1:2,fb2:2,ask:1,qt3:.5,ref0:1.5,trouble:1,break:10,deck0:.5,cv1:1.5,qt4:.5,tpl0:1,cv2:1.5,nt0:1,qt5:.5,rank:1,wrap:1,keep:1,host:.5,sources:.5};
+const minOf=sc=>{ const st=sc.dataset.act&&stepById(sc.dataset.act); return st?(st.kind==='quiz'?1:(+st.t||0)):(MIN[sc.id]||0) };
+const PLAN=scenes.map(sc=>({m:minOf(sc),end:0,main:false}));
+{ let acc=0; for(let i=0,n=0;i>=0&&i<scenes.length&&n<scenes.length;i=nextOf(i),n++){ acc+=PLAN[i].m; PLAN[i].end=acc; PLAN[i].main=true } }
+const PLAN_ALL=PLAN.reduce((a,p)=>p.main?Math.max(a,p.end):a,0);
+const fmtMin=m=>m<1?'30초':Number.isInteger(m)?m+'분':Math.floor(m)+'분 30초';
+const fmtAcc=m=>{ const r=Math.round(m), h=Math.floor(r/60), x=r%60; return h?h+'시간'+(x?' '+x+'분':''):x+'분' };
+const T0_RE=/^([01]?\d|2[0-3]):([0-5]\d)$/;
+let T0=String(LS.get('wb_t0','')||''); if(!T0_RE.test(T0)) T0='';      /* 수업 시작 시각 "HH:MM". 비어 있으면 누적 시간으로 보여 준다 */
+const clockAt=m=>{ const a=T0_RE.exec(T0); if(!a) return ''; const t=(+a[1]*60+ +a[2]+Math.round(m))%1440; return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0') };
+function timeLabel(i){ const p=PLAN[i]; if(!p.main) return `<b>동점일 때만</b>${p.m?' · 약 '+fmtMin(p.m):''}`;
+  if(!p.end) return T0?`${T0} 시작 · ${clockAt(PLAN_ALL)}까지`:`계획 ${fmtAcc(PLAN_ALL)}`;
+  const acc=T0?clockAt(p.end)+'까지':'누적 '+fmtAcc(p.end); return p.m?`<b>약 ${fmtMin(p.m)}</b> · ${acc}`:acc }
 function label(){ const sc=scenes[cur], g=GAL[sc.id];
-  $('#whereT').textContent=String(cur).padStart(2,'0')+' / '+String(scenes.length-1).padStart(2,'0')+'  '+sc.dataset.title+(g?'  ·  '+(g.i+1)+' / '+g.n:'') }
+  $('#whereT').textContent=String(cur).padStart(2,'0')+' / '+String(scenes.length-1).padStart(2,'0')+'  '+sc.dataset.title+(g?'  ·  '+(g.i+1)+' / '+g.n:'');
+  setHTML($('#timeT'),timeLabel(cur)) }
 function show(i){
   scenes.forEach((s,j)=>s.classList.toggle('on',j===i)); cur=i; const sc=scenes[i];
   const g=GAL[sc.id]; if(g){ g.i=navDir<0?g.n-1:0; paintGal(sc) }
@@ -1395,7 +1424,13 @@ addEventListener('keydown',e=>{
   else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();back()}
 });
 addEventListener('hashchange',()=>{const i=byId(location.hash.slice(1).split('?')[0]); if(i>=0&&i!==cur){ navDir=1; show(i) }});
-$('#idxList').innerHTML=scenes.map((s,i)=>(s.dataset.part?`<li class="h">PART ${s.dataset.part}</li>`:s.id==='qtb'?`<li class="h">추가 퀴즈 (1등이 여러 명일 때)</li>`:'')+`<li><button type="button" data-i="${i}" class="${s.dataset.act?'a':''}"><i>${String(i).padStart(2,'0')}</i>${s.dataset.act?'교재 · ':''}${s.dataset.title}</button></li>`).join('');
+$('#idxList').innerHTML=scenes.map((s,i)=>(s.dataset.part?`<li class="h">PART ${s.dataset.part}</li>`:s.id==='qtb'?`<li class="h">추가 퀴즈 (1등이 여러 명일 때)</li>`:'')+`<li><button type="button" data-i="${i}" class="${s.dataset.act?'a':''}"><i>${String(i).padStart(2,'0')}</i><span>${s.dataset.act?'교재 · ':''}${s.dataset.title}</span>${PLAN[i].m?`<em>${PLAN[i].m<1?'30초':PLAN[i].m+'분'}</em>`:''}</button></li>`).join('');
+/* 수업 시작 시각: 넣으면 장면마다 "몇 시 몇 분까지"가 보인다. 이 컴퓨터에만 저장한다 */
+{ const t0In=$('#t0In'); t0In.value=T0;
+  const setT0=v=>{ T0=T0_RE.test(v)?v:''; LS.set('wb_t0',T0); t0In.value=T0; label(); toast(T0?`${T0}에 시작해서 ${clockAt(PLAN_ALL)}에 끝나는 계획입니다`:'시작 시각을 지웠습니다. 누적 시간으로 보여 줍니다') };
+  t0In.onchange=()=>setT0(t0In.value);
+  $('#t0Now').onclick=()=>{ const d=new Date(); setT0(String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')) };
+  $('#t0Clr').onclick=()=>setT0('') }
 $('#idxList').onclick=e=>{const b=e.target.closest('button'); if(b){seen[scenes[+b.dataset.i].dataset.part||'x']=1; navDir=1; go(+b.dataset.i)}};
 $('#openIdx').onclick=()=>{ renderTools(); $('#index').classList.add('on') }; $('#closeIdx').onclick=()=>$('#index').classList.remove('on');
 $('#fsBtn').onclick=()=>{try{(document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()).catch(()=>{})}catch(e){}};
