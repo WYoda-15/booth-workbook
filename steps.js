@@ -109,7 +109,7 @@ w2:[
  {id:'w2s1',kind:'kit',n:'Claude 앱을 준비하고, 만들 것 정하기',t:12,pv:'name',
   goal:'Claude를 맡은 사람은 컴퓨터에 Claude 앱을 준비합니다. 그동안 다른 팀원은 무엇을 만들지 정해서 아래 칸에 적습니다.',
   blocks:[
-   {b:'guide',text:'Claude를 맡은 사람이 합니다. 오늘은 대화창이 아니라, 내 컴퓨터의 폴더에서 파일을 직접 만들고 고치는 Claude Code를 씁니다. 설치 속도는 컴퓨터마다 다릅니다. 앞 화면이 넘어가도 이 화면은 그대로 있으니 끝까지 하고 넘어갑니다.',
+   {b:'guide',text:'Claude를 맡은 사람이 합니다. 오늘은 대화창이 아니라, 내 컴퓨터의 폴더에서 파일을 직접 만들고 고치는 Claude Code를 씁니다. 설치 속도는 컴퓨터마다 다릅니다. 앞 화면이 넘어가면 이 화면도 함께 넘어갑니다. 덜 끝낸 것은 쉬는 시간이나 다음 실습 때, 위의 "실습 목록"에서 이 단계를 다시 열어 마저 합니다.',
     g:['cc1'],
     links:[{t:'Claude 앱 받기',u:'https://claude.com/download'},{t:'Git 받기',u:'https://git-scm.com/downloads/win'}]},
    {b:'checks',items:['Claude 앱을 설치하고 로그인했습니다','</> 모양을 눌러 Code 화면을 열었습니다']},
@@ -158,7 +158,7 @@ w2:[
      {t:'다시 켠 뒤 확인할 때',say:'REA가 연결됐는지 확인해 줘. 연결됐으면 REA로 웹 페이지를 분석할 때 무엇을 알 수 있는지 세 줄로 알려 줘.'},
      {t:'그래도 연결이 안 되면, 입력창에 그대로 보냅니다',say:'/plugin marketplace add morluto/rea'},
      {t:'이어서 보냅니다',say:'/plugin install rea@rea'}]},
-   {b:'guide',text:'Claude가 설치하는 동안, 저장소를 만드는 사람이 자기 구글 계정으로 Firebase에 들어가 저장소를 만듭니다. 사진과 실제 화면을 번갈아 보면서 위치를 찾습니다. 화면의 글자는 사진과 조금 다를 수 있습니다. 앞 화면이 넘어가도 이 화면은 그대로 있으니 자기 속도로 끝까지 합니다.',
+   {b:'guide',text:'Claude가 설치하는 동안, 저장소를 만드는 사람이 자기 구글 계정으로 Firebase에 들어가 저장소를 만듭니다. 사진과 실제 화면을 번갈아 보면서 위치를 찾습니다. 화면의 글자는 사진과 조금 다를 수 있습니다. 앞 화면이 넘어가면 이 화면도 함께 넘어갑니다. 덜 끝낸 것은 쉬는 시간이나 다음 실습 때, 위의 "실습 목록"에서 이 단계를 다시 열어 마저 합니다.',
     g:['fb1','fb2'],
     links:[{t:'Firebase 콘솔 열기',u:'https://console.firebase.google.com/'}]},
    {b:'checks',items:['REA 설치를 Claude에게 맡겼습니다','Firebase 프로젝트를 만들었습니다','Realtime Database를 테스트 모드로 만들었습니다']},
@@ -446,7 +446,7 @@ const stepById=id=>ALL.find(s=>s.id===id);
 /* 따라 하기 순서를 꺼낸다: g 가 있으면 GUIDES 에서, 없으면 steps 의 글에서 */
 const guideSteps=x=>x.g?x.g.reduce((a,k)=>a.concat(GUIDES[k]||[]),[]):(x.steps||[]).map(t=>typeof t==='string'?{t}:t);
 /* 팀이 이 실습 단계를 마쳤는지: 확인 칸을 모두 눌렀고, 올릴 것(저장소 주소, 프로그램, 캔바 링크)이 있으면 올렸는지.
-   덜 끝낸 팀의 교재는 앞 화면이 넘어가도 자동으로 따라가지 않는다. */
+   교재를 붙잡아 두는 데는 쓰지 않는다. 앞 화면이 넘어가면 덜 끝낸 팀도 함께 넘어간다. */
 function kitDone(s,d){ if(!s||s.kind!=='kit'||!d) return true; const ck=(d.checks[s.id]&&d.checks[s.id].items)||{}, tx=v=>String((v&&v.text)||'').trim();
   return s.blocks.every((x,i)=> x.b==='checks'?x.items.every((c,j)=>ck[i+'_'+j])
     : x.b==='dburl'?(!!tx(d.finals.dburl)&&tx(d.finals.dbok)===tx(d.finals.dburl))

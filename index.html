@@ -406,18 +406,18 @@ document.addEventListener('visibilitychange',()=>{ if(document.hidden) voidNow('
 addEventListener('blur',()=>voidNow('blur'));
 $('#qgBtn').onclick=enterQuiz;
 
-/* ---------- 지금 화면 정하기 ---------- */
+/* ---------- 지금 화면 정하기 ----------
+   교재는 앞 화면을 따라간다. 앞 화면이 실습 장면이면 그 단계를 열고, 설명 장면이면 "앞 화면을 봐 주세요"를 띄운다.
+   앞 화면이 넘어가면 덜 끝낸 팀도 함께 넘어간다. "실습 목록"에서 지난 단계를 열어 둔 사람도 그때 다시 따라온다. */
 const watching=()=>follow&&!!CLS.slide&&!CLS.step;
-let resume='';                                                  /* 퀴즈가 끝나면 돌아갈 단계 */
-const midKit=()=>{ const s=stepById(cur); return built==='step:'+cur&&!!s&&s.kind==='kit'&&!kitDone(s,T()) };   /* 덜 끝낸 실습 단계를 보고 있는가 */
-function onState(force,asked){ if(view!=='app') return;       /* asked: 학생이 직접 "앞 화면으로"를 눌렀을 때 */
-  const tgt=(CLS.step&&stepById(CLS.step))?CLS.step:'';
-  if(CLS.qz){ if(!resume&&(!follow||midKit())) resume=cur; follow=true }          /* 퀴즈 시간에는 모두 앞 화면을 따라온다 */
-  else { if(entered) leaveQuiz(); if(resume){ cur=resume; resume=''; follow=false }   /* 퀴즈가 끝나면 하던 단계로 돌아간다 */
-    if(tgt&&tgt===cur) follow=true;                                                  /* 앞 화면과 같은 단계에 있으면 함께 간다 */
-    else if(follow&&!asked&&midKit()) follow=false }                                 /* 자기 속도로: 덜 끝낸 실습에서는 앞 화면이 넘어가도 자동으로 넘기지 않는다 */
-  if(follow&&tgt) cur=tgt; build(force); gate() }
-$('#followBtn').onclick=()=>{ follow=true; onState(true,true) };
+let seenAt='';                                                  /* 마지막으로 따라간 앞 화면의 자리(단계와 장면) */
+function onState(force){ if(view!=='app') return;
+  const at=CLS.step+'\n'+CLS.slide, moved=at!==seenAt; seenAt=at;
+  if(CLS.qz||moved) follow=true;                                 /* 앞 화면이 넘어가면, 그리고 퀴즈 시간에는 모두 앞 화면을 따라온다 */
+  if(!CLS.qz&&entered) leaveQuiz();
+  if(moved){ $('#list').classList.remove('on'); $('#lb').classList.remove('on') }   /* 열어 둔 목록과 크게 본 사진은 닫는다 */
+  if(follow&&CLS.step&&stepById(CLS.step)) cur=CLS.step; build(force); gate() }
+$('#followBtn').onclick=()=>{ follow=true; onState(true) };
 function openStep(id){ follow=(id===CLS.step); cur=id; $('#list').classList.remove('on'); build(true) }
 
 /* ---------- 입력 저장 ---------- */
@@ -567,7 +567,7 @@ function refresh(){ if(view!=='app'||!me) return; setPill();
   $('#mS').textContent=s.kind==='quiz'?`퀴즈 · ${s.pt}점`:`${KIND[s.kind]} · ${s.w==='w1'?'1주차':'2주차'}`;
   { const fs=(CLS.step&&stepById(CLS.step))||null, behind=!follow&&!!CLS.slide&&CLS.step!==cur&&!CLS.qz, fb=$('#followBtn'), pc=$('#pace'); fb.hidden=!behind; pc.hidden=!behind;
     if(behind){ fb.textContent=fs?`앞 화면의 ${fs.k}번으로 가기`:'앞 화면 보기';
-      pc.textContent=(fs?`앞 화면은 지금 교재 ${fs.k}번 "${fs.n}"입니다.`:`앞 화면은 지금 "${CLS.slide}" 장면입니다.`)+(s.kind==='kit'&&!kitDone(s,T())?' 이 단계를 마치고 넘어가도 됩니다. 이 화면은 자동으로 넘어가지 않습니다.':'') } }
+      pc.textContent='실습 목록에서 고른 단계를 보고 있습니다. '+(fs?`앞 화면은 지금 교재 ${fs.k}번 "${fs.n}"입니다.`:`앞 화면은 지금 "${CLS.slide}" 장면입니다.`)+' 앞 화면이 넘어가면 이 화면도 함께 넘어갑니다.' } }
   if(s.kind==='wall'){ setVal($('#ans_'+s.id),txt(T().answers[s.id+'__'+me.key])); if(s.apps) setHTML($('#appsBox'),appList()) }
   else if(s.kind==='tap'){ const a=T().answers[s.id+'__'+me.key]; $('#tapN').textContent='내가 누른 횟수 '+((a&&+a.n)||0) }
   else if(s.kind==='kit') refreshKit(s);
