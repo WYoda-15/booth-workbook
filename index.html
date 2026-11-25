@@ -382,9 +382,14 @@ function fsIn(){ return entered&&(!!fsEl()||!fsCan()||fsDenied) }
 const quizMode=()=>view==='app'&&!!me&&!!CLS.qz;
 const qStep=()=>{ const s=stepById(CLS.step); return s&&s.kind==='quiz'?s:null };
 const qActive=()=>{ const s=qStep(); return !!s&&quizMode()&&!REVEAL[s.id]&&CLS.qend>now() };
+/* 전체 화면 요청에 답이 없는 브라우저가 있다(다른 앱 안에서 연 브라우저 등). 그런 곳에서 입장 화면에 갇히지 않게,
+   잠깐 기다려도 전체 화면이 되지 않으면 그대로 입장시킨다. 창이나 탭을 벗어나면 무효가 되는 것은 그대로다. */
+const within=(p,ms)=>Promise.race([p,new Promise(r=>setTimeout(r,ms))]);
 async function enterQuiz(){ entered=true; const el=document.documentElement;
-  try{ if(el.requestFullscreen) await el.requestFullscreen({navigationUI:'hide'}); else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen(); else fsDenied=true }catch(e){ fsDenied=true }
-  try{ if(navigator.keyboard&&navigator.keyboard.lock) await navigator.keyboard.lock() }catch(e){}
+  try{ if(el.requestFullscreen) await within(el.requestFullscreen({navigationUI:'hide'}),1500); else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen(); else fsDenied=true }catch(e){ fsDenied=true }
+  for(let i=0;i<8&&!fsDenied&&!fsEl();i++) await new Promise(r=>setTimeout(r,150));
+  if(!fsEl()) fsDenied=true;
+  try{ if(navigator.keyboard&&navigator.keyboard.lock) await within(navigator.keyboard.lock(),600) }catch(e){}
   present(); gate(); refresh() }
 function leaveQuiz(){ entered=false; fsDenied=false;
   try{ if(navigator.keyboard&&navigator.keyboard.unlock) navigator.keyboard.unlock() }catch(e){}
