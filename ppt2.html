@@ -246,13 +246,13 @@ button.tm:hover{border-color:var(--hot)}
 #wipe .p{position:absolute;inset:0;transform:translateX(calc(var(--d)*101%))}
 #wipe .p1{background:var(--paper)}
 #wipe .p2{background:var(--hot);display:flex;flex-direction:column;justify-content:center;padding:0 96px;color:var(--ink);overflow:hidden}
-#wipe.run .p1{animation:sweep .9s cubic-bezier(.7,0,.2,1) both}
-#wipe.run .p2{animation:sweep .9s .07s cubic-bezier(.7,0,.2,1) both}
-@keyframes sweep{0%{transform:translateX(calc(var(--d)*101%))}42%,58%{transform:none}100%{transform:translateX(calc(var(--d)*-101%))}}
+#wipe.run .p1{animation:sweep 1.9s cubic-bezier(.7,0,.2,1) both}
+#wipe.run .p2{animation:sweep 1.9s .07s cubic-bezier(.7,0,.2,1) both}
+@keyframes sweep{0%{transform:translateX(calc(var(--d)*101%))}19%,81%{transform:none}100%{transform:translateX(calc(var(--d)*-101%))}}
 #wno{font-family:var(--f-d);font-size:342px;line-height:.8}
 #wtt{font-family:var(--f-ko);font-size:112px;line-height:1;white-space:nowrap}
-#wipe.run #wtt{animation:slide .9s linear both}
-@keyframes slide{from{transform:translateX(calc(var(--d)*288px))}to{transform:translateX(calc(var(--d)*-288px))}}
+#wipe.run #wtt{animation:slide 1.9s linear both}
+@keyframes slide{from{transform:translateX(calc(var(--d)*44px))}to{transform:translateX(calc(var(--d)*-44px))}}
 #film.on{display:block}
 #fstage{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden}
 #fstage.pulse{animation:beat .5s cubic-bezier(.1,.8,.3,1) infinite}
@@ -707,12 +707,65 @@ button.qrc:hover{border-color:var(--hot)}
 .shots img{width:100%;display:block;border-radius:12px;border:1px solid var(--line);cursor:zoom-in;background:#1d1e21}
 .shots img.low{height:236px;object-fit:cover;object-position:left top}
 .shots figcaption{font-size:18px;color:var(--dim);margin-top:4px}
+
+/* ---------- 시험용 방, 알림 ---------- */
+.roomtag{font-size:19px;font-weight:700;color:#1b1410;background:var(--flash);border-radius:99px;padding:.1em .9em;white-space:nowrap}
+#toast{position:absolute;left:50%;bottom:76px;transform:translateX(-50%);z-index:45;background:var(--hot);color:#1b1410;font-weight:700;font-size:22px;border-radius:99px;padding:.3em 1.2em;display:none;white-space:nowrap}
+#toast.on{display:block}
+/* ---------- 8쪽: 조작 막대가 있는 영상 ---------- */
+.casev2{display:grid;grid-template-columns:minmax(0,1fr) 420px;grid-template-rows:minmax(0,1fr);gap:22px;flex:1;min-height:0}
+.casev2 .vbox{position:relative;min-height:0;min-width:0;background:#000;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.casev2 video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;display:block}
+.casev2 .card{justify-content:center;padding:18px 22px;gap:6px;min-height:0}
+.casev2 .card h3{font-size:27px;white-space:nowrap}
+.casev2 .pts{font-size:20px;line-height:1.4;margin:2px 0 6px;padding-left:1.1em}
+.casev2 .nums{gap:8px;margin:2px 0 6px}
+.casev2 .nums div{padding:6px 4px}
+.casev2 .nums b{font-size:27px}
+.casev2 .nums span{display:block;font-size:15px;line-height:1.3}
+.vbtn{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.vbtn button{font-size:21px}
+.casev2 .sm{font-size:17px;line-height:1.45;color:var(--dim);margin:4px 0 0}
+/* ---------- 따라 하기: 순서 목록과 화면 사진 ---------- */
+.galg{display:grid;grid-template-columns:590px minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:24px;flex:1;min-height:0}
+.gl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-height:0}
+.gl li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;align-items:start;border:1px solid var(--line);background:var(--ink2);border-radius:14px;padding:9px 16px;font-size:22px;line-height:1.38;cursor:pointer;color:var(--dim)}
+.gl li b{font-family:var(--f-ko);font-weight:400;font-size:32px;line-height:1.05;color:var(--dim);text-align:center}
+.gl li div{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gl li small{display:none;font-size:19px;line-height:1.4;color:var(--dim);margin-top:4px;white-space:normal}
+.gl li.on{border-color:var(--hot);background:#2A211C;color:var(--paper)}
+.gl li.on b{color:var(--hot)}
+.gl li.on div{white-space:normal;overflow:visible}
+.gl li.on small{display:block}
+.gshot{margin:0;min-height:0;min-width:0;display:flex;position:relative;border:1px solid var(--line);border-radius:14px;background:var(--ink2);overflow:hidden}
+.gshot img{flex:1;min-width:0;min-height:0;width:100%;height:100%;object-fit:contain;background:#fff;cursor:zoom-in}
+.gshot.noimg img{display:none}
+.gnone{display:none;flex:1;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:26px 44px;text-align:center}
+.gshot.noimg .gnone{display:flex}
+.gnone b{font-family:var(--f-ko);font-weight:400;font-size:140px;line-height:1;color:var(--hot)}
+.gnone p{margin:0;font-size:36px;line-height:1.35}
+.gnone small{font-size:24px;line-height:1.4;color:var(--dim)}
+.gnone i{font-style:normal;font-size:17px;line-height:1.4;color:var(--dim);border:1px dashed var(--line);border-radius:10px;padding:6px 14px;margin-top:10px}
+.gtools{position:absolute;left:10px;bottom:10px;display:none;gap:8px;align-items:center;font-size:17px;color:var(--paper);background:rgba(23,24,27,.92);border:1px solid var(--line);border-radius:12px;padding:6px 10px}
+.gshot:hover .gtools.can{display:flex}
+.gbtn{font-size:17px;border:1px solid var(--line);border-radius:8px;padding:.15em .7em;background:var(--ink2);cursor:pointer;color:var(--paper)}
+.gbtn input{position:absolute;width:1px;height:1px;opacity:0}
+.gsc .gnote{margin-top:12px;font-size:21px;padding:9px 20px}
+/* ---------- 순위의 추가 문제 단추, 마무리 ---------- */
+.rkrow{display:flex;gap:20px;align-items:center}
+.rkrow .lede{flex:1;min-width:0}
+.rkrow button{flex:none;font-size:22px}
+.thx{justify-content:center}
+.thx-t{font-family:var(--f-ko);font-size:236px;line-height:1.02;white-space:nowrap}
+.thx-t span{display:inline-block;animation:drop .8s cubic-bezier(.2,1.4,.3,1) both}
+.thx .cv-s{font-size:60px;margin:18px 0 34px}
 </style>
 </head>
 <body>
 <div id="app">
 <div id="top">
  <div class="brand">CLAUDE <i>특강 2주차</i></div>
+ <span class="roomtag" id="roomTag" hidden>시험용 방</span>
  <span class="addr" id="topAddr"></span>
  <span class="pill" id="pill">연결 중</span>
  <button id="openRank" type="button">순위</button>
@@ -771,12 +824,13 @@ button.qrc:hover{border-color:var(--hot)}
 <section class="scene" id="k2" data-title="사례: 말로 만든 홍보 영상">
  <header class="sh"><span class="no">00</span><h2>사례 · <em>말로 만든 공연 홍보 영상</em></h2>
  <p class="lede">공연 전에 기대감을 올리는 64초짜리 홍보 영상입니다. Claude에 내 컴퓨터의 다빈치 리졸브를 MCP로 연결해서 만들었습니다.</p></header>
- <div class="casev">
-  <video class="zv" id="caseClip" src="media/w2_case_clip.mp4" poster="media/w2_case_poster.jpg" muted loop playsinline preload="metadata"></video>
+ <div class="casev2">
+  <div class="vbox"><video id="caseClip" src="media/w2_promo.mp4" poster="media/w2_promo_poster.jpg" controls playsinline preload="auto"></video></div>
   <div class="card"><span class="k">연결</span><h3>Claude · MCP · 다빈치 리졸브</h3>
    <ul class="pts"><li>Claude 데스크톱 앱에서 말로 지시합니다</li><li>내 PC의 MCP 서버가 다빈치 리졸브를 조작합니다</li><li>PC의 폴더와 화면 캡처도 함께 연결했습니다</li></ul>
-   <div class="nums"><div><b>3일</b><span>작업 기간</span></div><div><b>10문장</b><span>기록에 남은 지시</span></div><div><b>32개</b><span>리졸브에 올린 자막</span></div></div>
-   <p class="sm"><button type="button" id="clipSnd" aria-pressed="false">소리 켜기</button> 영상을 누르면 커집니다.</p></div>
+   <div class="nums"><div><b>3일</b><span>작업 기간</span></div><div><b>10문장</b><span>남은 지시</span></div><div><b>32개</b><span>올린 자막</span></div></div>
+   <div class="vbtn"><button type="button" class="hotb" id="clipAll">처음부터 보기</button><button type="button" id="clipEnd">뒷부분만 보기</button></div>
+   <p class="sm">다음 키(→)로도 재생됩니다. 영상에 마우스를 올리면 재생 막대, 소리, 전체 화면 단추가 나옵니다.</p></div>
  </div>
 </section>
 
@@ -859,28 +913,16 @@ button.qrc:hover{border-color:var(--hot)}
  <p class="note">Claude Code는 Claude 데스크톱 앱의 <b>Code 탭</b>에 있습니다. 그래서 먼저 앱을 설치합니다.</p>
 </section>
 
-<section class="scene" id="cc1" data-title="따라 하기: Claude 앱">
+<section class="scene gsc" id="cc1" data-guide="cc1" data-wb="w2s1" data-title="따라 하기: Claude 앱">
  <header class="sh"><span class="no">00</span><h2>따라 하기 · <em>Claude 앱과 Code 탭</em></h2>
- <p class="lede">Claude를 맡은 사람이 합니다. 그동안 다른 팀원은 교재 02번에서 무엇을 만들지 정합니다.</p></header>
- <ol class="steps">
-  <li><div>교재 02번의 "Claude 앱 받기"로 설치 파일을 받아 실행합니다<small>주소는 claude.com/download 입니다</small></div></li>
-  <li><div>Claude를 열고, 팀이 쓰는 계정으로 로그인합니다</div></li>
-  <li><div>왼쪽 위의 <code>Code</code> 탭을 누릅니다<small>Git을 설치하라는 안내가 나오면 교재의 "Git 받기"로 설치하고 Claude를 다시 켭니다</small></div></li>
-  <li><div>입력창 아래에서 모델을 <code>Sonnet</code>으로 고릅니다</div></li>
- </ol>
+ <p class="lede">교재 02번이 함께 열립니다. Claude를 맡은 사람이 하고, 다른 팀원은 교재에서 무엇을 만들지 정합니다.</p></header>
 </section>
 
 <section class="scene act" data-act="w2s1" data-title="앱 준비와 만들 것 정하기"></section>
 
-<section class="scene" id="cc2" data-title="따라 하기: 폴더와 기획안">
+<section class="scene gsc" id="cc2" data-guide="cc2" data-wb="w2p1" data-title="따라 하기: 폴더와 기획안">
  <header class="sh"><span class="no">00</span><h2>따라 하기 · <em>프로젝트 폴더와 기획안</em></h2>
- <p class="lede">Claude Code는 지정한 폴더 안에서 일합니다. 그 폴더가 오늘의 작업실입니다.</p></header>
- <ol class="steps">
-  <li><div>바탕화면에 새 폴더를 만듭니다. 이름은 영어와 숫자로 씁니다<small>예: <code>booth-1</code></small></div></li>
-  <li><div>교재 03번의 "기획안 파일 받기"로 받은 <code>booth-plan.md</code> 를 그 폴더로 옮깁니다<small>지난주의 운영 매뉴얼과 방금 정한 내용이 들어 있습니다</small></div></li>
-  <li><div>입력창 아래 첫 번째 칸에서 <code>Local</code>을 고르고, 옆 칸의 <code>Open folder…</code>로 그 폴더를 지정합니다</div></li>
-  <li><div>만들기 전에, Claude가 기획안을 읽고 프로젝트를 파악하게 합니다<small>사람에게 일을 맡길 때와 같습니다. 무슨 일인지부터 알려 줍니다</small></div></li>
- </ol>
+ <p class="lede">교재 03번이 함께 열립니다. Claude Code는 지정한 폴더 안에서 일합니다. 그 폴더가 오늘의 작업실입니다.</p></header>
 </section>
 
 <section class="scene act" data-act="w2p1" data-title="프로젝트 폴더와 기획안"></section>
@@ -912,32 +954,19 @@ button.qrc:hover{border-color:var(--hot)}
  <div class="grid g3 fill">
   <div class="card"><span class="k">무엇을 하나</span><h3>쓰면 바로 전달</h3><p>한 기기가 값을 바꾸면 연결된 모든 기기에 바로 알려 줍니다.</p></div>
   <div class="card"><span class="k">얼마인가</span><h3>무료로 충분합니다</h3><p>무료 요금제로 <b>동시에 100대</b>까지 연결되고 1GB까지 저장됩니다.</p></div>
-  <div class="card"><span class="k">준비물</span><h3>구글 계정 하나</h3><p>팀에서 Claude를 맡은 사람의 구글 계정으로 만듭니다.</p></div>
+  <div class="card"><span class="k">준비물</span><h3>자기 구글 계정</h3><p>팀에서 저장소를 만드는 사람이 <b>자기 구글 계정</b>으로 로그인해서 만듭니다.</p></div>
  </div>
  <p class="note"><b>테스트 모드</b>로 만들면 누구나 읽고 쓸 수 있고, 30일이 지나면 접속이 막힙니다. 오늘 수업과 다음 시간 발표에는 충분합니다.</p>
 </section>
 
-<section class="scene" id="fb1" data-title="따라 하기 1">
+<section class="scene gsc" id="fb1" data-guide="fb1" data-wb="w2s2" data-title="따라 하기 1: 프로젝트 만들기">
  <header class="sh"><span class="no">00</span><h2>따라 하기 ① <em>프로젝트 만들기</em></h2>
- <p class="lede">강사 화면을 보면서 같이 합니다. 화면에 보이는 글자는 조금 다를 수 있습니다.</p></header>
- <ol class="steps">
-  <li><div>새 탭에서 <code>console.firebase.google.com</code> 을 엽니다</div></li>
-  <li><div>구글 계정으로 로그인합니다<small>팀에서 Claude를 맡은 사람의 계정을 씁니다</small></div></li>
-  <li><div>"프로젝트 만들기"를 누르고 이름을 씁니다<small>영어와 숫자로 씁니다. 예: booth-3jo</small></div></li>
-  <li><div>AI 지원, 애널리틱스 같은 추가 설정은 끄고 "프로젝트 만들기"를 누릅니다<small>30초쯤 기다리면 "계속" 버튼이 나옵니다</small></div></li>
- </ol>
+ <p class="lede">교재 04번이 함께 열립니다. 먼저 교재 맨 위의 문장을 Claude Code에 보내 REA 설치를 시작하고, 그동안 저장소를 만듭니다.</p></header>
 </section>
 
-<section class="scene" id="fb2" data-title="따라 하기 2">
+<section class="scene gsc" id="fb2" data-guide="fb2" data-wb="w2s2" data-title="따라 하기 2: 저장소와 주소">
  <header class="sh"><span class="no">00</span><h2>따라 하기 ② <em>저장소 만들고 주소 복사</em></h2>
- <p class="lede">Firestore가 아니라 <b>Realtime Database</b>입니다. 이름이 비슷하니 잘 보고 고릅니다.</p></header>
- <ol class="steps" start="5" style="counter-reset:s 4">
-  <li><div>왼쪽 메뉴에서 "Realtime Database"를 찾습니다<small>"빌드" 또는 "데이터베이스 및 스토리지" 안에 있습니다</small></div></li>
-  <li><div>"데이터베이스 만들기"를 누릅니다</div></li>
-  <li><div>위치는 싱가포르(asia-southeast1)를 고릅니다<small>고를 수 있는 세 곳 가운데 한국에서 가장 가깝습니다</small></div></li>
-  <li><div>보안 규칙은 "테스트 모드에서 시작"을 고르고 "사용 설정"을 누릅니다</div></li>
-  <li><div>화면 위쪽의 <code>https://…firebasedatabase.app</code> 주소를 복사해서 교재에 붙여 넣습니다<small>교재에서 "연결 확인"을 누르면 제대로 만들었는지 알려 줍니다</small></div></li>
- </ol>
+ <p class="lede">같은 순서와 사진이 교재에도 있습니다. 각자 속도로 합니다. 다 마칠 때까지 교재는 자동으로 넘어가지 않습니다.</p></header>
 </section>
 
 <section class="scene act" data-act="w2s2" data-title="REA 설치와 저장소 만들기"></section>
@@ -986,7 +1015,7 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
   <div class="card"><span class="k">그대로 둘 것</span><h3>우리 프로그램의 기능</h3><p>버튼이 하는 일과 저장소 연결은 건드리지 않습니다. 바꾸는 것은 겉모습입니다.</p></div>
   <div class="card hot"><span class="k">가져오지 않을 것</span><h3>로고, 사진, 문구</h3><p>남이 만든 것을 그대로 쓰지 않습니다. 내용은 우리 부스의 것으로 채웁니다.</p></div>
  </div>
- <p class="note"><b>순서</b> 참고할 화면을 크롬에 띄웁니다 → REA가 구조를 분석합니다 → Claude Code가 우리 프로그램에 입힙니다 → 바뀐 파일을 교재에 다시 올립니다. 참고할 곳이 없으면 교재 06번의 수업용 레퍼런스를 씁니다.</p>
+ <p class="note"><b>순서</b> 참고할 화면의 주소를 Claude Code에 줍니다 → REA가 그 화면의 구조를 분석합니다 → Claude Code가 우리 프로그램에 입힙니다 → 바뀐 파일을 교재에 다시 올립니다. 참고할 곳이 없으면 교재 06번의 수업용 레퍼런스를 씁니다.</p>
 </section>
 
 <section class="scene act" data-act="w2s4" data-title="레퍼런스를 보여 주고 바꾸기"></section>
@@ -999,7 +1028,7 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
  <div class="grid g3 fill">
   <div class="card"><span class="k">저장소</span><h3>30일 뒤에는 닫힙니다</h3><p>테스트 모드는 30일 동안만 열려 있습니다. 더 쓰려면 Firebase의 "규칙" 탭에서 날짜를 늘립니다.</p></div>
   <div class="card"><span class="k">파일</span><h3>파일은 이미 내 것입니다</h3><p>프로젝트 폴더의 <b>index.html</b> 이 프로그램 그 자체입니다. 이 파일은 어디에 올려도 똑같이 움직입니다.</p></div>
-  <div class="card"><span class="k">주소</span><h3>직접 게시하기</h3><p>파일이 든 폴더를 게시 서비스에 끌어다 놓으면 내 주소가 생깁니다. 방법은 맨 뒤 부록에 있습니다.</p></div>
+  <div class="card"><span class="k">주소</span><h3>직접 게시하기</h3><p>파일을 GitHub에 올리고 Pages를 켜면 내 주소가 생깁니다. 방법은 맨 뒤 부록에 있습니다.</p></div>
  </div>
 </section>
 
@@ -1020,16 +1049,10 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
  <p class="note"><b>자료 묶음</b> 지난주의 운영 매뉴얼과 홍보 영상 분석, 오늘의 프로그램을 교재가 한 묶음으로 모아 줍니다. 버튼 하나로 복사합니다.</p>
 </section>
 
-<section class="scene" id="cv1" data-title="캔바 연결하기">
- <header class="sh"><span class="no">00</span><h2>캔바를 Claude에 <em>연결합니다</em></h2>
- <p class="lede">지난주에 본 커넥터입니다. 이 연결을 가능하게 하는 공통 규격의 이름은 MCP(Model Context Protocol)입니다.</p></header>
- <ol class="steps">
-  <li><div>새 탭에서 <code>canva.com</code> 을 열고, 나눠 드린 캔바 계정으로 로그인합니다</div></li>
-  <li><div>교재 08번의 "Claude 커넥터 화면 열기"를 누릅니다<small>Claude 왼쪽 메뉴의 Customize 안에 있는 Connectors(커넥터)와 같은 화면입니다</small></div></li>
-  <li><div>Canva를 찾아 누르고 연결 버튼을 누릅니다. 캔바 화면이 나오면 허용합니다<small>목록에 없으면 Discover에서 Canva를 검색합니다. 끝나면 Canva가 "연결됨"으로 보입니다</small></div></li>
-  <li><div>새 대화를 열고, 입력창의 + 버튼에 있는 Connectors(커넥터)에서 Canva를 켭니다</div></li>
- </ol>
- <p class="note">같은 Claude 계정을 쓰는 다른 팀이 먼저 연결했다면 2번과 3번은 건너뜁니다. 모두 같은 캔바 계정을 쓰므로 <b>다른 팀의 디자인은 열거나 고치지 않습니다.</b></p>
+<section class="scene gsc" id="cv1" data-guide="cv1" data-wb="w2s6" data-title="따라 하기: 캔바 연결">
+ <header class="sh"><span class="no">00</span><h2>따라 하기 · 캔바를 Claude에 <em>연결합니다</em></h2>
+ <p class="lede">교재 08번이 함께 열립니다. 지난주에 본 커넥터입니다. 이 연결의 공통 규격이 MCP(Model Context Protocol)입니다.</p></header>
+ <p class="note gnote">커넥터 연결은 Claude 계정에 저장됩니다. 같은 Claude 계정을 쓰는 팀이 이미 연결했다면 2번과 3번은 건너뜁니다. 그때는 디자인이 먼저 연결한 팀의 캔바에 만들어지므로, <b>교재 10번에서 공유 링크를 만들어</b> 우리 팀도 열 수 있게 합니다.</p>
 </section>
 
 <section class="scene act" data-act="w2s6" data-title="캔바 연결과 자료 모으기"></section>
@@ -1046,6 +1069,11 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
 
 <section class="scene act" data-act="w2s7" data-title="개요를 받고 캔바로 만들기"></section>
 
+<section class="scene gsc" id="cv2" data-guide="cv2" data-wb="w2s8" data-title="따라 하기: 캔바에서 다듬기">
+ <header class="sh"><span class="no">00</span><h2>따라 하기 · <em>캔바에서 다듬기</em></h2>
+ <p class="lede">교재 10번이 함께 열립니다. 오늘은 네 가지만 하고, 나머지는 발표 전까지 팀이 다듬습니다.</p></header>
+</section>
+
 <section class="scene act" data-act="w2s8" data-title="캔바에서 다듬기"></section>
 
 <section class="scene qtitle" id="qt5" data-title="마지막 퀴즈">
@@ -1060,7 +1088,7 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
 
 <section class="scene" id="rank" data-title="순위">
  <header class="sh"><span class="no">00</span><h2>오늘의 <em>순위</em></h2>
- <p class="lede">퀴즈 열 문제, 250점 만점입니다.</p></header>
+ <div class="rkrow"><p class="lede">퀴즈 열 문제, 250점 만점입니다. 1등이 여러 명이면 어려운 문제 두 개를 더 낼 수 있습니다.</p><button type="button" class="hotb" data-goto="qtb">추가 문제 내기</button></div></header>
  <div id="rankTabs"></div>
  <div id="rankBody"></div>
 </section>
@@ -1073,6 +1101,15 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
   <div class="card"><span class="k">발표 자료</span><h3>캔바 링크</h3><p>교재의 "캔바에서 다듬기"에 저장했습니다. 발표 전까지 캔바에서 계속 고칠 수 있습니다.</p></div>
   <div class="card hot"><span class="k">기억할 것</span><h3>결정은 사람이 합니다</h3><p>프로그램도 발표 자료도 Claude가 초안을 만들었고, 무엇을 넣고 뺄지는 여러분이 정했습니다.</p></div>
  </div>
+ <p class="note"><b>나가기 전에</b> 공용 PC에서는 Claude, 구글(Firebase), 캔바에서 로그아웃합니다. 프로젝트 폴더는 메일이나 USB로 챙겨 갑니다.</p>
+</section>
+
+<section class="scene act" data-act="w2z1" data-title="질문과 답"></section>
+
+<section class="scene thx" id="thanks" data-title="감사합니다">
+ <div class="thx-t" aria-label="감사합니다!"><span style="animation-delay:0s">감</span><span style="animation-delay:.07s">사</span><span style="animation-delay:.14s">합</span><span style="animation-delay:.21s">니</span><span style="animation-delay:.28s">다</span><span style="animation-delay:.35s">!</span></div>
+ <div class="cv-s">안은 AI와 함께 만들고, 결정은 사람이 합니다</div>
+ <dl class="cv-m"><div><dt>강의</dt><dd>정우진</dd></div><div><dt>다음 시간</dt><dd>팀별 발표</dd></div><div><dt>교재 주소</dt><dd id="thxAddr">wyoda-15.github.io/booth-workbook</dd></div></dl>
 </section>
 
 <section class="scene" id="sources" data-title="근거 자료">
@@ -1088,24 +1125,27 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
   <li><a href="https://claude.com/docs/connectors/getting-started" target="_blank" rel="noopener">Claude 문서: 커넥터 시작하기</a> : 커넥터 화면을 여는 곳, 대화에서 켜기</li>
   <li><a href="https://www.canva.com/help/connect-claude-to-canva/" target="_blank" rel="noopener">Canva 도움말: Claude에 캔바 계정 연결하기</a> : 연결 순서</li>
   <li><a href="https://www.canva.com/help/mcp-canva-usage/" target="_blank" rel="noopener">Canva 도움말: 연결한 AI에서 할 수 있는 일</a> : 디자인 만들기와 열기</li>
-  <li><a href="https://docs.netlify.com/start/get-started-with-drop/" target="_blank" rel="noopener">Netlify 문서: Netlify Drop</a> : 폴더를 끌어다 놓아 게시하기</li>
+  <li><a href="https://www.canva.com/help/mcp-agent-setup/" target="_blank" rel="noopener">Canva 도움말: AI 어시스턴트에 캔바 연결하기</a> : 무료 요금제를 포함한 모든 계정에서 연결</li>
+  <li><a href="https://developer.chrome.com/blog/remote-debugging-port" target="_blank" rel="noopener">Chrome 개발자 블로그: 원격 디버깅 스위치 변경</a> : 분석용 크롬을 따로 여는 이유</li>
+  <li><a href="https://docs.github.com/en/pages/quickstart" target="_blank" rel="noopener">GitHub 문서: GitHub Pages 빠른 시작</a> : 저장소의 파일을 내 주소로 게시하기</li>
+  <li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arXiv: Attention Is All You Need</a> · <a href="https://www.nobelprize.org/prizes/physics/2024/summary/" target="_blank" rel="noopener">노벨상 누리집: 2024년 물리학상</a> : 추가 퀴즈의 근거</li>
   <li><a href="https://developer.chrome.com/docs/capabilities/web-apis/keyboard-lock" target="_blank" rel="noopener">Chrome 개발자 문서: Keyboard Lock</a> : 퀴즈 전체 화면에서 쓰는 기능</li>
  </ul>
 </section>
 
 <section class="scene" id="host" data-title="부록: 직접 게시하기">
  <header class="sh"><span class="no">00</span><h2>부록 · 내 주소로 <em>직접 게시하기</em></h2>
- <p class="lede">수업에서는 교재가 주소를 만들어 주었습니다. 혼자 할 때는 게시 서비스에 올립니다. Netlify Drop을 예로 듭니다.</p></header>
+ <p class="lede">수업에서는 교재가 주소를 만들어 주었습니다. 혼자 할 때는 GitHub에 올립니다. 이 교재도 같은 방법으로 열려 있습니다.</p></header>
  <ol class="steps">
-  <li><div>프로젝트 폴더의 <code>index.html</code> 을 빈 폴더에 복사합니다</div></li>
-  <li><div>브라우저에서 <code>app.netlify.com/drop</code> 을 엽니다</div></li>
-  <li><div>그 폴더를 화면에 끌어다 놓습니다<small>몇 초 뒤에 netlify.app 으로 끝나는 주소가 생깁니다</small></div></li>
-  <li><div>무료로 가입해서 그 사이트를 내 계정으로 가져옵니다<small>가입하지 않으면 주소에 임시 비밀번호가 걸리고, 한 시간 안에 지워집니다</small></div></li>
-  <li><div>고칠 때는 사이트의 Deploys 화면에 새 폴더를 다시 끌어다 놓습니다</div></li>
+  <li><div><code>github.com</code> 에 무료로 가입하고 로그인합니다</div></li>
+  <li><div>오른쪽 위 <code>+</code> 에서 <code>New repository</code> 를 누르고, 이름을 쓰고 <code>Public</code> 으로 만듭니다<small>이름은 영어와 숫자로 씁니다. 예: booth-app</small></div></li>
+  <li><div><code>Add file</code> 의 <code>Upload files</code> 에 <code>index.html</code> 을 끌어다 놓고 <code>Commit changes</code> 를 누릅니다<small>빈 저장소에서는 "uploading an existing file" 링크를 눌러도 됩니다</small></div></li>
+  <li><div><code>Settings</code> 의 <code>Pages</code> 에서 Source를 <code>Deploy from a branch</code>, Branch를 <code>main</code> 으로 고르고 <code>Save</code> 를 누릅니다</div></li>
+  <li><div>몇 분 뒤 <code>아이디.github.io/저장소 이름</code> 으로 열립니다<small>고칠 때는 3번처럼 파일을 다시 올립니다</small></div></li>
  </ol>
 </section>
 
-<section class="scene" id="trouble" data-title="부록: 막혔을 때">
+<section class="scene" id="trouble" data-end="1" data-title="부록: 막혔을 때">
  <header class="sh"><span class="no">00</span><h2>부록 · <em>막혔을 때</em></h2></header>
  <div class="grid g3 fill six">
   <div class="card"><span class="k">Code 탭이 열리지 않습니다</span><p>Git을 설치하라는 안내가 나오면 설치하고 Claude를 다시 켭니다. 로그인하라는 안내가 나오면 로그인을 마치고 다시 켭니다.</p></div>
@@ -1116,11 +1156,31 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
   <div class="card"><span class="k">Claude가 사용 한도에 걸렸습니다</span><p>다른 계정으로 로그인해서 같은 폴더를 다시 엽니다. 파일과 CLAUDE.md 가 폴더에 남아 있어서 이어서 할 수 있습니다.</p></div>
  </div>
 </section>
+
+<!-- 추가 퀴즈: 순위 장면의 "추가 문제 내기"로 들어오고, 끝나면 "다음 시간"으로 이어진다 -->
+
+<section class="scene qtitle" id="qtb" data-prev="rank" data-title="추가 퀴즈">
+ <div class="qtbox"><span class="qk">BONUS</span><h2>추가 문제 두 개</h2><p>AI 상식입니다. 평소에 관심이 있었다면 풀 수 있습니다. 각 50점입니다.</p>
+ <ul><li>문제마다 <b>15초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
+ <p class="qready"></p></div>
+</section>
+
+<section class="scene act" data-act="w2q11" data-title="추가 퀴즈 1"></section>
+
+<section class="scene act" data-act="w2q12" data-title="추가 퀴즈 2"></section>
+
+<section class="scene" id="rank2" data-next="nextw" data-title="최종 순위">
+ <header class="sh"><span class="no">00</span><h2>오늘의 <em>최종 순위</em></h2>
+ <p class="lede">추가 문제까지 더한 순위입니다.</p></header>
+ <div id="rank2Tabs"></div>
+ <div id="rank2Body"></div>
+</section>
 </main>
 
 <div id="nav"><button id="prev" type="button" aria-label="이전 장면">이전</button><span id="whereT"></span><div id="prog"><i></i></div><button id="next" type="button" aria-label="다음 장면">다음</button></div>
 
 <button id="unzoom" type="button" hidden>작게 보기</button>
+<div id="toast" role="status"></div>
 <div id="wipe" aria-hidden="true"><div class="p p1"></div><div class="p p2"><div id="wno"></div><div id="wtt"></div></div></div>
 <div id="film" aria-hidden="true"><div id="fstage"></div><button id="fskip" type="button">건너뛰기</button></div>
 
@@ -1130,6 +1190,8 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
   <button id="syncBtn" type="button" aria-pressed="false">교재 연동</button><button id="sndBtn" type="button" aria-pressed="true">소리</button><button id="fsBtn" type="button">전체 화면</button></div>
  <div class="row"><span>짧은 교재 주소</span><input id="shortIn" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예: is.gd/wydclass (없으면 비워 둡니다)" aria-label="짧은 교재 주소"><button id="shortGo" type="button">저장</button><span id="shortMsg" class="tmsg"></span></div>
  <div class="row"><span>예비 저장소 주소</span><input id="spareIn" type="text" autocomplete="off" spellcheck="false" placeholder="https://....firebasedatabase.app" aria-label="예비 저장소 주소"><button id="spareGo" type="button">저장</button><span id="spareMsg" class="tmsg"></span></div>
+ <div class="row"><span>화면 사진</span><span id="shotInfo" class="tmsg"></span></div>
+ <div class="row"><span>시험용 방</span><a id="roomOpen" class="linkb" href="#" target="_blank" rel="noopener">시험용 방 열기</a><button id="roomWipe" class="danger" type="button" hidden>시험용 방 비우기</button><span id="roomMsg" class="tmsg"></span></div>
  <div class="row"><button id="bkBtn" type="button">전체 기록 내려받기</button><span id="bkMsg" class="tmsg"></span><button id="tWipe" class="danger" type="button">2주차 기록 지우기</button><span id="tWipeMsg" class="tmsg"></span></div>
  <ol id="idxList"></ol>
 </div></div>
@@ -1161,13 +1223,18 @@ const setHTML=(el,h)=>{ if(el&&el._h!==h){el._h=h; el.innerHTML=h} };
 const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const COLS=['members','answers','finals','results','checks','drafts','tprompts'];
 const D={}; teamIds(TEAM_MAX).forEach(t=>{D[t]={}; COLS.forEach(c=>D[t][c]={})});
-let CFG={teams:TEAM_DEFAULT,spare:'',short:''}, REVEAL={}, peers=[], db=null, rdb=null, base='wb/'+CLASS_CODE, isOn=false, OFF=0;
+/* 시험용 방: 주소 뒤에 ?room=test 를 붙이면 수업 기록과 섞이지 않는 따로 떨어진 자리에서 연다 */
+const ROOM=(new URLSearchParams(location.search).get('room')||'').replace(/[^a-z0-9_-]/gi,'').slice(0,20), RQ=ROOM?'room='+ROOM:'';
+const SHOTREF='wb/'+CLASS_CODE+'/shots';              /* 화면 사진은 방과 상관없이 한곳에 둔다 */
+let CFG={teams:TEAM_DEFAULT,spare:'',short:''}, REVEAL={}, peers=[], db=null, rdb=null, base='wb/'+CLASS_CODE+(ROOM?'/rooms/'+ROOM:''), isOn=false, OFF=0, SHOTX={};
 let canSync=LS.get('wb_teacher',false)===true, syncOn=canSync, soundOn=true, rankWeek=WEEK;
 const txt=v=>String((v&&v.text)||'').trim();
 const TEAMS=()=>teamIds(CFG.teams);
 const boothOf=t=>txt(D[t].finals.booth);
 const now=()=>Date.now()+OFF;                      /* 서버 시각에 맞춘 지금: 퀴즈 시간에 쓴다 */
-const appUrl=t=>new URL('app.html?t='+t,location.href).href;
+const appUrl=t=>new URL('app.html?t='+t+(RQ?'&'+RQ:''),location.href).href;
+const shotSrc=k=>{ const c=SHOTX[k]; if(c&&/^data:image\/(jpeg|png|webp);base64,/.test(String(c.d||''))) return c.d; const o=SHOTS[k]; return (o&&o.f)||'' };
+let toastT=0; function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('on'),2600) }
 const qrSvg=u=>{ try{ const q=qrcode(0,'M'); q.addData(u); q.make(); return q.createSvgTag({cellSize:4,margin:0,scalable:true}) }catch(e){ return '' } };
 
 /* ---------- 16:9 고정 ---------- */
@@ -1177,27 +1244,57 @@ addEventListener('resize',fit); fit();
 
 /* ---------- 실습 장면 채우기 ---------- */
 $$('.scene.act').forEach(sc=>{ const st=stepById(sc.dataset.act), quiz=st.kind==='quiz'; sc.id='a_'+st.id; sc.classList.toggle('quiz',quiz);
-  const g=st.blocks.find(x=>x.b==='guide')||{};
-  sc.innerHTML=`<div class="band"><span class="no">${st.k}</span><div class="tt"><b>${esc(st.n)}</b><span>${quiz?`퀴즈 · ${st.pt}점 · ${st.sec||20}초`:`교재 ${st.k}번 · ${KIND[st.kind]} · 약 ${st.t}분`}</span></div><span class="sync">교재가 이 화면으로 바뀝니다</span><span class="cnt" id="cnt_${st.id}"></span></div>
+  const g=st.blocks.find(x=>x.b==='guide')||{}, pp=st.blocks.find(x=>x.b==='prompt'&&x.parts);
+  sc.innerHTML=`<div class="band"><span class="no">${st.k}</span><div class="tt"><b>${esc(st.n)}</b><span>${quiz?`${st.bonus?'추가 퀴즈':'퀴즈'} · ${st.pt}점 · ${st.sec||20}초`:`교재 ${st.k}번 · ${KIND[st.kind]} · 약 ${st.t}분`}</span></div><span class="sync">교재가 이 화면으로 바뀝니다</span><span class="cnt" id="cnt_${st.id}"></span></div>
    ${sc.dataset.join?`<div class="joinbox"><div class="jqr" id="joinQr"></div><small>교재 주소 · PC는 주소창에 그대로 치고, 휴대폰은 QR을 찍습니다</small><div class="url" id="joinUrl"></div><div class="full" id="joinFull"></div><p><b>1</b>지난주와 같은 팀, 같은 이름으로 들어옵니다</p><p><b>2</b>아래 질문에 한 줄로 답합니다</p></div>`:''}
    ${st.goal&&!sc.dataset.join&&!quiz?`<p class="goal">${esc(st.goal)}</p>`:''}
    ${st.kind==='wall'&&!st.apps?`<p class="qq">${esc(st.q)}</p>`:''}
-   ${st.kind==='kit'&&(g.talk||g.must)?`<p class="note tipn">${g.talk?`<b>먼저 팀이 의논합니다</b> ${g.talk.map(esc).join(' · ')}`:`<b>프롬프트에 넣을 것</b> ${g.must.map(esc).join(' · ')}`}</p>`:''}
+   ${st.kind==='kit'&&(g.talk||g.must||pp)?`<p class="note tipn">${g.talk?`<b>먼저 팀이 의논합니다</b> ${g.talk.map(esc).join(' · ')}`:`<b>프롬프트에 넣을 것</b> ${(g.must||pp.parts.map(q=>q.k)).map(esc).join(' · ')}`}</p>`:''}
    <div class="live" id="lv_${st.id}"></div>`});
 
+/* ---------- 따라 하기 장면: 순서 목록과 화면 사진. 다음 키를 누르면 한 단계씩 넘어간다 ---------- */
+const GAL={};
+$$('.scene.gsc').forEach(sc=>{ const L=GUIDES[sc.dataset.guide]||[]; GAL[sc.id]={i:0,n:L.length,L};
+  const box=document.createElement('div'); box.className='galg';
+  box.innerHTML=`<ol class="gl">${L.map((x,i)=>`<li data-gi="${i}"><b>${i+1}</b><div>${esc(x.t)}${x.s?`<small>${esc(x.s)}</small>`:''}</div></li>`).join('')}</ol>
+   <figure class="gshot"><img class="zv" alt=""><div class="gnone"></div><div class="gtools"><label class="gbtn">사진 넣기<input type="file" accept="image/*" data-shotfile="1"></label><button type="button" class="gbtn" data-shotdel="1">넣은 사진 빼기</button><span>캡처한 뒤 Ctrl+V 로 붙여 넣어도 됩니다</span></div></figure>`;
+  const note=$('.gnote',sc); if(note) sc.insertBefore(box,note); else sc.appendChild(box) });
+function paintGal(sc){ const g=GAL[sc.id]; if(!g) return; const x=g.L[g.i]||{}, u=shotSrc(x.shot), fig=$('.gshot',sc), im=$('img',fig);
+  $$('.gl li',sc).forEach((li,i)=>li.classList.toggle('on',i===g.i));
+  fig.classList.toggle('noimg',!u); if(u){ if(im.getAttribute('src')!==u) im.setAttribute('src',u) } else im.removeAttribute('src');
+  im.alt=(SHOTS[x.shot]||{}).alt||'';
+  setHTML($('.gnone',fig),`<b>${g.i+1}</b><p>${esc(x.t||'')}</p>${x.s?`<small>${esc(x.s)}</small>`:''}${canSync?`<i>이 단계의 화면 사진이 아직 없습니다. 화면을 캡처한 뒤 여기서 Ctrl+V 를 누르면 앞 화면과 교재에 함께 들어갑니다.</i>`:''}`);
+  $('.gtools',fig).classList.toggle('can',canSync&&!!rdb); $('[data-shotdel]',fig).hidden=!SHOTX[x.shot] }
+/* 강사가 넣는 화면 사진: 줄여서 저장소에 두면 교재에도 바로 나타난다 */
+async function putShot(key,file){ if(!key||!file||!rdb||!canSync) return;
+  try{ const bmp=await createImageBitmap(file), k=Math.min(1,1280/bmp.width), w=Math.max(1,Math.round(bmp.width*k)), h=Math.max(1,Math.round(bmp.height*k)), c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(bmp,0,0,w,h);
+    let q=.84, d=c.toDataURL('image/jpeg',q); while(d.length>300000&&q>.45){ q-=.08; d=c.toDataURL('image/jpeg',q) }
+    await rdb.ref(SHOTREF+'/'+key).set({d,w,h,at:Date.now()}); toast('사진을 넣었습니다. 교재에도 바로 보입니다.') }
+  catch(e){ toast('사진을 넣지 못했습니다. 그림 파일인지 확인해 주세요.') } }
+const galNow=()=>{ const sc=scenes[cur], g=sc&&GAL[sc.id]; return g?{sc,g,key:(g.L[g.i]||{}).shot}:null };
+addEventListener('paste',e=>{ const n=galNow(); if(!n||!canSync) return; const it=[...((e.clipboardData&&e.clipboardData.items)||[])].find(x=>x.type&&x.type.indexOf('image/')===0); if(!it) return; e.preventDefault(); putShot(n.key,it.getAsFile()) });
+document.addEventListener('change',e=>{ const f=e.target; if(!f.dataset||!f.dataset.shotfile||!f.files||!f.files[0]) return; const n=galNow(); if(n) putShot(n.key,f.files[0]); f.value='' });
+
 /* ---------- 장면 이동 ---------- */
-const scenes=$$('.scene'); let cur=0,busy=false; const seen={};
+const scenes=$$('.scene'); let cur=0,busy=false,navDir=1; const seen={};
 const wipe=$('#wipe');
 const byId=id=>scenes.findIndex(s=>s.id===id);
 const isQz=sc=>!!sc&&(sc.classList.contains('qtitle')||(!!sc.dataset.act&&stepById(sc.dataset.act).kind==='quiz'));
+const nextOf=i=>{ const sc=scenes[i]; return sc.dataset.end?-1:sc.dataset.next?byId(sc.dataset.next):i+1 };
+const prevOf=i=>{ const sc=scenes[i]; return sc.dataset.prev?byId(sc.dataset.prev):i-1 };
+function label(){ const sc=scenes[cur], g=GAL[sc.id];
+  $('#whereT').textContent=String(cur).padStart(2,'0')+' / '+String(scenes.length-1).padStart(2,'0')+'  '+sc.dataset.title+(g?'  ·  '+(g.i+1)+' / '+g.n:'') }
 function show(i){
   scenes.forEach((s,j)=>s.classList.toggle('on',j===i)); cur=i; const sc=scenes[i];
-  $('#whereT').textContent=String(i).padStart(2,'0')+' / '+String(scenes.length-1).padStart(2,'0')+'  '+sc.dataset.title;
+  const g=GAL[sc.id]; if(g){ g.i=navDir<0?g.n-1:0; paintGal(sc) }
+  label();
   $('#prog i').style.width=(i/(scenes.length-1)*100)+'%';
-  $('#prev').disabled=i===0; $('#next').disabled=i===scenes.length-1;
+  $('#prev').disabled=prevOf(i)<0; const nx=nextOf(i); $('#next').disabled=nx<0||nx>=scenes.length;
   try{history.replaceState(null,'','#'+sc.id)}catch(e){}
   unzoom();
-  $$('#stage video').forEach(v=>{ if(sc.contains(v)){ try{v.currentTime=0}catch(e){} const pr=v.play(); pr&&pr.catch&&pr.catch(()=>{}) } else v.pause() });
+  /* 조작 막대가 있는 영상은 저절로 틀지 않는다. 처음으로 돌려 두고, 다음 키나 단추로 튼다 */
+  $$('#stage video').forEach(v=>{ if(v.controls){ v.pause(); if(sc.contains(v)&&(v.dataset.go||v.currentTime>0)){ delete v.dataset.go; try{v.load()}catch(e){} } }   /* 다시 들어오면 첫 그림으로 되돌린다 */
+    else if(sc.contains(v)){ try{v.currentTime=0}catch(e){} const pr=v.play(); pr&&pr.catch&&pr.catch(()=>{}) } else v.pause() });
   const q0=sc.dataset.act&&stepById(sc.dataset.act); if(q0&&q0.kind==='quiz'&&!REVEAL[q0.id]) quizStart(q0); else { quizStop(); pushState() }
   refreshLive();
 }
@@ -1207,28 +1304,42 @@ function go(i){
   const part=scenes[i].dataset.part;
   if(i>cur&&part&&!seen[part]&&!reduce()){ seen[part]=1; show(i); Film.play(+part); return }
   if(reduce()){show(i);return}
-  busy=true; wipe.style.setProperty('--d',i>cur?1:-1);
-  $('#wno').textContent=String(i).padStart(2,'0'); $('#wtt').textContent=scenes[i].dataset.title;
+  busy=true; wShown=false; wipe.style.setProperty('--d',i>cur?1:-1);
+  /* 장면 제목을 읽을 수 있게 1초쯤 멈춰 보여 준다. 긴 제목은 화면 안에 들어오게 줄인다 */
+  const tt=$('#wtt'); $('#wno').textContent=String(i).padStart(2,'0'); tt.textContent=scenes[i].dataset.title; tt.style.fontSize='';
+  const tw=tt.scrollWidth; if(tw>1400) tt.style.fontSize=Math.floor(112*1400/tw)+'px';
   wipe.classList.add('run');
-  setTimeout(()=>show(i),430);
-  setTimeout(()=>{wipe.classList.remove('run');busy=false},1000);
+  setTimeout(()=>{ show(i); wShown=true },Math.round(WIPE_MS*.22)+80);
+  wipeT=setTimeout(()=>{wipe.classList.remove('run');busy=false},WIPE_MS+90);
 }
-$('#prev').onclick=()=>go(cur-1); $('#next').onclick=()=>go(cur+1);
-$('#skipIn').onclick=()=>go(1);
+const WIPE_MS=1900; let wShown=false, wipeT=0;
+function skipWipe(){ if(busy&&wShown){ clearTimeout(wipeT); wipe.classList.remove('run'); busy=false } }   /* 전환 중에 한 번 더 누르면 바로 넘긴다 */
+/* 8쪽 영상: 첫 번째 "다음"은 영상을 튼다 */
+function playClip(t){ const v=$('#caseClip'); if(!v) return; v.dataset.go='1'; try{ v.currentTime=t }catch(e){} v.muted=false; const p=v.play(); p&&p.catch&&p.catch(()=>{ v.muted=true; const q=v.play(); q&&q.catch&&q.catch(()=>{}) }) }
+function fwd(){ if(busy){ skipWipe(); return } navDir=1; const sc=scenes[cur], g=GAL[sc.id];
+  if(g&&g.i<g.n-1){ g.i++; paintGal(sc); label(); return }
+  const v=$('video[controls]',sc); if(v&&!v.dataset.go){ playClip(0); return }
+  go(nextOf(cur)) }
+function back(){ if(busy){ skipWipe(); return } navDir=-1; const sc=scenes[cur], g=GAL[sc.id];
+  if(g&&g.i>0){ g.i--; paintGal(sc); label(); return }
+  go(prevOf(cur)) }
+$('#prev').onclick=back; $('#next').onclick=fwd;
+$('#skipIn').onclick=()=>{ navDir=1; go(1) };
+$('#clipAll').onclick=()=>playClip(0); $('#clipEnd').onclick=()=>playClip(38.7);
 $('#playS').onclick=()=>Film.play('open');
 $('#replayO').onclick=()=>Film.play('open');
-$('#clipSnd').onclick=e=>{ const v=$('#caseClip'), on=v.muted; v.muted=!on; e.currentTarget.setAttribute('aria-pressed',on); e.currentTarget.textContent=on?'소리 끄기':'소리 켜기'; if(on){ const pr=v.play(); pr&&pr.catch&&pr.catch(()=>{}) } };
 addEventListener('keydown',e=>{
   if(/INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
   if($('#film').classList.contains('on')){ if(e.key==='Escape'||e.key==='ArrowRight') Film.stop(true); return }
   const ov=$$('.ov.on').pop(); if(ov){ if(e.key==='Escape'&&ov.id!=='gate') ov.classList.remove('on'); return }
   if(e.key==='Escape'&&$('.zoomed')){ unzoom(); return }
-  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1)}
-  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1)}
+  if(e.target&&e.target.tagName==='VIDEO'&&e.key===' ') return;          /* 영상을 누른 뒤의 스페이스는 재생과 멈춤이다 */
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();fwd()}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();back()}
 });
-addEventListener('hashchange',()=>{const i=byId(location.hash.slice(1)); if(i>=0&&i!==cur) show(i)});
-$('#idxList').innerHTML=scenes.map((s,i)=>(s.dataset.part?`<li class="h">PART ${s.dataset.part}</li>`:'')+`<li><button type="button" data-i="${i}" class="${s.dataset.act?'a':''}"><i>${String(i).padStart(2,'0')}</i>${s.dataset.act?'교재 · ':''}${s.dataset.title}</button></li>`).join('');
-$('#idxList').onclick=e=>{const b=e.target.closest('button'); if(b){seen[scenes[+b.dataset.i].dataset.part||'x']=1; go(+b.dataset.i)}};
+addEventListener('hashchange',()=>{const i=byId(location.hash.slice(1).split('?')[0]); if(i>=0&&i!==cur){ navDir=1; show(i) }});
+$('#idxList').innerHTML=scenes.map((s,i)=>(s.dataset.part?`<li class="h">PART ${s.dataset.part}</li>`:s.id==='qtb'?`<li class="h">추가 퀴즈 (1등이 여러 명일 때)</li>`:'')+`<li><button type="button" data-i="${i}" class="${s.dataset.act?'a':''}"><i>${String(i).padStart(2,'0')}</i>${s.dataset.act?'교재 · ':''}${s.dataset.title}</button></li>`).join('');
+$('#idxList').onclick=e=>{const b=e.target.closest('button'); if(b){seen[scenes[+b.dataset.i].dataset.part||'x']=1; navDir=1; go(+b.dataset.i)}};
 $('#openIdx').onclick=()=>{ renderTools(); $('#index').classList.add('on') }; $('#closeIdx').onclick=()=>$('#index').classList.remove('on');
 $('#fsBtn').onclick=()=>{try{(document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()).catch(()=>{})}catch(e){}};
 $('#sndBtn').onclick=()=>{soundOn=!soundOn; $('#sndBtn').setAttribute('aria-pressed',soundOn)};
@@ -1237,7 +1348,7 @@ $$('.ov').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o&&o.id!=='ga
 /* ---------- 교재와 함께 쓰는 상태 ---------- */
 function setPill(){ const p=$('#pill'); if(!db){p.textContent='교재 연동 안 됨';p.className='pill';return}
   p.textContent=!isOn?'연결 중':syncOn?('교재 연동 중 · 접속 '+peers.length+'명'):('보기만 · 접속 '+peers.length+'명'); p.className='pill'+(isOn&&syncOn?' on':'') }
-function pushState(){ if(!db||!syncOn) return; const sc=scenes[cur]; try{ db.doc('class/state').set({step:sc.dataset.act||'',slide:sc.dataset.title,qend:qEnd||0,qz:isQz(sc)}).catch(()=>{}) }catch(e){} }
+function pushState(){ if(!db||!syncOn) return; const sc=scenes[cur]; try{ db.doc('class/state').set({step:sc.dataset.act||sc.dataset.wb||'',slide:sc.dataset.title,qend:qEnd||0,qz:isQz(sc)}).catch(()=>{}) }catch(e){} }
 function adapter(r,b){ const ref=p=>r.ref(b+'/'+p);
   const sub=(p,map)=>(next,err)=>{ref(p).on('value',s=>next(map(s)),e=>err&&err(e))};
   return { doc:p=>({set:d=>ref(p).set(d),onSnapshot:sub(p,s=>({exists:s.exists(),data:()=>s.val()}))}),
@@ -1255,25 +1366,34 @@ function connect(){
     rdb.ref('.info/serverTimeOffset').on('value',s=>{ OFF=+s.val()||0 });
     rdb.ref('.info/connected').on('value',s=>{isOn=s.val()===true; setPill(); if(isOn&&syncOn)pushState()});
     subAll();
+    rdb.ref(SHOTREF).on('value',s=>{ SHOTX=s.val()||{}; const sc=scenes[cur]; if(sc&&GAL[sc.id]) paintGal(sc); renderTools() },()=>{});
   }catch(e){ db=null } setPill();
 }
 /* 강사 코드 */
 if(!canSync) $('#gate').classList.add('on');
-$('#gateGo').onclick=()=>{ if($('#gateIn').value.trim()===TEACHER_PIN){canSync=true;syncOn=true;LS.set('wb_teacher',true);$('#gate').classList.remove('on');setPill();pushState()} else {$('#gateMsg').textContent='코드가 다릅니다.';$('#gateIn').value=''} };
+$('#gateGo').onclick=()=>{ if($('#gateIn').value.trim()===TEACHER_PIN){canSync=true;syncOn=true;LS.set('wb_teacher',true);$('#gate').classList.remove('on');setPill();pushState();renderTools();const sc0=scenes[cur];if(sc0&&GAL[sc0.id])paintGal(sc0)} else {$('#gateMsg').textContent='코드가 다릅니다.';$('#gateIn').value=''} };
 $('#gateIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#gateGo').click()});
 $('#gateSkip').onclick=()=>$('#gate').classList.remove('on');
 /* 도구: 팀 수, 연동, 예비 주소, 2주차 기록 지우기, 내려받기 */
 function renderTools(){ $('#tN').textContent=CFG.teams+'팀'; $('#syncBtn').setAttribute('aria-pressed',syncOn); ['tMinus','tPlus','tWipe','spareGo','shortGo','bkBtn'].forEach(id=>{$('#'+id).disabled=!canSync||!db});
-  const si=$('#spareIn'); if(document.activeElement!==si) si.value=CFG.spare||''; const hi=$('#shortIn'); if(document.activeElement!==hi) hi.value=CFG.short||'' }
+  const si=$('#spareIn'); if(document.activeElement!==si) si.value=CFG.spare||''; const hi=$('#shortIn'); if(document.activeElement!==hi) hi.value=CFG.short||'';
+  { const all=Object.values(GUIDES).reduce((a,L)=>a.concat(L),[]), have=all.filter(x=>shotSrc(x.shot)).length;
+    $('#shotInfo').textContent=`따라 하기 ${all.length}단계 가운데 ${have}단계에 사진이 있습니다. 없는 단계는 그 장면에서 단계를 고르고, 화면을 캡처한 뒤 Ctrl+V 를 누르면 앞 화면과 교재에 함께 들어갑니다.` }
+  const ro=$('#roomOpen'); ro.href=new URL('ppt2.html'+(ROOM?'':'?room=test'),location.href).href; ro.textContent=ROOM?'실제 수업 화면 열기':'시험용 방 열기';
+  $('#roomWipe').hidden=!ROOM; $('#roomWipe').disabled=!canSync||!db; if(!$('#roomMsg').dataset.s) $('#roomMsg').textContent=ROOM?'지금은 시험용 방입니다. 여기서 한 것은 수업 기록에 남지 않습니다.':'QR과 파일 올리기를 미리 해 볼 수 있습니다. 수업 기록은 그대로입니다.' }
+let roomArm=0;
+$('#roomWipe').onclick=async()=>{ if(!ROOM||!db||!canSync) return; const m=$('#roomMsg'); m.dataset.s='1';
+  if(Date.now()-roomArm>5000){ roomArm=Date.now(); m.textContent='시험용 방의 기록만 지웁니다. 5초 안에 한 번 더 누릅니다.'; return }
+  roomArm=0; try{ await rdb.ref(base).remove(); m.textContent='시험용 방을 비웠습니다.'; pushState(); refreshLive() }catch(e){ m.textContent='비우지 못했습니다. 다시 눌러 주세요.' } };
 const saveCfg=()=>{ if(db&&canSync) db.doc('class/config').set({teams:CFG.teams,spare:CFG.spare||'',short:CFG.short||''}).catch(()=>{}) };
 /* 교재 주소: 짧은 주소를 넣어 두면 그것을 크게 보여 주고, 휴대폰용 QR은 언제나 원래 주소로 만든다 */
 const cleanShort=v=>String(v||'').trim().replace(/^https?:\/\//i,'').replace(/\/+$/,'').replace(/[\s<>"'`]/g,'').slice(0,60);
-const WB_HREF=new URL('./',location.href).href, WB_SHOW=WB_HREF.replace(/^https?:\/\//,'').replace(/\/$/,'');
+const WB_HREF=new URL('./'+(RQ?'?'+RQ:''),location.href).href, WB_SHOW=WB_HREF.replace(/^https?:\/\//,'').replace(/\/$/,'');
 function renderJoin(){ const sh=CFG.short, show=sh||WB_SHOW;
   const u=$('#joinUrl'); if(u){ u.textContent=show; u.classList.toggle('long',show.length>22) }
   const f=$('#joinFull'); if(f) f.textContent=sh?'열리지 않으면 원래 주소: '+WB_SHOW:'';
   const q=$('#joinQr'); if(q&&!q.firstChild) q.innerHTML=qrSvg(WB_HREF);
-  const t=$('#topAddr'); if(t) t.textContent='교재 '+show; const c=$('#coverAddr'); if(c) c.textContent=show }
+  const t=$('#topAddr'); if(t) t.textContent='교재 '+show; const c=$('#coverAddr'); if(c) c.textContent=show; const x=$('#thxAddr'); if(x) x.textContent=show }
 $('#shortGo').onclick=()=>{ const v=cleanShort($('#shortIn').value), m=$('#shortMsg'); CFG.short=v; saveCfg(); renderJoin(); m.textContent=v?'저장했습니다. 체크인 장과 화면 위쪽에 이 주소가 나옵니다.':'비웠습니다. 원래 주소가 나옵니다.' };
 setTimeout(renderJoin,0);
 const setTeams=n=>{ n=Math.max(1,Math.min(TEAM_MAX,n)); CFG.teams=n; renderTools(); subAll(); refreshLive(); saveCfg() };
@@ -1306,7 +1426,7 @@ const chip=(on,t)=>`<span class="${on?'y':''}">${t}</span>`;
 function rankHtml(limit,week){ const any=QUIZ.some(q=>(!week||q.w===week)&&REVEAL[q.id]); if(!any) return '<p class="none">아직 정답을 공개한 퀴즈가 없습니다.</p>';
   const list=scoreboard(D,REVEAL,week).slice(0,limit); if(!list.length) return '<p class="none">아직 들어온 학생이 없습니다.</p>';
   return `<ol class="rk${list.length>12?' many':''}">${list.map(r=>`<li class="${r.rank===1?'top':''}"><b>${r.rank}</b><div>${esc(r.name)}</div><span>${teamLabel(r.team)}${week&&r.left?' · 무효 '+r.left:''}</span><em>${r.pt}점</em></li>`).join('')}</ol>` }
-const rankTabs=()=>`<div class="tabs rt"><button type="button" data-rw="${WEEK}" aria-pressed="${rankWeek===WEEK}">오늘</button><button type="button" data-rw="" aria-pressed="${rankWeek!==WEEK}">2주 합산</button><span class="tabnote">${rankWeek===WEEK?'동점이면 정답을 더 빨리 고른 사람이 위입니다.':'지난주 120점과 오늘 250점을 더한 점수입니다.'}</span></div>`;
+const rankTabs=()=>`<div class="tabs rt"><button type="button" data-rw="${WEEK}" aria-pressed="${rankWeek===WEEK}">오늘</button><button type="button" data-rw="" aria-pressed="${rankWeek!==WEEK}">2주 합산</button><span class="tabnote">${rankWeek===WEEK?'동점이면 정답을 더 빨리 고른 사람이 위입니다.':'지난주 점수와 오늘 점수를 더한 것입니다.'}</span></div>`;
 const readyLine=()=>{ const n=peers.filter(p=>p&&p.fs).length; return `전체 화면으로 입장 <b>${n}</b> / ${peers.length}명` };
 /* 2주차 실습: 팀마다 어디까지 했는지 */
 function kitCard(st,t){ const d=D[t], ck=(d.checks[st.id]&&d.checks[st.id].items)||{}, chips=[]; let act=false, pv='';
@@ -1349,6 +1469,7 @@ function refreshLive(){ const sc=scenes[cur]; if(!sc) return;
   if(sc.dataset.act) renderLive(stepById(sc.dataset.act));
   if(sc.id==='recap') setHTML($('#recapBody'),recapHtml());
   if(sc.id==='rank'){ setHTML($('#rankTabs'),rankTabs()); setHTML($('#rankBody'),rankHtml(18,rankWeek)) }
+  if(sc.id==='rank2'){ setHTML($('#rank2Tabs'),rankTabs()); setHTML($('#rank2Body'),rankHtml(18,rankWeek)) }
   if(sc.classList.contains('qtitle')){ const r=$('.qready',sc); if(r) setHTML(r,readyLine()) }
   if($('#rankOv').classList.contains('on')){ setHTML($('#rankOvTabs'),rankTabs()); setHTML($('#rankOvBody'),rankHtml(18,rankWeek)) } }
 /* 퀴즈: 정해진 초를 세고, 끝나면 정답을 연다 */
@@ -1392,7 +1513,10 @@ document.addEventListener('click',e=>{ const b=e.target.closest('.cp'); if(!b) r
 function unzoom(){ $$('.zoomed').forEach(v=>v.classList.remove('zoomed')); $('#unzoom').hidden=true }
 function zoom(v){ if(!v) return; unzoom(); v.classList.add('zoomed'); $('#unzoom').hidden=false }
 $('#unzoom').onclick=unzoom;
-document.addEventListener('click',e=>{ const v=e.target.closest('video.zv,img.zv'); if(v){ v.classList.contains('zoomed')?unzoom():zoom(v) } });
+document.addEventListener('click',e=>{ let b;
+  if((b=e.target.closest('.gl li'))){ const sc=b.closest('.scene'), g=GAL[sc.id]; if(g){ g.i=+b.dataset.gi; paintGal(sc); label() } return }
+  if(e.target.closest('[data-shotdel]')){ const n=galNow(); if(n&&n.key&&rdb&&canSync) rdb.ref(SHOTREF+'/'+n.key).remove().then(()=>toast('넣은 사진을 뺐습니다.'),()=>{}); return }
+  const v=e.target.closest('video.zv,img.zv'); if(v){ v.classList.contains('zoomed')?unzoom():zoom(v) } });
 
 /* ---------- films: opening and part intros ---------- */
 const INTRO={
@@ -1554,7 +1678,8 @@ const Film=(()=>{
 renderTools();
 scenes.forEach((sc,i)=>{const n=sc.querySelector('.sh .no'); if(n) n.textContent=String(i).padStart(2,'0')});
 connect();
-const h0=byId(location.hash.slice(1)); show(h0>=0?h0:0); setPill();
+if(ROOM){ $('#roomTag').hidden=false; document.title='[시험용 방] '+document.title }
+const h0=byId(location.hash.slice(1).split('?')[0]); show(h0>=0?h0:0); setPill();
 })();
 </script>
 </body>

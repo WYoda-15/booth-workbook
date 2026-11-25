@@ -26,7 +26,8 @@ const CLASS_CODE="wyd-1119-k7q2";
 const $=id=>document.getElementById(id);
 const t=(new URLSearchParams(location.search).get('t')||'').replace(/[^a-z0-9]/gi,'').slice(0,6);
 const label=/^t\d+$/.test(t)?t.slice(1)+'조':'';
-const api=p=>DB_URL+'/wb/'+CLASS_CODE+'/apps/'+t+p+'.json';
+const room=(new URLSearchParams(location.search).get('room')||'').replace(/[^a-z0-9_-]/gi,'').slice(0,20);   /* 시험용 방 */
+const api=p=>DB_URL+'/wb/'+CLASS_CODE+(room?'/rooms/'+room:'')+'/apps/'+t+p+'.json';
 let cur=0, busy=false, fails=0;
 /* 프로그램이 쓰는 저장 공간에 팀마다 다른 이름표를 붙여서, 교재의 기록과 섞이지 않게 한다 */
 const SHIM='<script>(function(){try{var P="app_'+t+'_",L=window.localStorage,A={getItem:function(k){return L.getItem(P+k)},setItem:function(k,v){L.setItem(P+k,String(v))},removeItem:function(k){L.removeItem(P+k)},clear:function(){for(var i=L.length-1;i>=0;i--){var k=L.key(i);if(k&&k.indexOf(P)===0)L.removeItem(k)}},key:function(i){var n=0;for(var j=0;j<L.length;j++){var k=L.key(j);if(k&&k.indexOf(P)===0){if(n===i)return k.slice(P.length);n++}}return null}};Object.defineProperty(A,"length",{get:function(){var n=0;for(var j=0;j<L.length;j++){var k=L.key(j);if(k&&k.indexOf(P)===0)n++}return n}});Object.defineProperty(window,"localStorage",{configurable:true,get:function(){return A}})}catch(e){}})();<\/script>';

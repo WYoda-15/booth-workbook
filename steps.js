@@ -109,8 +109,8 @@ w2:[
  {id:'w2s1',kind:'kit',n:'Claude 앱을 준비하고, 만들 것 정하기',t:12,pv:'name',
   goal:'Claude를 맡은 사람은 컴퓨터에 Claude 앱을 준비합니다. 그동안 다른 팀원은 무엇을 만들지 정해서 아래 칸에 적습니다.',
   blocks:[
-   {b:'guide',text:'Claude를 맡은 사람이 합니다. 오늘은 대화창이 아니라, 내 컴퓨터의 폴더에서 파일을 직접 만들고 고치는 Claude Code를 씁니다.',
-    steps:['"Claude 앱 받기"를 눌러 설치 파일을 받고 실행합니다.','Claude를 열고, 팀이 쓰는 계정으로 로그인합니다.','왼쪽 위의 Code 탭을 누릅니다. Git을 설치하라는 안내가 나오면 "Git 받기"로 설치한 뒤 Claude를 다시 켭니다.','입력창 아래에서 모델을 Sonnet으로 고릅니다.'],
+   {b:'guide',text:'Claude를 맡은 사람이 합니다. 오늘은 대화창이 아니라, 내 컴퓨터의 폴더에서 파일을 직접 만들고 고치는 Claude Code를 씁니다. 설치 속도는 컴퓨터마다 다릅니다. 앞 화면이 넘어가도 이 화면은 그대로 있으니 끝까지 하고 넘어갑니다.',
+    g:['cc1'],
     links:[{t:'Claude 앱 받기',u:'https://claude.com/download'},{t:'Git 받기',u:'https://git-scm.com/downloads/win'}]},
    {b:'checks',items:['Claude 앱을 설치하고 로그인했습니다','Code 탭이 열립니다']},
    {b:'guide',text:'다른 팀원이 합니다. 지난주에 만든 운영 매뉴얼을 떠올리며 의논하고, 정한 내용을 아래 네 칸에 적습니다. 한 사람이 적으면 팀 전체 화면에 나타납니다.',
@@ -123,10 +123,15 @@ w2:[
  {id:'w2p1',kind:'kit',n:'프로젝트 폴더를 만들고, 기획안 읽히기',t:8,
   goal:'Claude Code는 지정한 폴더 안에서 일합니다. 폴더를 만들어 기획안을 넣고, 만들기 전에 Claude가 우리 프로젝트부터 파악하게 합니다.',
   blocks:[
-   {b:'guide',text:'Claude를 맡은 사람이 하고, 다른 팀원은 옆에서 순서를 불러 줍니다.',
-    steps:['바탕화면에 새 폴더를 만듭니다. 이름은 영어와 숫자로 씁니다. 예: booth-1','아래 "기획안 파일 받기"를 누르고, 받은 파일(booth-plan.md)을 그 폴더로 옮깁니다.','Code 탭의 입력창 아래 첫 번째 칸에서 Local을 고르고, 그 옆 칸의 "Open folder…"로 방금 만든 폴더를 지정합니다.','프롬프트를 보내서 Claude가 기획안을 읽게 합니다. 파일을 읽어도 되는지 물으면 허락합니다.']},
+   {b:'guide',text:'Claude를 맡은 사람이 하고, 다른 팀원은 옆에서 순서를 불러 줍니다.',g:['cc2']},
    {b:'bundle',file:1},
-   {b:'prompt',id:'p',label:'프로젝트를 파악시키는 프롬프트',ph:'기획안을 읽고 무엇을 정리해 달라고 할지 직접 씁니다. 완벽하지 않아도 됩니다.'},
+   {b:'prompt',id:'p',label:'프로젝트를 파악시키는 프롬프트',ph:'위의 문장 틀을 눌러 넣고 빈칸(____)을 우리 팀 내용으로 채웁니다. 처음부터 직접 써도 됩니다.',
+    parts:[
+     {k:'읽을 파일',re:'booth-plan|기획안',stem:'이 폴더에 있는 booth-plan.md 는 우리 팀의 ____ 이야. 먼저 읽고 우리 프로젝트를 파악해 줘.'},
+     {k:'정리해 달라는 것',re:'정리해|요약해',stem:'우리 부스가 무엇인지, 누가 오는지, 어떻게 운영하는지 ____줄로 정리해 줘.'},
+     {k:'오늘 할 일과 질문',re:'질문|물어',stem:'오늘 이 폴더에 ____ 을 만들 거야. 만들기 전에 네가 확인해야 할 것을 ____가지 질문해 줘.'},
+     {k:'기억해 둘 곳',re:'CLAUDE\\.md|저장해|기억해',stem:'정리한 내용은 CLAUDE.md 파일로 저장해 줘. 다음에 이 폴더를 열어도 네가 다시 읽을 수 있게.'},
+     {k:'아직 만들지 말기',re:'만들지 ?마|아직|기다려',stem:'아직 프로그램은 만들지 마.'}]},
    {b:'ref',of:'p',text:c=>`이 폴더에 있는 booth-plan.md 는 우리 팀의 부스 기획안이야. 먼저 읽고 우리 프로젝트를 파악해 줘.
 
 1. 우리 부스가 무엇인지, 누가 오는지, 어떻게 운영하는지 다섯 줄로 정리해 줘.
@@ -153,11 +158,11 @@ w2:[
      {t:'다시 켠 뒤 확인할 때',say:'REA가 연결됐는지 확인해 줘. 연결됐으면 REA로 웹 페이지를 분석할 때 무엇을 알 수 있는지 세 줄로 알려 줘.'},
      {t:'그래도 연결이 안 되면, 입력창에 그대로 보냅니다',say:'/plugin marketplace add morluto/rea'},
      {t:'이어서 보냅니다',say:'/plugin install rea@rea'}]},
-   {b:'guide',text:'Claude가 설치하는 동안 구글 계정으로 저장소를 만듭니다. 다른 팀원이 순서를 불러 주고, 다 되면 아래 칸을 함께 확인합니다.',
-    steps:['console.firebase.google.com 을 열고 구글 계정으로 로그인합니다.','"프로젝트 만들기"를 누르고 이름을 씁니다. 추가 설정은 끄고 만듭니다.','왼쪽 메뉴에서 "Realtime Database"를 찾아 "데이터베이스 만들기"를 누릅니다.','위치는 싱가포르(asia-southeast1), 보안 규칙은 "테스트 모드"를 고릅니다.','화면 위쪽의 https:// 로 시작하는 주소를 복사해서 아래 칸에 붙여 넣습니다.'],
+   {b:'guide',text:'Claude가 설치하는 동안, 저장소를 만드는 사람이 자기 구글 계정으로 Firebase에 들어가 저장소를 만듭니다. 사진과 실제 화면을 번갈아 보면서 위치를 찾습니다. 앞 화면이 넘어가도 이 화면은 그대로 있으니 자기 속도로 끝까지 합니다.',
+    g:['fb1','fb2'],
     links:[{t:'Firebase 콘솔 열기',u:'https://console.firebase.google.com/'}]},
    {b:'checks',items:['REA 설치를 Claude에게 맡겼습니다','Firebase 프로젝트를 만들었습니다','Realtime Database를 테스트 모드로 만들었습니다']},
-   {b:'dburl'}]},
+   {b:'dburl',shot:'fb_url'}]},
 
  {id:'w2s3',kind:'kit',n:'Claude Code에게 만들게 하기',t:13,
   goal:'정한 내용과 저장소 주소를 넣어 프롬프트를 쓰고, Claude Code가 폴더에 만든 파일을 교재에 올립니다. 올리면 어느 기기에서나 열리는 링크가 생깁니다.',
@@ -191,7 +196,7 @@ w2:[
 
  {id:'w2q6',kind:'quiz',n:'퀴즈 6',t:1,pt:30,sec:15,
   q:'Firebase 저장소를 "테스트 모드"로 만들었을 때의 설명으로 맞는 것은 무엇인가요?',
-  opts:['만든 사람만 읽고 쓸 수 있다','누구나 읽고 쓸 수 있고, 기한이 지나면 막힌다','30일 뒤에 데이터가 모두 지워진다','휴대폰에서는 열리지 않는다'],ans:1,why:'테스트 모드는 누구나 읽고 쓸 수 있게 열어 두는 방식이고, 30일이 지나면 접속이 막힙니다. 데이터가 지워지는 것은 아닙니다.'},
+  opts:['만든 사람만 읽고 쓸 수 있다','누구나 읽고 쓸 수 있고, 30일이 지나면 접속이 막힌다','누구나 읽고 쓸 수 있고, 30일이 지나면 데이터가 지워진다','로그인한 사람만 읽고 쓸 수 있다'],ans:1,why:'테스트 모드는 누구나 읽고 쓸 수 있게 열어 두는 방식입니다. 30일이 지나면 읽기와 쓰기가 막힐 뿐이고, 저장된 데이터가 지워지지는 않습니다.'},
 
  {id:'w2s4',kind:'kit',n:'레퍼런스를 보여 주고 바꾸기',t:14,pv:'take',
   goal:'말로 설명하기 어려운 분위기는 예시로 전달합니다. 참고할 웹 화면을 REA로 분석하게 하고, 우리 프로그램의 겉모습을 그 분위기로 바꿉니다.',
@@ -201,10 +206,10 @@ w2:[
    {b:'code',view:1},
    {b:'field',id:'ref',label:'참고할 화면의 주소',ph:'예: https://wyoda-15.github.io/booth-workbook/ref/neon.html',rows:1},
    {b:'field',id:'take',label:'그 화면에서 가져올 것',ph:'예: 어두운 바탕에 큰 숫자가 가운데 있는 배치, 둥근 버튼, 한 가지 강조색',rows:2},
-   {b:'guide',text:'가져오는 것은 배치, 색, 글자의 분위기까지입니다. 그 사이트의 로고, 사진, 문구는 가져오지 않고 우리 부스의 것으로 채웁니다.'},
+   {b:'guide',text:'가져오는 것은 배치, 색, 글자의 분위기까지입니다. 그 사이트의 로고, 사진, 문구는 가져오지 않고 우리 부스의 것으로 채웁니다. REA는 분석용으로 따로 연 크롬에 붙어서 화면을 읽습니다. 평소에 쓰던 크롬 창은 그대로 두면 됩니다.'},
    {b:'says',items:[
-     {t:'참고할 화면 열기',say:c=>`크롬을 분석용으로 따로 열어 줘. 디버깅 포트는 9222, 프로필은 새 폴더로 해서 ${c.refurl} 을 띄워 줘.`},
-     {t:'REA로 분석하기',say:'REA로 지금 열린 페이지를 분석해 줘. 화면이 어떤 구역으로 나뉘는지, 색과 글자 크기, 버튼 모양을 정리하고, 화면 캡처도 한 장 찍어서 보여 줘.'},
+     {t:'주소를 주고 REA로 분석하게 하기',say:c=>`${c.refurl} 화면을 REA로 분석해 줘. 분석에 쓸 크롬은 네가 따로 열어 줘. 화면이 어떤 구역으로 나뉘는지, 색과 글자 크기, 버튼 모양을 정리해 줘.`},
+     {t:'Claude가 크롬을 열지 못하거나 다른 방법을 권하면',say:c=>`REA로 해 줘. 크롬을 분석용으로 따로 열어서(디버깅 포트 9222, 프로필은 새 폴더) ${c.refurl} 을 띄운 다음, REA로 그 페이지를 분석해 줘.`},
      {t:'REA가 안 되는 팀은',say:'지금 붙여 넣은 캡처 화면의 배치와 색, 글자 분위기를 정리해 줘. (참고할 화면을 캡처해서 입력창에 붙여 넣고 보냅니다.)'}]},
    {b:'prompt',id:'fx',label:'바꿔 달라는 프롬프트',ph:'무엇을 참고하고, 무엇은 그대로 두고, 무엇은 가져오지 않을지 씁니다.'},
    {b:'ref',of:'fx',text:c=>`방금 분석한 화면을 참고해서 index.html 의 겉모습을 바꿔 줘.
@@ -222,10 +227,10 @@ w2:[
  {id:'w2s6',kind:'kit',n:'캔바 연결과 자료 모으기',t:7,pv:'one',
   goal:'캔바를 Claude에 연결하고, 지금까지 만든 것을 한 묶음으로 모읍니다. 발표에서 무엇을 전할지는 팀이 정합니다.',
   blocks:[
-   {b:'guide',text:'Claude를 맡은 사람이 연결하는 동안, 다른 팀원은 자료 묶음을 읽고 발표 구성을 의논합니다. 모두 같은 캔바 계정을 쓰므로 다른 팀의 디자인은 건드리지 않습니다.',
-    steps:['"캔바 열기"를 눌러, 나눠 드린 캔바 계정으로 로그인합니다.','"Claude 커넥터 화면 열기"를 누릅니다. Claude 왼쪽 메뉴의 Customize 안에 있는 Connectors(커넥터)와 같은 화면입니다.','Canva를 찾아 누르고 연결 버튼(Connect to Claude)을 누릅니다. 캔바 화면이 나오면 허용합니다. 목록에 없으면 Discover에서 Canva를 검색합니다.','새 대화를 열고, 입력창의 + 버튼에 있는 Connectors(커넥터)에서 Canva를 켭니다.'],
+   {b:'guide',text:'Claude를 맡은 사람이 자기 캔바 계정을 Claude에 연결합니다. 그동안 다른 팀원은 자료 묶음을 읽고 발표 구성을 의논합니다. 같은 Claude 계정을 쓰는 다른 팀이 이미 Canva를 연결해 두었다면 2번과 3번은 건너뜁니다. 그때는 디자인이 먼저 연결한 팀의 캔바 계정에 만들어지므로, 교재 10번에서 공유 링크를 만들어 우리 팀도 열 수 있게 합니다.',
+    g:['cv1'],
     links:[{t:'캔바 열기',u:'https://www.canva.com/'},{t:'Claude 커넥터 화면 열기',u:'https://claude.ai/customize/connectors'}]},
-   {b:'checks',items:['나눠 드린 캔바 계정으로 로그인했습니다','Claude의 커넥터에서 Canva를 연결했습니다','새 대화에서 Canva가 켜져 있습니다']},
+   {b:'checks',items:['캔바에 로그인했습니다','Claude의 커넥터에 Canva가 연결되어 있습니다','새 대화에서 Canva가 켜져 있습니다']},
    {b:'bundle'},
    {b:'field',id:'one',label:'발표에서 꼭 전할 한 가지',ph:'예: 우리 부스는 기다리는 시간도 놀이가 됩니다.'},
    {b:'field',id:'n',label:'몇 장으로, 어떤 순서로',ph:'예: 6장. 부스 소개, 방문객이 하는 일, 운영 방법, 프로그램, 예산과 준비물, 마무리'}]},
@@ -262,9 +267,9 @@ w2:[
  {id:'w2s8',kind:'kit',n:'캔바에서 다듬기',t:5,
   goal:'캔바에서 디자인을 열어 직접 고칩니다. 오늘은 급한 것만 고치고, 나머지는 발표 전까지 팀이 다듬습니다.',
   blocks:[
-   {b:'guide',text:'링크를 눌러 캔바에서 엽니다. 글자는 눌러서 바로 고치고, 크게 바꿀 것은 Claude에게 말로 부탁해도 됩니다. 디자인 이름은 화면 위쪽 도구 줄의 제목을 눌러 바꿉니다.'},
-   {b:'link',id:'canva',label:'캔바 디자인 링크'},
-   {b:'checks',items:['디자인 이름을 "조 · 부스 이름"으로 바꿨습니다','틀린 내용과 "확인 필요"로 남은 숫자를 고쳤습니다','프로그램 화면이나 QR을 한 장에 넣었습니다']},
+   {b:'guide',text:'링크를 눌러 캔바에서 엽니다. 글자는 눌러서 바로 고치고, 크게 바꿀 것은 Claude에게 말로 부탁해도 됩니다. 오늘은 아래 네 가지만 합니다.',g:['cv2']},
+   {b:'link',id:'canva',label:'캔바 디자인 링크',hint:'4번에서 복사한 공유 링크로 바꿔 넣습니다. 이 링크가 있으면 다음 시간에 팀원 누구나 자기 캔바 계정으로 열 수 있습니다.'},
+   {b:'checks',items:['디자인 이름을 "조 · 부스 이름"으로 바꿨습니다','사실과 다른 내용을 고쳤습니다','"확인 필요"라고 적힌 곳을 실제 내용으로 바꿨습니다','공유 링크를 "편집 가능"으로 바꿔 위 칸에 넣었습니다']},
    {b:'code',view:1}]},
 
  {id:'w2q9',kind:'quiz',n:'퀴즈 9',t:1,pt:40,sec:15,
@@ -274,8 +279,86 @@ w2:[
  {id:'w2q10',kind:'quiz',n:'퀴즈 10',t:1,pt:40,sec:15,
   q:'다음 요청에는 연동에 꼭 필요한 정보가 하나 빠져 있습니다. 무엇인가요?',
   quote:'대기 번호 프로그램을 HTML 파일 하나로 만들어 줘. 여러 휴대폰에서 같은 번호가 보이게 해 줘.',
-  opts:['파일 형식','데이터베이스 주소','만들 프로그램','여러 기기에서 쓴다는 점'],ans:1,why:'형식(HTML 파일 하나), 만들 것(대기 번호 프로그램), 쓰는 상황(여러 휴대폰)은 있습니다. 어느 저장소에 연결할지 알려 주는 데이터베이스 주소가 없습니다.'}
+  opts:['파일 형식','데이터베이스 주소','만들 프로그램','여러 기기에서 쓴다는 점'],ans:1,why:'형식(HTML 파일 하나), 만들 것(대기 번호 프로그램), 쓰는 상황(여러 휴대폰)은 있습니다. 어느 저장소에 연결할지 알려 주는 데이터베이스 주소가 없습니다.'},
+
+ {id:'w2z1',kind:'wall',n:'질문과 답',t:5,goal:'오늘 수업에서 궁금했던 것을 묻습니다. 손을 들고 말해도 되고, 여기에 적어도 됩니다.',q:'궁금한 것을 한 줄로 적어 주세요.',ph:'예: 수업이 끝난 뒤에도 Claude Code를 쓰려면 무엇이 필요한가요?'},
+
+ /* 추가 퀴즈: 열 문제를 풀고도 1등이 여러 명일 때만 낸다 */
+ {id:'w2q11',kind:'quiz',n:'퀴즈 11',t:1,pt:50,sec:15,bonus:1,
+  q:'GPT의 "T"에 해당하는 "트랜스포머(Transformer)" 구조를 2017년에 처음 제안한 논문의 제목은 무엇인가요?',
+  opts:['Deep Residual Learning for Image Recognition','Attention Is All You Need','BERT: Pre-training of Deep Bidirectional Transformers','ImageNet Classification with Deep Convolutional Neural Networks'],ans:1,why:'2017년 6월에 나온 「Attention Is All You Need」입니다. 저자 여덟 명이 이 논문에서 트랜스포머 구조를 제안했습니다.'},
+
+ {id:'w2q12',kind:'quiz',n:'퀴즈 12',t:1,pt:50,sec:15,bonus:1,
+  q:'2024년 노벨 물리학상은 인공 신경망으로 기계 학습의 바탕을 만든 두 사람이 받았습니다. 누구인가요?',
+  opts:['제프리 힌턴, 얀 르쿤','데미스 허사비스, 존 점퍼','존 홉필드, 제프리 힌턴','요슈아 벤지오, 제프리 힌턴'],ans:2,why:'존 홉필드와 제프리 힌턴입니다. 인공 신경망으로 기계 학습을 가능하게 한 발견과 발명으로 받았습니다.'}
 ]};
+
+/* 화면 사진: 앞 화면과 교재가 함께 쓴다. f 가 빈 것은 강사가 앞 화면에서 붙여 넣으면 나타난다. */
+const SHOTS={
+ cc_get:{f:'',alt:'Claude 앱을 내려받는 화면'},
+ cc_login:{f:'',alt:'Claude 앱의 로그인 화면'},
+ cc_tab:{f:'',alt:'Claude 앱 왼쪽 위의 Code 탭'},
+ cc_model:{f:'',alt:'입력창 아래에서 모델을 고르는 곳'},
+ cc_newf:{f:'',alt:'바탕화면에 만든 새 폴더'},
+ cc_plan:{f:'',alt:'폴더 안에 넣은 기획안 파일'},
+ cc_folder:{f:'',alt:'Code 탭에서 폴더를 지정하는 곳'},
+ cc_ask:{f:'',alt:'Claude가 허락을 묻는 창'},
+ fb_open:{f:'',alt:'Firebase 콘솔을 여는 화면'},
+ fb_login:{f:'',alt:'구글 계정으로 로그인하는 화면'},
+ fb_new:{f:'media/shots/fb_new.jpg',alt:'Firebase 처음 화면. 새 Firebase 프로젝트 만들기가 표시되어 있다'},
+ fb_name:{f:'media/shots/fb_name.jpg',alt:'프로젝트 이름을 쓰고 계속을 누르는 화면'},
+ fb_ai:{f:'media/shots/fb_ai.jpg',alt:'Firebase의 Gemini 사용 설정을 끄고 계속을 누르는 화면'},
+ fb_ga:{f:'media/shots/fb_ga.jpg',alt:'Google 애널리틱스 사용 설정을 끄고 프로젝트 만들기를 누르는 화면'},
+ fb_menu:{f:'media/shots/fb_menu.jpg',alt:'왼쪽 메뉴의 데이터베이스 및 스토리지에서 Realtime Database를 고르는 화면'},
+ fb_make:{f:'',alt:'데이터베이스 만들기 버튼이 있는 화면'},
+ fb_loc:{f:'',alt:'데이터베이스 위치를 싱가포르로 고르는 화면'},
+ fb_test:{f:'',alt:'테스트 모드에서 시작을 고르는 화면'},
+ fb_url:{f:'media/shots/fb_url.jpg',alt:'데이터 탭 맨 위에 있는 데이터베이스 주소'},
+ cv_login:{f:'',alt:'캔바에 로그인하는 화면'},
+ cv_conn:{f:'',alt:'Claude의 커넥터 화면'},
+ cv_allow:{f:'',alt:'캔바가 허용을 묻는 화면'},
+ cv_on:{f:'',alt:'대화 입력창에서 Canva를 켠 모습'},
+ cv_title:{f:'',alt:'캔바 편집 화면 위쪽의 디자인 제목'},
+ cv_fix:{f:'',alt:'캔바에서 글자를 고치는 모습'},
+ cv_todo:{f:'',alt:'확인 필요라고 적힌 곳'},
+ cv_share:{f:'',alt:'캔바의 공유 링크 설정'}
+};
+/* 따라 하기 순서: 앞 화면의 따라 하기 장면과 교재가 같은 글, 같은 사진을 쓴다 */
+const GUIDES={
+ cc1:[
+  {t:'"Claude 앱 받기"를 눌러 설치 파일을 받고 실행합니다',s:'교재 02번에 있습니다. 주소는 claude.com/download 입니다',shot:'cc_get'},
+  {t:'Claude를 열고, 팀이 쓰는 Claude 계정으로 로그인합니다',shot:'cc_login'},
+  {t:'왼쪽 위의 Code 탭을 누릅니다',s:'Git을 설치하라는 안내가 나오면 교재의 "Git 받기"로 설치하고 Claude를 다시 켭니다',shot:'cc_tab'},
+  {t:'입력창 아래에서 모델을 Sonnet으로 고릅니다',shot:'cc_model'}],
+ cc2:[
+  {t:'바탕화면에 새 폴더를 만듭니다. 이름은 영어와 숫자로 씁니다',s:'예: booth-1',shot:'cc_newf'},
+  {t:'"기획안 파일 받기"로 받은 booth-plan.md 를 그 폴더로 옮깁니다',s:'교재 03번에 있습니다. 받은 파일은 보통 "다운로드" 폴더에 있습니다',shot:'cc_plan'},
+  {t:'Code 탭의 입력창 아래 첫 번째 칸에서 Local을 고르고, 옆 칸의 "Open folder…"로 그 폴더를 지정합니다',shot:'cc_folder'},
+  {t:'프롬프트를 보내서 Claude가 기획안을 읽게 합니다',s:'파일을 읽거나 만들어도 되는지 물으면 내용을 읽고 허락합니다',shot:'cc_ask'}],
+ fb1:[
+  {t:'새 탭에서 console.firebase.google.com 을 엽니다',s:'교재 04번의 "Firebase 콘솔 열기"를 눌러도 됩니다',shot:'fb_open'},
+  {t:'자기 구글 계정으로 로그인합니다',s:'공용 PC에 다른 사람의 계정이 남아 있으면 오른쪽 위의 동그란 사진을 눌러 로그아웃하고, 자기 계정으로 다시 들어갑니다',shot:'fb_login'},
+  {t:'"새 Firebase 프로젝트 만들기"를 누릅니다',shot:'fb_new'},
+  {t:'프로젝트 이름을 쓰고 "계속"을 누릅니다',s:'영어와 숫자로 씁니다. 예: booth-3jo',shot:'fb_name'},
+  {t:'"Firebase의 Gemini 사용 설정"을 끄고 "계속"을 누릅니다',shot:'fb_ai'},
+  {t:'"Google 애널리틱스 사용 설정"을 끄고 "프로젝트 만들기"를 누릅니다',s:'잠시 기다리면 "계속" 버튼이 나옵니다',shot:'fb_ga'}],
+ fb2:[
+  {t:'왼쪽 메뉴의 "데이터베이스 및 스토리지"에서 "Realtime Database"를 누릅니다',s:'Firestore가 아닙니다. 이름이 비슷하니 잘 보고 고릅니다',shot:'fb_menu'},
+  {t:'"데이터베이스 만들기"를 누릅니다',shot:'fb_make'},
+  {t:'위치는 싱가포르(asia-southeast1)를 고르고 "다음"을 누릅니다',s:'고를 수 있는 세 곳 가운데 한국에서 가장 가깝습니다',shot:'fb_loc'},
+  {t:'"테스트 모드에서 시작"을 고르고 "사용 설정"을 누릅니다',shot:'fb_test'},
+  {t:'"데이터" 탭 맨 위, 주소 왼쪽의 사슬 모양을 눌러 주소를 복사하고 교재 04번의 주소 칸에 붙여 넣습니다',s:'교재에서 "연결 확인"을 누르면 제대로 만들었는지 알려 줍니다',shot:'fb_url'}],
+ cv1:[
+  {t:'새 탭에서 canva.com 을 열고 자기 캔바 계정으로 로그인합니다',s:'계정이 없으면 구글 계정으로 가입합니다. 무료 요금제로도 연결됩니다',shot:'cv_login'},
+  {t:'"Claude 커넥터 화면 열기"를 누릅니다',s:'교재 08번에 있습니다. Claude 왼쪽 메뉴의 Customize 안에 있는 Connectors(커넥터)와 같은 화면입니다',shot:'cv_conn'},
+  {t:'Canva를 찾아 누르고 연결 버튼을 누릅니다. 캔바 화면이 나오면 허용합니다',s:'목록에 없으면 Discover에서 Canva를 검색합니다. 끝나면 Canva가 "연결됨"으로 보입니다',shot:'cv_allow'},
+  {t:'새 대화를 열고, 입력창의 + 버튼에 있는 Connectors(커넥터)에서 Canva를 켭니다',shot:'cv_on'}],
+ cv2:[
+  {t:'편집 화면 맨 위에 있는 디자인 제목을 누르고, "3조 · 부스 이름"처럼 바꿔 씁니다',s:'다 쓰고 Enter를 누릅니다',shot:'cv_title'},
+  {t:'장마다 읽으면서 사실과 다른 내용을 고칩니다',s:'글자를 누르면 바로 고칠 수 있습니다',shot:'cv_fix'},
+  {t:'"확인 필요"라고 적힌 곳을 찾아 실제 숫자나 내용으로 바꿉니다',s:'개요를 받을 때 자료에 없는 숫자는 지어내지 말고 "확인 필요"라고 적어 달라고 했기 때문에 남아 있을 수 있습니다',shot:'cv_todo'},
+  {t:'위쪽의 "공유"에서 "공유 링크"를 누르고, 액세스 수준을 "링크가 있는 모든 사용자", 권한을 "편집 가능"으로 바꾼 뒤 "링크 복사"를 누릅니다',s:'복사한 링크를 교재 10번의 링크 칸에 넣습니다',shot:'cv_share'}]
+};
 
 const ALL=[...STEPS.w1,...STEPS.w2];
 const KIND={wall:'한 줄 쓰기',solo:'각자 하기',check:'찾아서 누르기',poll:'고르기',quiz:'퀴즈',work:'팀 실습',kit:'팀 실습',tap:'함께 누르기'};
@@ -286,6 +369,15 @@ Object.keys(STEPS).forEach(w=>{let k=-1; STEPS[w].forEach(s=>{s.w=w; s.tasks=s.t
   s.tasks.forEach(t=>{t.tid=s.id+'_'+t.id; t.outs=t.outs||[]; t.outs.forEach(o=>{o.rid=s.id+'_'+o.id})});
   s.blocks.forEach(x=>{ if(x.b==='field') x.rid=s.id+'_'+x.id; if(x.b==='prompt') x.tid=s.id+'_'+x.id; if(x.b==='ref') x.tid=s.id+'_'+x.of })})});
 const stepById=id=>ALL.find(s=>s.id===id);
+/* 따라 하기 순서를 꺼낸다: g 가 있으면 GUIDES 에서, 없으면 steps 의 글에서 */
+const guideSteps=x=>x.g?x.g.reduce((a,k)=>a.concat(GUIDES[k]||[]),[]):(x.steps||[]).map(t=>({t}));
+/* 팀이 이 실습 단계를 마쳤는지: 확인 칸을 모두 눌렀고, 올릴 것(저장소 주소, 프로그램, 캔바 링크)이 있으면 올렸는지.
+   덜 끝낸 팀의 교재는 앞 화면이 넘어가도 자동으로 따라가지 않는다. */
+function kitDone(s,d){ if(!s||s.kind!=='kit'||!d) return true; const ck=(d.checks[s.id]&&d.checks[s.id].items)||{}, tx=v=>String((v&&v.text)||'').trim();
+  return s.blocks.every((x,i)=> x.b==='checks'?x.items.every((c,j)=>ck[i+'_'+j])
+    : x.b==='dburl'?(!!tx(d.finals.dburl)&&tx(d.finals.dbok)===tx(d.finals.dburl))
+    : (x.b==='code'&&!x.view)?(!!d.finals.app&&(!x.again||(+d.finals.app.n||0)>=2))
+    : x.b==='link'?!!tx(d.finals[x.id]) : true) }
 const QUIZ=ALL.filter(s=>s.kind==='quiz');
 const teamIds=n=>Array.from({length:Math.max(1,Math.min(TEAM_MAX,n||TEAM_DEFAULT))},(_,i)=>'t'+(i+1));
 const teamLabel=t=>t.slice(1)+'조';

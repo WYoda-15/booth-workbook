@@ -84,7 +84,27 @@ button[disabled]{opacity:.55;cursor:default}
 .guide ul{margin:0;padding-left:1.1em}
 .guide li{margin:.15em 0}
 .gsteps{margin:.2em 0 1em;padding:14px 16px 14px 2.4em;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:12px}
-.gsteps li{margin:.3em 0}
+.gsteps li{margin:.3em 0 .9em}
+.gsteps li:last-child{margin-bottom:.2em}
+.gsteps small{display:block;color:var(--dim);font-size:.86rem;line-height:1.5}
+.shot{display:block;position:relative;width:100%;max-width:680px;margin:.5em 0 0;padding:0;min-height:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;cursor:zoom-in}
+.shot img{display:block;width:100%;height:auto}
+.shot span{position:absolute;right:8px;top:8px;background:rgba(23,24,27,.82);color:var(--text);font-size:.7rem;border-radius:99px;padding:.05em .7em;opacity:.9}
+.write .shot{margin:0 0 10px}
+.shotcap{color:var(--dim);font-size:.88rem;margin:0 0 8px}
+#lb{position:fixed;inset:0;z-index:60;background:rgba(10,10,12,.94);display:none;place-items:center;padding:14px;cursor:zoom-out}
+#lb.on{display:grid}
+#lb img{max-width:100%;max-height:calc(100vh - 28px);border-radius:8px;background:#fff}
+.pparts{margin:0 0 10px}
+.pparts p{margin:0 0 6px;color:var(--dim);font-size:.86rem}
+.pchips{display:flex;gap:8px;flex-wrap:wrap}
+.pchip{min-height:38px;padding:.2em .9em;font-size:.88rem;border-radius:99px;border-style:dashed}
+.pchip::before{content:"+ ";color:var(--acc)}
+.pchip[aria-pressed=true]{border-style:solid;border-color:var(--ok);color:var(--ok);background:#1d2a22}
+.pchip[aria-pressed=true]::before{content:"✓ ";color:var(--ok)}
+#pace{flex:1 1 100%;margin:0;color:var(--quiz);font-size:.92rem}
+#roomChip{font-size:.78rem;font-weight:700;color:#1b1410;background:var(--quiz);border-radius:99px;padding:.15em .8em;white-space:nowrap}
+#roomNote{margin:0 0 1em!important;padding:10px 14px;border-radius:10px;background:#2a2619;border:1px solid var(--quiz);color:var(--quiz)!important;font-size:.9rem}
 .showbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:0 0 16px}
 .showbox div{border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--dim)}
 .showbox b{display:block;font-family:var(--f-d);font-weight:400;font-size:1.3rem;color:var(--text)}
@@ -210,6 +230,7 @@ label.filebtn.pri,button.pri{border-color:var(--acc);background:var(--acc);color
  <div class="box">
   <h1>Claude 특강 <em>교재</em></h1>
   <p>팀을 고르고 이름을 쓰면 들어갑니다. 지난주와 같은 팀, 같은 이름으로 들어오면 기록이 이어집니다. 앞 화면이 실습으로 넘어가면 이 화면도 자동으로 바뀝니다.</p>
+  <p id="roomNote" hidden>시험용 방입니다. 여기서 쓴 것은 실제 수업 기록과 섞이지 않습니다.</p>
   <span class="lab">팀</span>
   <div id="teamSel" role="group" aria-label="팀 고르기"></div>
   <label class="lab" for="nameIn">이름</label>
@@ -229,7 +250,7 @@ label.filebtn.pri,button.pri{border-color:var(--acc);background:var(--acc);color
 
 <div id="app">
  <header id="bar"><div class="wrap">
-  <span id="teamChip"></span>
+  <span id="teamChip"></span><span id="roomChip" hidden>시험용 방</span>
   <input id="booth" data-k="booth" data-id="booth" type="text" maxlength="30" autocomplete="off" placeholder="부스 이름을 여기에 씁니다" aria-label="우리 팀 부스 이름">
   <span id="who"></span><span id="score">0점</span>
   <span class="pill" id="pill">연결 중</span>
@@ -237,12 +258,14 @@ label.filebtn.pri,button.pri{border-color:var(--acc);background:var(--acc);color
   <button id="leave" type="button">나가기</button>
  </div></header>
  <div class="wrap">
-  <div id="mode"><span class="no" id="mNo"></span><div class="tt"><b id="mT"></b><span id="mS"></span></div><button id="followBtn" type="button" hidden>강의 따라가기</button></div>
+  <div id="mode"><span class="no" id="mNo"></span><div class="tt"><b id="mT"></b><span id="mS"></span></div><button id="followBtn" type="button" hidden>강의 따라가기</button><p id="pace" role="status" hidden></p></div>
   <main id="main"></main>
  </div>
 </div>
 
 <div id="list"><div class="sheet"><button id="closeList" type="button" style="float:right">닫기</button><h2>실습 목록</h2><div id="listBody"></div></div></div>
+
+<div id="lb" role="dialog" aria-label="화면 사진 크게 보기"><img alt=""></div>
 
 <div id="qgate" role="dialog" aria-modal="true" aria-labelledby="qgT"><div class="box">
  <h2 id="qgT">퀴즈 시간입니다</h2>
@@ -266,13 +289,20 @@ const setHTML=(el,h)=>{ if(el&&el._h!==h){el._h=h; el.innerHTML=h} };
 const COLS=['members','answers','finals','results','checks','drafts','tprompts'];
 const D={}; teamIds(TEAM_MAX).forEach(t=>{D[t]={}; COLS.forEach(c=>D[t][c]={})});
 let CFG={teams:TEAM_DEFAULT,spare:'',short:''}, CLS={step:'',slide:'',qend:0,qz:false}, REVEAL={}, OFF=0;
-let me=LS.get('wb_me',null), cur=STEPS[WEEK][0].id, follow=true, view='login', selTeam=me?me.team:null, teacher=LS.get('wb_teacher',false)===true;
-let db=null, rdb=null, base='wb/'+CLASS_CODE, mode='wait', isOn=false, everOn=false, saving=0, peers=[];
+/* 시험용 방: 주소 뒤에 ?room=test 를 붙이면 수업 기록과 섞이지 않는 따로 떨어진 자리에서 연다 */
+const ROOM=(new URLSearchParams(location.search).get('room')||'').replace(/[^a-z0-9_-]/gi,'').slice(0,20), RK=k=>ROOM?k+'__'+ROOM:k;
+let me=LS.get(RK('wb_me'),null), cur=STEPS[WEEK][0].id, follow=true, view='login', selTeam=me?me.team:null, teacher=LS.get('wb_teacher',false)===true;
+let db=null, rdb=null, base='wb/'+CLASS_CODE+(ROOM?'/rooms/'+ROOM:''), mode='wait', isOn=false, everOn=false, saving=0, peers=[];
 const nameKey=n=>'n'+[...n.trim()].map(c=>c.codePointAt(0).toString(36)).join('-');
 const txt=v=>String((v&&v.text)||'').trim();
 const T=()=>D[me.team];
 const now=()=>Date.now()+OFF;                      /* 서버 시각에 맞춘 지금: 퀴즈 남은 시간에 쓴다 */
-const appUrl=t=>new URL('app.html?t='+t,location.href).href;
+const appUrl=t=>new URL('app.html?t='+t+(ROOM?'&room='+ROOM:''),location.href).href;
+/* 화면 사진: 사이트에 든 그림을 쓰고, 강사가 앞 화면에서 붙여 넣은 것이 있으면 그것을 쓴다 */
+let SHOTX={};
+const shotSrc=k=>{ const c=SHOTX[k]; if(c&&/^data:image\/(jpeg|png|webp);base64,/.test(String(c.d||''))) return c.d; const o=SHOTS[k]; return (o&&o.f)||'' };
+const shotBtn=k=>k?`<button type="button" class="shot" data-shot="${k}" hidden><img alt="${esc((SHOTS[k]||{}).alt||'')}"><span>누르면 크게 보입니다</span></button>`:'';
+function paintShots(){ $$('[data-shot]').forEach(b=>{ const u=shotSrc(b.dataset.shot), im=b.querySelector('img'); b.hidden=!u; if(u&&im.getAttribute('src')!==u) im.setAttribute('src',u) }) }
 const qrSvg=u=>{ try{ const q=qrcode(0,'M'); q.addData(u); q.make(); return q.createSvgTag({cellSize:4,margin:0,scalable:true}) }catch(e){ return '' } };
 
 /* ---------- 저장과 연결 ---------- */
@@ -303,19 +333,20 @@ function connect(){
     db.doc('class/state').onSnapshot(s=>{ const d=s.exists?(s.data()||{}):{}; CLS={step:String(d.step||''),slide:String(d.slide||''),qend:+d.qend||0,qz:!!d.qz}; onState() },()=>{});
     db.collection('class/reveal').onSnapshot(rows=>{ REVEAL={}; rows.forEach(([id,v])=>{if(v)REVEAL[id]=true}); refresh() },()=>{});
     db.doc('class/epoch').onSnapshot(s=>{ const e=s.exists?String(s.data()):''; const KICK='강사가 기록을 초기화했습니다. 다시 들어와 주세요.';
-      if(ep0===null){ ep0=e; const mine=LS.get('wb_epoch',''); LS.set('wb_epoch',e); if(me&&e&&mine!==e) kick(KICK) }
-      else if(e!==ep0){ ep0=e; LS.set('wb_epoch',e); if(me) kick(KICK) } },()=>{});
+      if(ep0===null){ ep0=e; const mine=LS.get(RK('wb_epoch'),''); LS.set(RK('wb_epoch'),e); if(me&&e&&mine!==e) kick(KICK) }
+      else if(e!==ep0){ ep0=e; LS.set(RK('wb_epoch'),e); if(me) kick(KICK) } },()=>{});
     db.collection('presence').onSnapshot(rows=>{ peers=rows.map(r=>r[1]||{}) },()=>{});
     rdb.ref('.info/serverTimeOffset').on('value',s=>{ OFF=+s.val()||0 });
     rdb.ref('.info/connected').on('value',s=>{ isOn=s.val()===true; if(isOn){everOn=true; banner(''); if(me&&view==='app')present()} else if(everOn) banner('인터넷 연결이 끊겼습니다. 다시 연결되면 자동으로 저장합니다.'); setPill() });
     subAll();
+    rdb.ref('wb/'+CLASS_CODE+'/shots').on('value',s=>{ SHOTX=s.val()||{}; paintShots() },()=>{});   /* 강사가 넣은 화면 사진: 다른 것을 먼저 받고 나서 받는다 */
   }catch(e){ mode='wait'; banner('공유 저장소에 연결하지 못했습니다. 새로고침해 주세요.') }
   setPill();
 }
 let presId=null, ep0=null;
 function present(){ if(mode!=='db'||!me) return; const id=me.team+'_'+me.key; try{ presId=id; const d=db.doc('presence/'+id); d.onDisconnectRemove(); d.set({n:me.name,t:me.team,fs:fsIn()}) }catch(e){} }
 function absent(){ if(mode==='db'&&presId){ try{db.doc('presence/'+presId).remove()}catch(e){} presId=null } }
-function kick(msg){ if(entered) leaveQuiz(); me=null; LS.del('wb_me'); view='login'; teamIds(TEAM_MAX).forEach(t=>COLS.forEach(c=>{D[t][c]={}})); for(const k in PEND) delete PEND[k];
+function kick(msg){ if(entered) leaveQuiz(); me=null; LS.del(RK('wb_me')); view='login'; teamIds(TEAM_MAX).forEach(t=>COLS.forEach(c=>{D[t][c]={}})); for(const k in PEND) delete PEND[k];
   $('#app').classList.remove('on'); $('#login').style.display=''; $('#loginMsg').textContent=msg||''; built=''; gate(); renderLogin() }
 
 /* ---------- 들어가기 ---------- */
@@ -331,11 +362,11 @@ function enter(){ let name=$('#nameIn').value.trim().replace(/\s+/g,' ');
   const hit=mem.find(m=>sq(m.name)===sq(name));
   if(hit) name=hit.name;
   else if(mem.some(m=>(+m.at||0)<WEEK2_FROM)&&nameAsk!==selTeam+'|'+name){ nameAsk=selTeam+'|'+name; $('#loginMsg').textContent='지난주 이 팀에 없던 이름입니다. 지난주와 같은 이름이어야 점수가 이어집니다. 맞으면 한 번 더 누릅니다.'; return }
-  nameAsk=''; me={team:selTeam,name,key:nameKey(name)}; LS.set('wb_me',me); start() }
+  nameAsk=''; me={team:selTeam,name,key:nameKey(name)}; LS.set(RK('wb_me'),me); start() }
 function start(){ view='app'; $('#login').style.display='none'; $('#app').classList.add('on'); $('#loginMsg').textContent='';
   subTeam(me.team,COLS); const m0=T().members[me.key]; put('members',me.key,{name:me.name,at:(m0&&m0.at)||Date.now()}); present(); follow=true; onState(true) }
 $('#enter').onclick=enter; $('#nameIn').addEventListener('keydown',e=>{if(e.key==='Enter')enter()});
-$('#leave').onclick=()=>{ flushAll(); if(entered) leaveQuiz(); absent(); me=null; LS.del('wb_me'); view='login'; built=''; $('#app').classList.remove('on'); $('#login').style.display=''; gate(); renderLogin() };
+$('#leave').onclick=()=>{ flushAll(); if(entered) leaveQuiz(); absent(); me=null; LS.del(RK('wb_me')); view='login'; built=''; $('#app').classList.remove('on'); $('#login').style.display=''; gate(); renderLogin() };
 
 /* ---------- 강사 메뉴 ---------- */
 function renderTeacher(){ $('#tGate').hidden=teacher; $('#tBody').hidden=!teacher; $('#tN').textContent=CFG.teams+'팀' }
@@ -372,10 +403,16 @@ $('#qgBtn').onclick=enterQuiz;
 
 /* ---------- 지금 화면 정하기 ---------- */
 const watching=()=>follow&&!!CLS.slide&&!CLS.step;
-function onState(force){ if(view!=='app') return;
-  if(CLS.qz) follow=true; else if(entered) leaveQuiz();        /* 퀴즈 시간에는 모두 앞 화면을 따라온다 */
-  if(follow&&CLS.step&&stepById(CLS.step)) cur=CLS.step; build(force); gate() }
-$('#followBtn').onclick=()=>{ follow=true; onState(true) };
+let resume='';                                                  /* 퀴즈가 끝나면 돌아갈 단계 */
+const midKit=()=>{ const s=stepById(cur); return built==='step:'+cur&&!!s&&s.kind==='kit'&&!kitDone(s,T()) };   /* 덜 끝낸 실습 단계를 보고 있는가 */
+function onState(force,asked){ if(view!=='app') return;       /* asked: 학생이 직접 "앞 화면으로"를 눌렀을 때 */
+  const tgt=(CLS.step&&stepById(CLS.step))?CLS.step:'';
+  if(CLS.qz){ if(!resume&&(!follow||midKit())) resume=cur; follow=true }          /* 퀴즈 시간에는 모두 앞 화면을 따라온다 */
+  else { if(entered) leaveQuiz(); if(resume){ cur=resume; resume=''; follow=false }   /* 퀴즈가 끝나면 하던 단계로 돌아간다 */
+    if(tgt&&tgt===cur) follow=true;                                                  /* 앞 화면과 같은 단계에 있으면 함께 간다 */
+    else if(follow&&!asked&&midKit()) follow=false }                                 /* 자기 속도로: 덜 끝낸 실습에서는 앞 화면이 넘어가도 자동으로 넘기지 않는다 */
+  if(follow&&tgt) cur=tgt; build(force); gate() }
+$('#followBtn').onclick=()=>{ follow=true; onState(true,true) };
 function openStep(id){ follow=(id===CLS.step); cur=id; $('#list').classList.remove('on'); build(true) }
 
 /* ---------- 입력 저장 ---------- */
@@ -391,7 +428,8 @@ function save(el){ const k=el.dataset.k, id=el.dataset.id, v=el.value, now=Date.
   else if(k==='fin') put('finals',id,{text:v.trim(),by:me.name,at:now});
   else if(k==='dburl') put('finals','dburl',{text:cleanDbUrl(v),by:me.name,at:now});
   else if(k==='booth') put('finals','booth',{text:v,by:me.name,at:now}) }
-document.addEventListener('input',e=>{ const el=e.target; if(!el.dataset||!el.dataset.k||!me) return; grow(el); debounce(el.id,()=>save(el)) });
+document.addEventListener('input',e=>{ const el=e.target; if(!el.dataset||!el.dataset.k||!me) return; grow(el); debounce(el.id,()=>save(el));
+  if(el.dataset.k==='tp'){ const s=stepById(cur); s&&s.blocks.forEach((x,i)=>{ if(x.b==='prompt'&&x.tid===el.dataset.id) markParts(x,i) }) } });
 document.addEventListener('focusout',e=>{ const el=e.target; if(el.dataset&&el.dataset.k&&typing[el.id]){ clearTimeout(typing[el.id]); delete typing[el.id]; delete typingFn[el.id]; save(el) } });
 function setVal(el,v){ if(!el||document.activeElement===el||typing[el.id]) return; if(el.value!==v){ el.value=v; grow(el) } }
 function copyText(t,btn){ const done=ok=>{ const o=btn.dataset.o||btn.textContent; btn.dataset.o=o; btn.textContent=ok?'복사했습니다':'복사하지 못했습니다'; setTimeout(()=>{btn.textContent=o},1500) };
@@ -457,15 +495,15 @@ function taskHtml(s,t,multi){
 /* 2주차 실습: 블록을 차례로 그린다 */
 function kitHtml(s){ let n=0; const Wb=(title,who,inner)=>wbox(++n,title,who,inner);
   return s.blocks.map((x,i)=>{
-    if(x.b==='guide') return `<div class="guide"><p>${esc(x.text)}</p>${x.steps?`<ol class="gsteps">${x.steps.map(t=>`<li>${esc(t)}</li>`).join('')}</ol>`:''}${x.links?`<div class="rowb glinks">${x.links.map(l=>`<a class="filebtn" href="${esc(l.u)}" target="_blank" rel="noopener">${esc(l.t)}</a>`).join('')}</div>`:''}${x.talk||x.must?`<div class="cols">${x.talk?`<div><h4>먼저 팀이 의논합니다</h4><ul>${x.talk.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>`:''}${x.must?`<div><h4>프롬프트에 넣을 것</h4><ul>${x.must.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>`:''}</div>`:''}</div>`;
+    if(x.b==='guide'){ const gs=guideSteps(x); return `<div class="guide"><p>${esc(x.text)}</p>${gs.length?`<ol class="gsteps">${gs.map(g=>`<li><div class="gt">${esc(g.t)}${g.s?`<small>${esc(g.s)}</small>`:''}</div>${shotBtn(g.shot)}</li>`).join('')}</ol>`:''}${x.links?`<div class="rowb glinks">${x.links.map(l=>`<a class="filebtn" href="${esc(l.u)}" target="_blank" rel="noopener">${esc(l.t)}</a>`).join('')}</div>`:''}${x.talk||x.must?`<div class="cols">${x.talk?`<div><h4>먼저 팀이 의논합니다</h4><ul>${x.talk.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>`:''}${x.must?`<div><h4>프롬프트에 넣을 것</h4><ul>${x.must.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>`:''}</div>`:''}</div>` }
     if(x.b==='field') return Wb(x.label,'팀이 함께 씁니다',`<textarea id="res_${x.rid}" data-k="res" data-id="${x.rid}" rows="${x.rows||2}" placeholder="${esc(x.ph||'')}"></textarea>`);
     if(x.b==='checks') return `<div class="checks kc">${x.items.map((c,j)=>`<button type="button" data-ck="${i}_${j}" aria-pressed="false">${esc(c)}</button>`).join('')}</div><p class="hint" style="margin:8px 0 16px">팀이 함께 쓰는 목록입니다. 한 사람이 누르면 팀 전체에 표시됩니다.</p>`;
-    if(x.b==='prompt') return Wb(x.label,'팀이 함께 씁니다 · 다 쓰면 Claude를 맡은 사람이 보냅니다',`<textarea id="tp_${x.tid}" data-k="tp" data-id="${x.tid}" rows="5" placeholder="${esc(x.ph||'')}"></textarea><div class="row"><button type="button" data-copy="tp_${x.tid}">복사</button></div>`);
+    if(x.b==='prompt') return Wb(x.label,'팀이 함께 씁니다 · 다 쓰면 Claude를 맡은 사람이 보냅니다',(x.parts?`<div class="pparts"><p>이 프롬프트에 넣으면 좋은 것입니다. 누르면 문장 틀이 아래 칸에 들어가고, 들어간 것은 초록색이 됩니다.</p><div class="pchips">${x.parts.map((q,j)=>`<button type="button" class="pchip" data-stem="${i}_${j}" aria-pressed="false">${esc(q.k)}</button>`).join('')}</div></div>`:'')+`<textarea id="tp_${x.tid}" data-k="tp" data-id="${x.tid}" rows="5" placeholder="${esc(x.ph||'')}"></textarea><div class="row"><button type="button" data-copy="tp_${x.tid}">복사</button><span class="pmsg run" data-blank="${x.tid}"></span></div>`);
     if(x.b==='ref') return `<details id="rf_${x.tid}" data-ref="${x.tid}"><summary>예시 프롬프트 <span id="rl_${x.tid}"></span></summary><div><pre class="refp" id="rb_${x.tid}"></pre><div class="rowb"><button type="button" data-copyref="${i}">예시 복사</button></div></div></details>`;
     if(x.b==='says') return `<p class="exnote">아래 문장은 예시입니다. 우리 팀에 맞게 고쳐서 써도 됩니다.</p><div class="missions">${x.items.map((m,j)=>`<div class="ms"><div class="mh"><b>${j+1}</b><strong>${esc(m.t)}</strong></div><div class="say"><span data-sayt="${i}_${j}"></span><button type="button" data-saycp="${i}_${j}">복사</button></div></div>`).join('')}</div>`;
-    if(x.b==='dburl') return Wb('우리 팀 데이터베이스 주소','팀이 함께 씁니다 · Firebase에서 복사한 주소를 붙여 넣습니다',`<input type="text" id="dburl" data-k="dburl" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://....firebasedatabase.app"><div class="row"><button type="button" id="probeBtn">연결 확인</button><span id="probeMsg" class="pmsg" role="status"></span></div><div class="row" id="spareRow" hidden><span class="pmsg">끝까지 막히면 강사가 준비한 예비 주소를 씁니다.</span><button type="button" id="spareBtn">예비 주소 쓰기</button></div>`);
+    if(x.b==='dburl') return Wb('우리 팀 데이터베이스 주소','팀이 함께 씁니다 · Firebase에서 복사한 주소를 붙여 넣습니다',`${x.shot?`<p class="shotcap">주소는 Firebase의 Realtime Database 화면, "데이터" 탭 맨 위에 있습니다. 주소 왼쪽의 사슬 모양을 누르면 복사됩니다.</p>${shotBtn(x.shot)}`:''}<input type="text" id="dburl" data-k="dburl" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://....firebasedatabase.app"><div class="row"><button type="button" id="probeBtn">연결 확인</button><span id="probeMsg" class="pmsg" role="status"></span></div><div class="row" id="spareRow" hidden><span class="pmsg">끝까지 막히면 강사가 준비한 예비 주소를 씁니다.</span><button type="button" id="spareBtn">예비 주소 쓰기</button></div>`);
     if(x.b==='code'){ const view=`<div class="appv" data-appv="1"></div>`; if(x.view) return view;
-      const up=Wb(x.again?'바꾼 파일 다시 올리기':'Claude가 만든 파일 올리기','팀에서 한 명이 올립니다 · 다시 올리면 새 것으로 바뀌고 링크는 그대로입니다',`<div class="row" style="margin:0 0 8px"><label class="filebtn pri">파일 고르기<input type="file" accept=".html,.htm,text/html" data-file="code_${i}"></label><span class="hint">프로젝트 폴더의 index.html 을 고릅니다</span></div><textarea class="codein" id="code_${i}" rows="3" spellcheck="false" placeholder="파일 대신 HTML 코드를 처음부터 끝까지 복사해서 붙여 넣어도 됩니다."></textarea><div class="row"><button type="button" data-upload="code_${i}">붙여 넣은 코드 올리기</button></div><p class="cwarn" data-cmsg="1" role="status"></p>`);
+      const up=Wb(x.again?'바꾼 파일 다시 올리기':'Claude가 만든 파일 올리기','팀에서 한 명이 올립니다 · 다시 올리면 새 것으로 바뀌고 링크는 그대로입니다',`<div class="row" style="margin:0 0 8px"><label class="filebtn pri">파일 고르기<input type="file" accept=".html,.htm,text/html" data-file="code_${i}"></label><span class="hint">프로젝트 폴더의 index.html 을 고릅니다</span></div><textarea class="codein" id="code_${i}" rows="3" spellcheck="false" placeholder="파일 대신 HTML 코드를 처음부터 끝까지 복사해서 붙여 넣어도 됩니다."></textarea><div class="row"><button type="button" data-upload="code_${i}">붙여 넣은 코드 올리기</button>${ROOM?`<button type="button" data-sample="1">시험용 프로그램 올리기</button>`:''}</div><p class="cwarn" data-cmsg="1" role="status"></p>`);
       return x.again?up:up+view }
     if(x.b==='bundle'&&x.file) return `<section class="write"><div class="wl"><b>자료</b><strong>우리 팀 기획안</strong><i>지난주에 만든 것과 방금 정한 것을 파일 하나로 모았습니다</i></div><div class="bparts" data-bparts="1"></div><details><summary>기획안 내용 보기</summary><div><pre class="refp" data-btext="1"></pre></div></details><div class="row"><button type="button" class="pri" data-planfile="1">기획안 파일 받기</button><button type="button" data-copybundle="1">내용 복사</button></div><p class="hint" style="margin:8px 0 0">받은 파일 booth-plan.md 는 보통 "다운로드" 폴더에 있습니다. 프로젝트 폴더로 옮깁니다. "없음"으로 나온 것은 지난주 단계에 붙여 넣으면 들어옵니다.</p></section>`;
     if(x.b==='bundle') return `<section class="write"><div class="wl"><b>자료</b><strong>우리 팀 자료 묶음</strong><i>지난주와 오늘 쓴 것을 자동으로 모았습니다</i></div><div class="bparts" data-bparts="1"></div>${x.small?'':`<details><summary>묶음 내용 보기</summary><div><pre class="refp" data-btext="1"></pre></div></details><p class="hint" style="margin:0 0 8px">"없음"으로 나온 것은 실습 목록의 지난주 단계에 붙여 넣으면 여기에 들어옵니다.</p>`}<div class="row"><button type="button" data-copybundle="1">자료 묶음 복사</button></div></section>`;
@@ -492,15 +530,20 @@ let built='';
 function build(force){ if(view!=='app') return; const key=watching()?'watch':'step:'+cur; if(!force&&key===built){refresh();return}
   flushAll(); built=key; const m=$('#main'); m._h=null; CODEMSG='';
   m.innerHTML=watching()?`<div class="watchbox"><b>지금은 앞 화면을 봅니다</b>실습이 시작되면 이 화면이 자동으로 바뀝니다.</div>`:stepHtml(stepById(cur));
-  window.scrollTo(0,0); refresh(); $$('textarea',m).forEach(grow) }
+  window.scrollTo(0,0); paintShots(); refresh(); $$('textarea',m).forEach(grow) }
 
 /* ---------- 바뀐 것만 고치기 ---------- */
+const REF_MIN=20, refLock=len=>`팀 프롬프트를 ${REF_MIN}자 이상 쓰면 열립니다 · 지금 ${len}자`;
+/* 문장 틀: 프롬프트에 들어간 것은 초록색으로, 빈칸이 남았으면 알려 준다 */
+function markParts(x,i){ const el=$('#tp_'+x.tid); if(!el) return; const v=el.value||'';
+  (x.parts||[]).forEach((q,j)=>{ const c=$(`[data-stem="${i}_${j}"]`); if(c) c.setAttribute('aria-pressed',new RegExp(q.re).test(v)) });
+  const m=$(`[data-blank="${x.tid}"]`); if(m) m.textContent=/_{3,}/.test(v)?'빈칸(____)이 남아 있습니다. 우리 팀 내용으로 바꿉니다.':'' }
 function refreshKit(s){ const c=ctx(), ck=(T().checks[s.id]&&T().checks[s.id].items)||{};
   $$('.kc [data-ck]').forEach(b=>b.setAttribute('aria-pressed',!!ck[b.dataset.ck]));
   s.blocks.forEach((x,i)=>{
     if(x.b==='field') setVal($('#res_'+x.rid),txt(T().results[x.rid]));
-    else if(x.b==='prompt') setVal($('#tp_'+x.tid),txt(T().tprompts[x.tid]));
-    else if(x.b==='ref'){ const open=txt(T().tprompts[x.tid]).length>=20, rf=$('#rf_'+x.tid); if(!rf) return; $('#rl_'+x.tid).textContent=open?'':'팀 프롬프트를 쓴 뒤에 열립니다'; if(!open) rf.open=false; else { const t=x.text(c), el=$('#rb_'+x.tid); if(el.textContent!==t) el.textContent=t } }
+    else if(x.b==='prompt'){ setVal($('#tp_'+x.tid),txt(T().tprompts[x.tid])); markParts(x,i) }
+    else if(x.b==='ref'){ const len=txt(T().tprompts[x.tid]).length, open=len>=REF_MIN, rf=$('#rf_'+x.tid); if(!rf) return; $('#rl_'+x.tid).textContent=open?'':refLock(len); if(!open) rf.open=false; else { const t=x.text(c), el=$('#rb_'+x.tid); if(el.textContent!==t) el.textContent=t } }
     else if(x.b==='says') x.items.forEach((m,j)=>{ const el=$(`[data-sayt="${i}_${j}"]`), t=typeof m.say==='function'?m.say(c):m.say; if(el&&el.textContent!==t) el.textContent=t });
     else if(x.b==='dburl'){ setVal($('#dburl'),txt(T().finals.dburl)); const st=dbState(), pm=$('#probeMsg'); pm.textContent=st.msg; pm.className='pmsg '+st.cls; $('#probeBtn').disabled=!st.u||!DBURL_RE.test(st.u)||st.cls==='run'; $('#spareRow').hidden=!CFG.spare||st.cls==='ok' }
     else if(x.b==='link'){ const v=txt(T().finals[x.id]); setVal($(`#fin_${x.id}_${i}`),v); const ok=/^https:\/\/(www\.)?canva\.(com|link)\//i.test(v);
@@ -513,10 +556,12 @@ function refresh(){ if(view!=='app'||!me) return; setPill();
   const sb=scoreboard(D,REVEAL,WEEK), mine=sb.find(r=>r.team===me.team&&r.name===me.name), any=QUIZ.some(q=>q.w===WEEK&&REVEAL[q.id]);
   $('#score').textContent='오늘 '+(mine?mine.pt:0)+'점'+(any&&mine?' · '+mine.rank+'등':'');
   const mo=$('#mode'), s=stepById(cur);
-  if(watching()){ mo.className='watch'; $('#mNo').textContent='앞'; $('#mT').textContent='앞 화면을 봐 주세요'; $('#mS').textContent='지금 장면: '+CLS.slide; $('#followBtn').hidden=true; return }
+  if(watching()){ mo.className='watch'; $('#mNo').textContent='앞'; $('#mT').textContent='앞 화면을 봐 주세요'; $('#mS').textContent='지금 장면: '+CLS.slide; $('#followBtn').hidden=true; $('#pace').hidden=true; return }
   mo.className=s.kind==='quiz'?'quiz':''; $('#mNo').textContent=s.k; $('#mT').textContent=s.n;
   $('#mS').textContent=s.kind==='quiz'?`퀴즈 · ${s.pt}점`:`${KIND[s.kind]} · ${s.w==='w1'?'1주차':'2주차'}`;
-  $('#followBtn').hidden=follow||!CLS.slide;
+  { const fs=(CLS.step&&stepById(CLS.step))||null, behind=!follow&&!!CLS.slide&&CLS.step!==cur&&!CLS.qz, fb=$('#followBtn'), pc=$('#pace'); fb.hidden=!behind; pc.hidden=!behind;
+    if(behind){ fb.textContent=fs?`앞 화면의 ${fs.k}번으로 가기`:'앞 화면 보기';
+      pc.textContent=(fs?`앞 화면은 지금 교재 ${fs.k}번 "${fs.n}"입니다.`:`앞 화면은 지금 "${CLS.slide}" 장면입니다.`)+(s.kind==='kit'&&!kitDone(s,T())?' 이 단계를 마치고 넘어가도 됩니다. 이 화면은 자동으로 넘어가지 않습니다.':'') } }
   if(s.kind==='wall'){ setVal($('#ans_'+s.id),txt(T().answers[s.id+'__'+me.key])); if(s.apps) setHTML($('#appsBox'),appList()) }
   else if(s.kind==='tap'){ const a=T().answers[s.id+'__'+me.key]; $('#tapN').textContent='내가 누른 횟수 '+((a&&+a.n)||0) }
   else if(s.kind==='kit') refreshKit(s);
@@ -532,16 +577,25 @@ function refresh(){ if(view!=='app'||!me) return; setPill();
     else { const ok=pick===s.ans; msg.className=ok?'ok':'no'; msg.textContent=(ok?`정답입니다. +${s.pt}점. `:pick>=0?`아쉽습니다. 정답은 ${'ABCD'[s.ans]}입니다. `:`답을 고르지 않았습니다. 정답은 ${'ABCD'[s.ans]}입니다. `)+s.why } }
   else s.tasks.forEach(t=>{
     setVal($('#tp_'+t.tid),txt(T().tprompts[t.tid])); t.outs.forEach(o=>setVal($('#res_'+o.rid),txt(T().results[o.rid])));
-    const tp=txt(T().tprompts[t.tid]), open=tp.length>=20, rf=$('#rf_'+t.tid);
-    $('#rl_'+t.tid).textContent=open?'':'팀 프롬프트를 쓴 뒤에 열립니다'; if(!open) rf.open=false;
+    const tp=txt(T().tprompts[t.tid]), open=tp.length>=REF_MIN, rf=$('#rf_'+t.tid);
+    $('#rl_'+t.tid).textContent=open?'':refLock(tp.length); if(!open) rf.open=false;
     if(open) $('#rb_'+t.tid).textContent=t.ref(ctx());
     const ts=$('#ts_'+t.tid); if(ts) ts.textContent=[tp?'팀 프롬프트 있음':'',t.outs.every(o=>txt(T().results[o.rid]))?'결과 있음':''].filter(Boolean).join(' · ') });
 }
 setInterval(()=>{ if(view!=='app'||!me) return; if(quizMode()) gate(); if(!watching()&&stepById(cur).kind==='quiz'&&CLS.qend&&!REVEAL[cur]) refresh() },500);
-document.addEventListener('toggle',e=>{ const d=e.target; if(d.dataset&&d.dataset.ref&&d.open&&txt(T().tprompts[d.dataset.ref]).length<20) d.open=false; if(d.open) $$('textarea',d).forEach(grow) },true);
+document.addEventListener('toggle',e=>{ const d=e.target; if(d.dataset&&d.dataset.ref&&d.open&&txt(T().tprompts[d.dataset.ref]).length<REF_MIN) d.open=false; if(d.open) $$('textarea',d).forEach(grow) },true);
 document.addEventListener('change',e=>{ const f=e.target; if(!f.dataset||!f.dataset.file||!f.files||!f.files[0]) return; const ta=$('#'+f.dataset.file), rd=new FileReader();
   rd.onload=()=>{ uploadCode(String(rd.result||''),null) }; rd.onerror=()=>{ CODEMSG='파일을 읽지 못했습니다.'; refresh() }; rd.readAsText(f.files[0]); f.value='' });
+$('#lb').onclick=()=>$('#lb').classList.remove('on');
+addEventListener('keydown',e=>{ if(e.key==='Escape') $('#lb').classList.remove('on') });
+/* 시험용 방에서만 쓰는 견본 프로그램: 번호를 올리면 같은 링크를 연 모든 기기에서 함께 바뀐다 */
+const sampleHtml=()=>`<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>시험용 대기 번호</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#17181B;color:#E7E4DC;font-family:sans-serif;text-align:center}b{display:block;font-size:30vw;line-height:1;color:#F08A5D}button{font-size:1.5rem;padding:.6em 1.3em;margin:.3em;border-radius:14px;border:0}#s{color:#A9A59C}</style></head><body><div><p>시험용 대기 번호 · ${teamLabel(me.team)}</p><b id="n">0</b><button id="p">다음 번호</button><button id="r">처음으로</button><p id="s">연결 중</p></div><script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-app-compat.js"><\/script><script src="https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-database-compat.js"><\/script><script>firebase.initializeApp({databaseURL:"${DB_URL}"});var r=firebase.database().ref("${base}/demo/${me.team}");r.on("value",function(s){document.getElementById("n").textContent=s.val()||0});document.getElementById("p").onclick=function(){r.transaction(function(v){return (v||0)+1})};document.getElementById("r").onclick=function(){r.set(0)};firebase.database().ref(".info/connected").on("value",function(s){document.getElementById("s").textContent=s.val()?"연결됨":"연결 안 됨"})<\/script></body></html>`;
 document.addEventListener('click',e=>{ if(view!=='app'||!me) return; const s=stepById(cur); let b;
+  if((b=e.target.closest('[data-shot]'))){ const u=shotSrc(b.dataset.shot); if(u){ const im=$('#lb img'); im.src=u; im.alt=b.querySelector('img').alt; $('#lb').classList.add('on') } return }
+  if((b=e.target.closest('[data-stem]'))){ const [bi,j]=b.dataset.stem.split('_').map(Number), x=s.blocks[bi], q=x&&x.parts&&x.parts[j], el=x&&$('#tp_'+x.tid); if(!q||!el) return;
+    if(!new RegExp(q.re).test(el.value)){ el.value=(el.value.trim()?el.value.replace(/\s+$/,'')+'\n':'')+q.stem; grow(el); put('tprompts',x.tid,{text:el.value,by:me.name,at:Date.now()}) }
+    el.focus(); const k=el.value.indexOf('____'); if(k>=0) el.setSelectionRange(k,k+4); markParts(x,bi); return }
+  if(e.target.closest('[data-sample]')){ if(ROOM) uploadCode(sampleHtml(),e.target.closest('[data-sample]')); return }
   if((b=e.target.closest('[data-opt]'))){ if(s.kind==='quiz'&&REVEAL[s.id]) return; const id=s.id+'__'+me.key, a0=T().answers[id]; if(a0&&a0.left) return; if(s.kind==='quiz'&&quizMode()&&!fsIn()) return;
     const i=+b.dataset.opt, d={s:s.id,name:me.name,opt:i,text:s.opts[i],at:Date.now()};
     if(s.kind==='quiz'&&CLS.qend){ const sec=(s.sec||20)*1000; d.ms=Math.max(0,Math.min(sec,Math.round(now()-(CLS.qend-sec)))) }
@@ -575,6 +629,7 @@ $('#closeList').onclick=()=>$('#list').classList.remove('on');
 $('#list').onclick=e=>{ const b=e.target.closest('[data-s]'); if(b) openStep(b.dataset.s); else if(e.target.id==='list') $('#list').classList.remove('on') };
 
 /* ---------- 시작 ---------- */
+if(ROOM){ $('#roomNote').hidden=false; $('#roomChip').hidden=false; document.title='[시험용 방] '+document.title }
 renderLogin(); renderTeacher(); connect();
 if(me&&teamIds(TEAM_MAX).includes(me.team)){ $('#nameIn').value=me.name; start() } else me=null;
 addEventListener('beforeunload',flushAll);
