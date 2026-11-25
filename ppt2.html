@@ -825,7 +825,7 @@ button.qrc:hover{border-color:var(--hot)}
  <header class="sh"><span class="no">00</span><h2>사례 · <em>말로 만든 공연 홍보 영상</em></h2>
  <p class="lede">공연 전에 기대감을 올리는 64초짜리 홍보 영상입니다. Claude에 내 컴퓨터의 다빈치 리졸브를 MCP로 연결해서 만들었습니다.</p></header>
  <div class="casev2">
-  <div class="vbox"><video id="caseClip" src="media/w2_promo.mp4" poster="media/w2_promo_poster.jpg" controls playsinline preload="auto"></video></div>
+  <div class="vbox"><video id="caseClip" data-manual="1" src="media/w2_promo.mp4" poster="media/w2_promo_poster.jpg" playsinline preload="auto"></video></div>
   <div class="card"><span class="k">연결</span><h3>Claude · MCP · 다빈치 리졸브</h3>
    <ul class="pts"><li>Claude 데스크톱 앱에서 말로 지시합니다</li><li>내 PC의 MCP 서버가 다빈치 리졸브를 조작합니다</li><li>PC의 폴더와 화면 캡처도 함께 연결했습니다</li></ul>
    <div class="nums"><div><b>3일</b><span>작업 기간</span></div><div><b>10문장</b><span>남은 지시</span></div><div><b>32개</b><span>올린 자막</span></div></div>
@@ -1293,7 +1293,7 @@ function show(i){
   try{history.replaceState(null,'','#'+sc.id)}catch(e){}
   unzoom();
   /* 조작 막대가 있는 영상은 저절로 틀지 않는다. 처음으로 돌려 두고, 다음 키나 단추로 튼다 */
-  $$('#stage video').forEach(v=>{ if(v.controls){ v.pause(); if(sc.contains(v)&&(v.dataset.go||v.currentTime>0)){ delete v.dataset.go; try{v.load()}catch(e){} } }   /* 다시 들어오면 첫 그림으로 되돌린다 */
+  $$('#stage video').forEach(v=>{ if(v.dataset.manual){ v.pause(); if(sc.contains(v)&&(v.dataset.go||v.currentTime>0)){ delete v.dataset.go; try{v.load()}catch(e){} } }   /* 다시 들어오면 첫 그림으로 되돌린다 */
     else if(sc.contains(v)){ try{v.currentTime=0}catch(e){} const pr=v.play(); pr&&pr.catch&&pr.catch(()=>{}) } else v.pause() });
   const q0=sc.dataset.act&&stepById(sc.dataset.act); if(q0&&q0.kind==='quiz'&&!REVEAL[q0.id]) quizStart(q0); else { quizStop(); pushState() }
   refreshLive();
@@ -1318,7 +1318,7 @@ function skipWipe(){ if(busy&&wShown){ clearTimeout(wipeT); wipe.classList.remov
 function playClip(t){ const v=$('#caseClip'); if(!v) return; v.dataset.go='1'; try{ v.currentTime=t }catch(e){} v.muted=false; const p=v.play(); p&&p.catch&&p.catch(()=>{ v.muted=true; const q=v.play(); q&&q.catch&&q.catch(()=>{}) }) }
 function fwd(){ if(busy){ skipWipe(); return } navDir=1; const sc=scenes[cur], g=GAL[sc.id];
   if(g&&g.i<g.n-1){ g.i++; paintGal(sc); label(); return }
-  const v=$('video[controls]',sc); if(v&&!v.dataset.go){ playClip(0); return }
+  const v=$('video[data-manual]',sc); if(v&&!v.dataset.go){ playClip(0); return }
   go(nextOf(cur)) }
 function back(){ if(busy){ skipWipe(); return } navDir=-1; const sc=scenes[cur], g=GAL[sc.id];
   if(g&&g.i>0){ g.i--; paintGal(sc); label(); return }
@@ -1326,6 +1326,10 @@ function back(){ if(busy){ skipWipe(); return } navDir=-1; const sc=scenes[cur],
 $('#prev').onclick=back; $('#next').onclick=fwd;
 $('#skipIn').onclick=()=>{ navDir=1; go(1) };
 $('#clipAll').onclick=()=>playClip(0); $('#clipEnd').onclick=()=>playClip(38.7);
+/* 재생 막대는 마우스를 영상 위에 올렸을 때만 보인다. 멈춘 화면과 마지막 장면을 가리지 않게 한다 */
+{ const cv=$('#caseClip'), vb=cv&&cv.closest('.vbox'); if(vb){ const fs=()=>document.fullscreenElement===cv;
+    vb.addEventListener('mouseenter',()=>{ cv.controls=true }); vb.addEventListener('mouseleave',()=>{ if(!fs()) cv.controls=false });
+    document.addEventListener('fullscreenchange',()=>{ cv.controls=fs()||vb.matches(':hover') }) } }
 $('#playS').onclick=()=>Film.play('open');
 $('#replayO').onclick=()=>Film.play('open');
 addEventListener('keydown',e=>{
@@ -1333,7 +1337,9 @@ addEventListener('keydown',e=>{
   if($('#film').classList.contains('on')){ if(e.key==='Escape'||e.key==='ArrowRight') Film.stop(true); return }
   const ov=$$('.ov.on').pop(); if(ov){ if(e.key==='Escape'&&ov.id!=='gate') ov.classList.remove('on'); return }
   if(e.key==='Escape'&&$('.zoomed')){ unzoom(); return }
-  if(e.target&&e.target.tagName==='VIDEO'&&e.key===' ') return;          /* 영상을 누른 뒤의 스페이스는 재생과 멈춤이다 */
+  { const mv=$('video[data-manual]',scenes[cur]);                          /* 영상이 있는 장면에서 스페이스는 재생과 멈춤이다 */
+    if(e.key===' '&&mv){ if(e.target===mv&&mv.controls) return;            /* 재생 막대가 보이는 영상을 누른 뒤에는 브라우저가 알아서 한다 */
+      e.preventDefault(); if(!mv.dataset.go) playClip(0); else if(mv.paused){ const p=mv.play(); p&&p.catch&&p.catch(()=>{}) } else mv.pause(); return } }
   if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();fwd()}
   else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();back()}
 });

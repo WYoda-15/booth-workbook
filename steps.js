@@ -295,7 +295,7 @@ w2:[
 
 /* 화면 사진: 앞 화면과 교재가 함께 쓴다. f 가 빈 것은 강사가 앞 화면에서 붙여 넣으면 나타난다. */
 const SHOTS={
- cc_get:{f:'',alt:'Claude 앱을 내려받는 화면'},
+ cc_get:{f:'media/shots/cc_get.jpg',alt:'Claude 내려받기 화면. Windows용 다운로드 단추가 표시되어 있다'},
  cc_login:{f:'',alt:'Claude 앱의 로그인 화면'},
  cc_tab:{f:'',alt:'Claude 앱 왼쪽 위의 Code 탭'},
  cc_model:{f:'',alt:'입력창 아래에서 모델을 고르는 곳'},
@@ -314,7 +314,7 @@ const SHOTS={
  fb_loc:{f:'',alt:'데이터베이스 위치를 싱가포르로 고르는 화면'},
  fb_test:{f:'',alt:'테스트 모드에서 시작을 고르는 화면'},
  fb_url:{f:'media/shots/fb_url.jpg',alt:'데이터 탭 맨 위에 있는 데이터베이스 주소'},
- cv_login:{f:'',alt:'캔바에 로그인하는 화면'},
+ cv_login:{f:'media/shots/cv_login.jpg',alt:'캔바 처음 화면. 오른쪽 위의 로그인 단추가 표시되어 있다'},
  cv_conn:{f:'',alt:'Claude의 커넥터 화면'},
  cv_allow:{f:'',alt:'캔바가 허용을 묻는 화면'},
  cv_on:{f:'',alt:'대화 입력창에서 Canva를 켠 모습'},
