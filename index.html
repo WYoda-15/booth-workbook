@@ -265,7 +265,7 @@ const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.par
 const setHTML=(el,h)=>{ if(el&&el._h!==h){el._h=h; el.innerHTML=h} };
 const COLS=['members','answers','finals','results','checks','drafts','tprompts'];
 const D={}; teamIds(TEAM_MAX).forEach(t=>{D[t]={}; COLS.forEach(c=>D[t][c]={})});
-let CFG={teams:TEAM_DEFAULT,spare:''}, CLS={step:'',slide:'',qend:0,qz:false}, REVEAL={}, OFF=0;
+let CFG={teams:TEAM_DEFAULT,spare:'',short:''}, CLS={step:'',slide:'',qend:0,qz:false}, REVEAL={}, OFF=0;
 let me=LS.get('wb_me',null), cur=STEPS[WEEK][0].id, follow=true, view='login', selTeam=me?me.team:null, teacher=LS.get('wb_teacher',false)===true;
 let db=null, rdb=null, base='wb/'+CLASS_CODE, mode='wait', isOn=false, everOn=false, saving=0, peers=[];
 const nameKey=n=>'n'+[...n.trim()].map(c=>c.codePointAt(0).toString(36)).join('-');
@@ -299,7 +299,7 @@ function connect(){
   if(!window.firebase||!firebase.initializeApp){ banner('공유 저장소에 연결하지 못했습니다. 인터넷 연결을 확인하고 새로고침해 주세요.'); setPill(); return }
   try{
     firebase.initializeApp({databaseURL:DB_URL}); rdb=firebase.database(); db=adapter(rdb,base); mode='db';
-    db.doc('class/config').onSnapshot(s=>{ const d=s.exists?(s.data()||{}):{}; const n=+d.teams; CFG.teams=Math.max(1,Math.min(TEAM_MAX,n||TEAM_DEFAULT)); CFG.spare=cleanDbUrl(d.spare); subAll(); renderLogin(); renderTeacher(); if(view==='app') refresh() },()=>{});
+    db.doc('class/config').onSnapshot(s=>{ const d=s.exists?(s.data()||{}):{}; const n=+d.teams; CFG.teams=Math.max(1,Math.min(TEAM_MAX,n||TEAM_DEFAULT)); CFG.spare=cleanDbUrl(d.spare); CFG.short=String(d.short||''); subAll(); renderLogin(); renderTeacher(); if(view==='app') refresh() },()=>{});
     db.doc('class/state').onSnapshot(s=>{ const d=s.exists?(s.data()||{}):{}; CLS={step:String(d.step||''),slide:String(d.slide||''),qend:+d.qend||0,qz:!!d.qz}; onState() },()=>{});
     db.collection('class/reveal').onSnapshot(rows=>{ REVEAL={}; rows.forEach(([id,v])=>{if(v)REVEAL[id]=true}); refresh() },()=>{});
     db.doc('class/epoch').onSnapshot(s=>{ const e=s.exists?String(s.data()):''; const KICK='강사가 기록을 초기화했습니다. 다시 들어와 주세요.';
@@ -340,7 +340,7 @@ $('#leave').onclick=()=>{ flushAll(); if(entered) leaveQuiz(); absent(); me=null
 /* ---------- 강사 메뉴 ---------- */
 function renderTeacher(){ $('#tGate').hidden=teacher; $('#tBody').hidden=!teacher; $('#tN').textContent=CFG.teams+'팀' }
 $('#tGo').onclick=()=>{ if($('#tPin').value.trim()===TEACHER_PIN){teacher=true; LS.set('wb_teacher',true); renderTeacher()} else $('#tMsg').textContent='코드가 다릅니다.' };
-const setTeams=n=>{ n=Math.max(1,Math.min(TEAM_MAX,n)); if(mode==='db') db.doc('class/config').set({teams:n,spare:CFG.spare||''}) };
+const setTeams=n=>{ n=Math.max(1,Math.min(TEAM_MAX,n)); if(mode==='db') db.doc('class/config').set({teams:n,spare:CFG.spare||'',short:CFG.short||''}) };
 $('#tMinus').onclick=()=>setTeams(CFG.teams-1); $('#tPlus').onclick=()=>setTeams(CFG.teams+1);
 
 /* ---------- 퀴즈: 전체 화면으로 들어오고, 푸는 동안 화면을 벗어나면 그 문제는 무효 ---------- */

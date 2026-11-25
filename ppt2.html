@@ -655,12 +655,65 @@ button.qrc:hover{border-color:var(--hot)}
 .grid.four .card p{font-size:26px;line-height:1.42}
 .src.two{columns:2;column-gap:44px;font-size:21px}
 .src.two li{break-inside:avoid}
+
+/* ---------- 교재 주소 ---------- */
+.joinbox{grid-template-columns:auto minmax(0,1fr);gap:4px 32px;padding:18px 28px;align-items:center}
+.joinbox .jqr{grid-row:1/6;width:188px;height:188px;background:#fff;border-radius:12px;padding:10px;line-height:0}
+.joinbox .jqr svg{width:100%;height:100%;display:block}
+.joinbox small{font-size:20px;color:var(--dim)}
+.joinbox .url{grid-row:auto;font-size:68px;line-height:1.05;word-break:break-all}
+.joinbox .url.long{font-size:44px}
+.joinbox .full{font-family:var(--f-m);font-size:20px;color:var(--dim);min-height:1px}
+#top .addr{font-family:var(--f-m);font-size:19px;color:var(--flash);margin-right:6px;white-space:nowrap}
+#index .row input#shortIn{flex:1;min-width:0}
+/* ---------- 사례 장 ---------- */
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:4px 0 10px}
+.casev .pts{font-size:23px;margin:6px 0 10px}
+.casev .card h3{font-size:34px}
+.nums div{background:var(--ink3);border-radius:12px;padding:8px 8px;text-align:center}
+.nums b{display:block;font-family:var(--f-ko);font-weight:400;font-size:33px;line-height:1.1;color:var(--hot)}
+.nums span{font-size:16px;color:var(--dim)}
+.card p.sm button{font-size:18px;padding:.25em .9em;margin-right:8px}
+.casereq{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.casereq .card{padding:12px 18px}
+.casereq .q{font-family:var(--f-ko);font-size:25px;line-height:1.25;color:var(--flash);margin:4px 0 8px}
+.casereq p{font-size:20px;line-height:1.38;margin:0 0 4px}
+.casereq p b{color:var(--hot);margin-right:.3em}
+.strip{flex:1;min-height:0;margin:14px 0 0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:6px}
+.strip img{width:100%;height:100%;min-height:0;object-fit:contain;object-position:left center;border-radius:12px;border:1px solid var(--line);background:#1d1e21;cursor:zoom-in}
+.strip figcaption{font-size:19px;color:var(--dim)}
+.cased{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:22px;flex:1;min-height:0}
+.ba{display:grid;grid-template-rows:auto minmax(0,1fr);gap:12px;min-height:0}
+.ba .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-height:0;align-items:start}
+.ba figure{margin:0;position:relative;min-height:0}
+.ba img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;border:1px solid var(--line);cursor:zoom-in;display:block}
+.ba figcaption{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.72);padding:2px 12px;border-radius:999px;font-size:18px}
+.judge{display:grid;gap:10px;align-content:start}
+.judge .card{padding:10px 18px}
+.judge .q{font-family:var(--f-ko);font-size:25px;color:var(--flash);line-height:1.2;margin:2px 0 3px}
+.judge p{font-size:20px;margin:0;line-height:1.38}
+
+.ba .card{padding:12px 18px}
+.ba .card p{font-size:21px;line-height:1.4}
+.ba .card h3{font-size:30px}
+
+.casereq2{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.3fr);gap:20px;flex:1;min-height:0}
+.reqs{display:grid;gap:10px;align-content:start}
+.reqs .card{padding:12px 18px}
+.reqs .card p.q,.judge .card p.q{font-family:var(--f-b);font-weight:700;font-size:24px;line-height:1.3;color:var(--flash);margin:4px 0 6px}
+.reqs p{font-size:20px;line-height:1.38;margin:0}
+.shots{display:grid;gap:10px;align-content:start;min-height:0}
+.shots figure{margin:0}
+.shots img{width:100%;display:block;border-radius:12px;border:1px solid var(--line);cursor:zoom-in;background:#1d1e21}
+.shots img.low{height:236px;object-fit:cover;object-position:left top}
+.shots figcaption{font-size:18px;color:var(--dim);margin-top:4px}
 </style>
 </head>
 <body>
 <div id="app">
 <div id="top">
  <div class="brand">CLAUDE <i>특강 2주차</i></div>
+ <span class="addr" id="topAddr"></span>
  <span class="pill" id="pill">연결 중</span>
  <button id="openRank" type="button">순위</button>
  <button id="openIdx" type="button">목차와 도구</button>
@@ -670,7 +723,7 @@ button.qrc:hover{border-color:var(--hot)}
 <section class="scene" id="cover" data-title="표지">
  <div class="cv-t" aria-label="CLAUDE"><span style="animation-delay:0s">C</span><span style="animation-delay:.07s">L</span><span style="animation-delay:.14s">A</span><span style="animation-delay:.21s">U</span><span style="animation-delay:.28s">D</span><span style="animation-delay:.35s">E</span></div>
  <div class="cv-s">기획을 움직이게 만든다</div>
- <dl class="cv-m"><div><dt>강의</dt><dd>정우진</dd></div><div><dt>2주차</dt><dd>2026.11.26</dd></div><div><dt>교재 주소</dt><dd>wyoda-15.github.io/booth-workbook</dd></div></dl>
+ <dl class="cv-m"><div><dt>강의</dt><dd>정우진</dd></div><div><dt>2주차</dt><dd>2026.11.26</dd></div><div><dt>교재 주소</dt><dd id="coverAddr">wyoda-15.github.io/booth-workbook</dd></div></dl>
  <div class="cv-b"><button class="hotb" id="playS" type="button">오프닝 재생</button><button id="skipIn" type="button">바로 수업으로</button></div>
 </section>
 
@@ -715,14 +768,47 @@ button.qrc:hover{border-color:var(--hot)}
  </div>
 </section>
 
-<section class="scene" id="k2" data-title="사례: 말로 하는 영상 편집">
- <header class="sh"><span class="no">00</span><h2>사례 · <em>말로 하는 영상 편집</em></h2>
- <p class="lede">Claude를 MCP로 다빈치 리졸브에 연결했습니다. 왼쪽이 Claude, 오른쪽이 편집 프로그램입니다.</p></header>
+<section class="scene" id="k2" data-title="사례: 말로 만든 홍보 영상">
+ <header class="sh"><span class="no">00</span><h2>사례 · <em>말로 만든 공연 홍보 영상</em></h2>
+ <p class="lede">공연 전에 기대감을 올리는 64초짜리 홍보 영상입니다. Claude에 내 컴퓨터의 다빈치 리졸브를 MCP로 연결해서 만들었습니다.</p></header>
  <div class="casev">
-  <video class="zv" src="media/resolve_edit.mp4" muted loop playsinline preload="metadata"></video>
+  <video class="zv" id="caseClip" src="media/w2_case_clip.mp4" poster="media/w2_case_poster.jpg" muted loop playsinline preload="metadata"></video>
   <div class="card"><span class="k">연결</span><h3>Claude · MCP · 다빈치 리졸브</h3>
-   <ul class="pts"><li>클립을 타임라인에 놓습니다</li><li>한 프레임짜리 틈을 찾아냅니다</li><li>4K와 2K로 내보냅니다</li></ul>
-   <p><b>무엇을 만들지 정하는 것은 사람</b>이고, 프로그램을 조작하는 손이 Claude입니다.</p><p class="sm">영상을 누르면 커집니다.</p></div>
+   <ul class="pts"><li>Claude 데스크톱 앱에서 말로 지시합니다</li><li>내 PC의 MCP 서버가 다빈치 리졸브를 조작합니다</li><li>PC의 폴더와 화면 캡처도 함께 연결했습니다</li></ul>
+   <div class="nums"><div><b>3일</b><span>작업 기간</span></div><div><b>10문장</b><span>기록에 남은 지시</span></div><div><b>32개</b><span>리졸브에 올린 자막</span></div></div>
+   <p class="sm"><button type="button" id="clipSnd" aria-pressed="false">소리 켜기</button> 영상을 누르면 커집니다.</p></div>
+ </div>
+</section>
+
+<section class="scene" id="k2b" data-title="사례: 한 문장이 한 일">
+ <header class="sh"><span class="no">00</span><h2>사례 · <em>한 문장이 한 일</em></h2>
+ <p class="lede">실제로 보낸 문장 그대로입니다. 전문 용어도, 긴 설명도 없습니다.</p></header>
+ <div class="casereq2">
+  <div class="reqs">
+   <div class="card"><span class="k">요청 1</span><p class="q">“자막 문구는 내가 수정할 수 있도록 만들어줘야 해”</p><p>글자 자막 32개를 리졸브 안에 올렸습니다. 글꼴, 위치, 등장 효과까지 넣었습니다.</p></div>
+   <div class="card"><span class="k">요청 2</span><p class="q">“영상1에는 이 영상에서 짧게 잘라서 살짝 넣어보자.”</p><p>연결된 폴더의 공연 녹화에서 네 구간을 골라 편집에 넣었습니다.</p></div>
+   <div class="card"><span class="k">요청 3</span><p class="q">“좋아. 이거 2K로 만들어줘. 끝낸 뒤에 자막없는버전도 만들어줘.”</p><p>2K로 렌더하고(약 18분) 검증한 뒤, 파일 5개를 내 폴더에 저장했습니다.</p></div>
+  </div>
+  <div class="shots">
+   <figure><img class="zv" src="media/w2_resolve_tl.jpg" alt="다빈치 리졸브 타임라인. 위쪽 여섯 줄에 자막 클립이 놓여 있다" loading="lazy"><figcaption>다빈치 리졸브의 타임라인. V2부터 V7까지 놓인 조각이 Claude가 올린 자막 32개입니다.</figcaption></figure>
+   <figure><img class="zv low" src="media/w2_resolve_text.jpg" alt="자막 하나를 연 화면. 글자와 글꼴을 고치는 칸이 보인다" loading="lazy"><figcaption>자막 하나를 열면 글자만 눌러 고칠 수 있습니다. 그림을 누르면 커집니다.</figcaption></figure>
+  </div>
+ </div>
+</section>
+
+<section class="scene" id="k2c" data-title="사례: 그래픽은 코드로, 결정은 사람이">
+ <header class="sh"><span class="no">00</span><h2>사례 · 그래픽은 코드로, <em>결정은 사람이</em></h2>
+ <p class="lede">화면의 그래픽은 Claude가 코드로 그렸습니다. 무엇이 좋은지 고르고 되돌리는 일은 끝까지 사람이 했습니다.</p></header>
+ <div class="cased">
+  <div class="ba">
+   <div class="card"><span class="k">Claude가 한 일</span><h3>그래픽을 코드로 그렸습니다</h3><p>기울어진 영상 창, 색 면, 장면 전환, 자막을 모두 파이썬 코드로 그려 영상으로 묶었습니다. 13장면, 1,936프레임입니다.</p></div>
+   <div class="pair"><figure><img class="zv" src="media/w2_before.jpg" alt="받은 소스 영상의 한 장면" loading="lazy"><figcaption>받은 소스</figcaption></figure><figure><img class="zv" src="media/w2_after.jpg" alt="그래픽을 입힌 같은 장면" loading="lazy"><figcaption>코드로 입힌 화면</figcaption></figure></div>
+  </div>
+  <div class="judge">
+   <div class="card"><span class="k">사람이 판단한 지점 1</span><p class="q">“내가 말한게 반영이 안됬는데..?”</p><p>Claude가 요청을 잘못 읽었고, 사람이 다시 설명했습니다.</p></div>
+   <div class="card"><span class="k">사람이 판단한 지점 2</span><p class="q">“영상1 첫부분에 소리가 너무 확 커지는 문제가있어 수정해줘.”</p><p>Claude는 소리를 듣지 못해 수치만 봅니다. 문제는 사람이 듣고 잡았습니다.</p></div>
+   <div class="card hot"><span class="k">사람이 판단한 지점 3</span><p class="q">“보고나니까 좀 애매하네.”</p><p>다시 만든 오프닝을 버리고 이전 안으로 되돌리기로 정한 것은 사람입니다.</p></div>
+  </div>
  </div>
 </section>
 
@@ -734,7 +820,7 @@ button.qrc:hover{border-color:var(--hot)}
   <div class="card"><span class="k">Claude가 한 일</span><h3>코드로 그렸습니다</h3><p>장면 아홉 개, 36초. 연결망, 함께 바뀌는 화면, 편집 타임라인, 글자가 모이는 장면과 소리까지 HTML, CSS, JavaScript로 만들었습니다.</p></div>
   <div class="card hot"><span class="k">사람이 한 일</span><h3>주제를 정했습니다</h3><p>오늘 수업에서 "연결"을 다루겠다고 정한 것은 사람입니다. 결과를 보고 쓸지, 고칠지 판단하는 것도 사람입니다.</p></div>
  </div>
- <p class="note"><button type="button" class="hotb" id="replayO">오프닝 다시 보기</button> 영상 편집 사례와 같은 원리입니다. 말로 시키고, 사람이 판단합니다.</p>
+ <p class="note"><button type="button" class="hotb" id="replayO">오프닝 다시 보기</button> 홍보 영상 사례와 같은 원리입니다. 말로 시키고, 사람이 판단합니다.</p>
 </section>
 
 <section class="scene act" data-act="w2t1" data-part="1" data-title="함께 누르기"></section>
@@ -1042,6 +1128,7 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
  <h2>목차와 도구<button id="closeIdx" type="button">닫기</button></h2>
  <div class="row"><span>팀 수</span><button id="tMinus" type="button" aria-label="팀 줄이기">−</button><span id="tN">3팀</span><button id="tPlus" type="button" aria-label="팀 늘리기">+</button>
   <button id="syncBtn" type="button" aria-pressed="false">교재 연동</button><button id="sndBtn" type="button" aria-pressed="true">소리</button><button id="fsBtn" type="button">전체 화면</button></div>
+ <div class="row"><span>짧은 교재 주소</span><input id="shortIn" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예: is.gd/wydclass (없으면 비워 둡니다)" aria-label="짧은 교재 주소"><button id="shortGo" type="button">저장</button><span id="shortMsg" class="tmsg"></span></div>
  <div class="row"><span>예비 저장소 주소</span><input id="spareIn" type="text" autocomplete="off" spellcheck="false" placeholder="https://....firebasedatabase.app" aria-label="예비 저장소 주소"><button id="spareGo" type="button">저장</button><span id="spareMsg" class="tmsg"></span></div>
  <div class="row"><button id="bkBtn" type="button">전체 기록 내려받기</button><span id="bkMsg" class="tmsg"></span><button id="tWipe" class="danger" type="button">2주차 기록 지우기</button><span id="tWipeMsg" class="tmsg"></span></div>
  <ol id="idxList"></ol>
@@ -1074,7 +1161,7 @@ const setHTML=(el,h)=>{ if(el&&el._h!==h){el._h=h; el.innerHTML=h} };
 const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const COLS=['members','answers','finals','results','checks','drafts','tprompts'];
 const D={}; teamIds(TEAM_MAX).forEach(t=>{D[t]={}; COLS.forEach(c=>D[t][c]={})});
-let CFG={teams:TEAM_DEFAULT,spare:''}, REVEAL={}, peers=[], db=null, rdb=null, base='wb/'+CLASS_CODE, isOn=false, OFF=0;
+let CFG={teams:TEAM_DEFAULT,spare:'',short:''}, REVEAL={}, peers=[], db=null, rdb=null, base='wb/'+CLASS_CODE, isOn=false, OFF=0;
 let canSync=LS.get('wb_teacher',false)===true, syncOn=canSync, soundOn=true, rankWeek=WEEK;
 const txt=v=>String((v&&v.text)||'').trim();
 const TEAMS=()=>teamIds(CFG.teams);
@@ -1092,7 +1179,7 @@ addEventListener('resize',fit); fit();
 $$('.scene.act').forEach(sc=>{ const st=stepById(sc.dataset.act), quiz=st.kind==='quiz'; sc.id='a_'+st.id; sc.classList.toggle('quiz',quiz);
   const g=st.blocks.find(x=>x.b==='guide')||{};
   sc.innerHTML=`<div class="band"><span class="no">${st.k}</span><div class="tt"><b>${esc(st.n)}</b><span>${quiz?`퀴즈 · ${st.pt}점 · ${st.sec||20}초`:`교재 ${st.k}번 · ${KIND[st.kind]} · 약 ${st.t}분`}</span></div><span class="sync">교재가 이 화면으로 바뀝니다</span><span class="cnt" id="cnt_${st.id}"></span></div>
-   ${sc.dataset.join?`<div class="joinbox"><div class="url">wyoda-15.github.io/booth-workbook</div><p><b>1</b>각자 PC의 브라우저에서 위 주소를 엽니다</p><p><b>2</b>지난주와 같은 팀, 같은 이름으로 들어옵니다</p><p><b>3</b>아래 질문에 한 줄로 답합니다</p></div>`:''}
+   ${sc.dataset.join?`<div class="joinbox"><div class="jqr" id="joinQr"></div><small>교재 주소 · PC는 주소창에 그대로 치고, 휴대폰은 QR을 찍습니다</small><div class="url" id="joinUrl"></div><div class="full" id="joinFull"></div><p><b>1</b>지난주와 같은 팀, 같은 이름으로 들어옵니다</p><p><b>2</b>아래 질문에 한 줄로 답합니다</p></div>`:''}
    ${st.goal&&!sc.dataset.join&&!quiz?`<p class="goal">${esc(st.goal)}</p>`:''}
    ${st.kind==='wall'&&!st.apps?`<p class="qq">${esc(st.q)}</p>`:''}
    ${st.kind==='kit'&&(g.talk||g.must)?`<p class="note tipn">${g.talk?`<b>먼저 팀이 의논합니다</b> ${g.talk.map(esc).join(' · ')}`:`<b>프롬프트에 넣을 것</b> ${g.must.map(esc).join(' · ')}`}</p>`:''}
@@ -1130,6 +1217,7 @@ $('#prev').onclick=()=>go(cur-1); $('#next').onclick=()=>go(cur+1);
 $('#skipIn').onclick=()=>go(1);
 $('#playS').onclick=()=>Film.play('open');
 $('#replayO').onclick=()=>Film.play('open');
+$('#clipSnd').onclick=e=>{ const v=$('#caseClip'), on=v.muted; v.muted=!on; e.currentTarget.setAttribute('aria-pressed',on); e.currentTarget.textContent=on?'소리 끄기':'소리 켜기'; if(on){ const pr=v.play(); pr&&pr.catch&&pr.catch(()=>{}) } };
 addEventListener('keydown',e=>{
   if(/INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
   if($('#film').classList.contains('on')){ if(e.key==='Escape'||e.key==='ArrowRight') Film.stop(true); return }
@@ -1161,7 +1249,7 @@ function connect(){
   if(!window.firebase||!firebase.initializeApp){ setPill(); return }
   try{
     firebase.initializeApp({databaseURL:DB_URL}); rdb=firebase.database(); db=adapter(rdb,base);
-    db.doc('class/config').onSnapshot(s=>{ const d=s.exists?(s.data()||{}):{}; CFG.teams=Math.max(1,Math.min(TEAM_MAX,+d.teams||TEAM_DEFAULT)); CFG.spare=cleanDbUrl(d.spare); subAll(); renderTools(); refreshLive() },()=>{});
+    db.doc('class/config').onSnapshot(s=>{ const d=s.exists?(s.data()||{}):{}; CFG.teams=Math.max(1,Math.min(TEAM_MAX,+d.teams||TEAM_DEFAULT)); CFG.spare=cleanDbUrl(d.spare); CFG.short=cleanShort(d.short); subAll(); renderTools(); renderJoin(); refreshLive() },()=>{});
     db.collection('class/reveal').onSnapshot(rows=>{ const r={}; rows.forEach(([id,v])=>{if(v)r[id]=true}); REVEAL=r; refreshLive() },()=>{});
     db.collection('presence').onSnapshot(rows=>{ peers=rows.map(r=>r[1]||{}); setPill(); refreshLive() },()=>{});
     rdb.ref('.info/serverTimeOffset').on('value',s=>{ OFF=+s.val()||0 });
@@ -1175,9 +1263,19 @@ $('#gateGo').onclick=()=>{ if($('#gateIn').value.trim()===TEACHER_PIN){canSync=t
 $('#gateIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#gateGo').click()});
 $('#gateSkip').onclick=()=>$('#gate').classList.remove('on');
 /* 도구: 팀 수, 연동, 예비 주소, 2주차 기록 지우기, 내려받기 */
-function renderTools(){ $('#tN').textContent=CFG.teams+'팀'; $('#syncBtn').setAttribute('aria-pressed',syncOn); ['tMinus','tPlus','tWipe','spareGo','bkBtn'].forEach(id=>{$('#'+id).disabled=!canSync||!db});
-  const si=$('#spareIn'); if(document.activeElement!==si) si.value=CFG.spare||'' }
-const saveCfg=()=>{ if(db&&canSync) db.doc('class/config').set({teams:CFG.teams,spare:CFG.spare||''}).catch(()=>{}) };
+function renderTools(){ $('#tN').textContent=CFG.teams+'팀'; $('#syncBtn').setAttribute('aria-pressed',syncOn); ['tMinus','tPlus','tWipe','spareGo','shortGo','bkBtn'].forEach(id=>{$('#'+id).disabled=!canSync||!db});
+  const si=$('#spareIn'); if(document.activeElement!==si) si.value=CFG.spare||''; const hi=$('#shortIn'); if(document.activeElement!==hi) hi.value=CFG.short||'' }
+const saveCfg=()=>{ if(db&&canSync) db.doc('class/config').set({teams:CFG.teams,spare:CFG.spare||'',short:CFG.short||''}).catch(()=>{}) };
+/* 교재 주소: 짧은 주소를 넣어 두면 그것을 크게 보여 주고, 휴대폰용 QR은 언제나 원래 주소로 만든다 */
+const cleanShort=v=>String(v||'').trim().replace(/^https?:\/\//i,'').replace(/\/+$/,'').replace(/[\s<>"'`]/g,'').slice(0,60);
+const WB_HREF=new URL('./',location.href).href, WB_SHOW=WB_HREF.replace(/^https?:\/\//,'').replace(/\/$/,'');
+function renderJoin(){ const sh=CFG.short, show=sh||WB_SHOW;
+  const u=$('#joinUrl'); if(u){ u.textContent=show; u.classList.toggle('long',show.length>22) }
+  const f=$('#joinFull'); if(f) f.textContent=sh?'열리지 않으면 원래 주소: '+WB_SHOW:'';
+  const q=$('#joinQr'); if(q&&!q.firstChild) q.innerHTML=qrSvg(WB_HREF);
+  const t=$('#topAddr'); if(t) t.textContent='교재 '+show; const c=$('#coverAddr'); if(c) c.textContent=show }
+$('#shortGo').onclick=()=>{ const v=cleanShort($('#shortIn').value), m=$('#shortMsg'); CFG.short=v; saveCfg(); renderJoin(); m.textContent=v?'저장했습니다. 체크인 장과 화면 위쪽에 이 주소가 나옵니다.':'비웠습니다. 원래 주소가 나옵니다.' };
+setTimeout(renderJoin,0);
 const setTeams=n=>{ n=Math.max(1,Math.min(TEAM_MAX,n)); CFG.teams=n; renderTools(); subAll(); refreshLive(); saveCfg() };
 $('#tMinus').onclick=()=>setTeams(CFG.teams-1); $('#tPlus').onclick=()=>setTeams(CFG.teams+1);
 $('#syncBtn').onclick=()=>{ if(!canSync){$('#index').classList.remove('on');$('#gate').classList.add('on');return} syncOn=!syncOn; renderTools(); setPill(); if(syncOn)pushState() };
