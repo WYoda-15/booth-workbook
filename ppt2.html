@@ -1308,7 +1308,7 @@ function paintGal(sc){ const g=GAL[sc.id]; if(!g) return; const x=g.L[g.i]||{}, 
   $$('.gl li',sc).forEach((li,i)=>li.classList.toggle('on',i===g.i));
   fig.classList.toggle('noimg',!u); if(u){ if(im.getAttribute('src')!==u) im.setAttribute('src',u) } else im.removeAttribute('src');
   im.alt=(SHOTS[x.shot]||{}).alt||'';
-  setHTML($('.gnone',fig),`<b>${g.i+1}</b><p>${esc(x.t||'')}</p>${x.s?`<small>${esc(x.s)}</small>`:''}${canSync?`<i>강사에게만 보이는 안내입니다. 이 단계에는 아직 사진이 없습니다. 넣으려면 보여 줄 화면을 캡처(Win+Shift+S)한 뒤 이 화면에서 Ctrl+V 를 누릅니다. 학생 교재에도 함께 나타납니다.</i>`:''}`);
+  setHTML($('.gnone',fig),`<b>${g.i+1}</b><p>${esc(x.t||'')}</p>${x.s?`<small>${esc(x.s)}</small>`:''}`);   /* 사진이 없는 단계는 글만 크게 보여 준다 */
   $('.gtools',fig).classList.toggle('can',canSync&&!!rdb); $('[data-shotdel]',fig).hidden=!SHOTX[x.shot] }
 /* 강사가 넣는 화면 사진: 줄여서 저장소에 두면 교재에도 바로 나타난다 */
 async function putShot(key,file){ if(!key||!file||!rdb||!canSync) return;
@@ -1434,7 +1434,7 @@ $('#gateSkip').onclick=()=>$('#gate').classList.remove('on');
 function renderTools(){ $('#tN').textContent=CFG.teams+'팀'; $('#syncBtn').setAttribute('aria-pressed',syncOn); ['tMinus','tPlus','tWipe','spareGo','shortGo','bkBtn'].forEach(id=>{$('#'+id).disabled=!canSync||!db});
   const si=$('#spareIn'); if(document.activeElement!==si) si.value=CFG.spare||''; const hi=$('#shortIn'); if(document.activeElement!==hi) hi.value=CFG.short||'';
   { const all=Object.values(GUIDES).reduce((a,L)=>a.concat(L),[]), have=all.filter(x=>shotSrc(x.shot)).length;
-    $('#shotInfo').textContent=`"따라 하기" 장면의 ${all.length}단계 가운데 ${have}단계에 화면 사진이 들어 있습니다. 나머지 ${all.length-have}단계는 글만 보입니다. 사진을 직접 넣으려면: ① "따라 하기" 장면에서 → 키로 그 단계까지 갑니다 ② 보여 줄 화면을 캡처합니다(Win+Shift+S) ③ 이 강의 화면을 한 번 누르고 Ctrl+V 를 누릅니다. 넣은 사진은 학생 교재의 같은 단계에도 바로 나타납니다.` }
+    $('#shotInfo').textContent=`"따라 하기" 장면의 ${all.length}단계 가운데 ${have}단계에 화면 사진이 있습니다. 나머지 ${all.length-have}단계는 글만 크게 보여 줍니다. 따로 할 일은 없습니다. 사진을 더 넣고 싶을 때만, 그 단계에서 화면을 캡처(Win+Shift+S)한 뒤 Ctrl+V 를 누릅니다.` }
   const ro=$('#roomOpen'); ro.href=new URL('ppt2.html'+(ROOM?'':'?room=test'),location.href).href; ro.textContent=ROOM?'실제 수업 화면 열기':'시험용 방 열기';
   $('#roomWipe').hidden=!ROOM; $('#roomWipe').disabled=!canSync||!db; if(!$('#roomMsg').dataset.s) $('#roomMsg').textContent=ROOM?'지금은 시험용 방입니다. 여기서 한 것은 수업 기록에 남지 않습니다.':'QR과 파일 올리기를 미리 해 볼 수 있습니다. 수업 기록은 그대로입니다.' }
 let roomArm=0;
