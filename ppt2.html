@@ -759,6 +759,11 @@ button.qrc:hover{border-color:var(--hot)}
 .thx-t{font-family:var(--f-ko);font-size:236px;line-height:1.02;white-space:nowrap}
 .thx-t span{display:inline-block;animation:drop .8s cubic-bezier(.2,1.4,.3,1) both}
 .thx .cv-s{font-size:60px;margin:18px 0 34px}
+
+/* 뒤로 넘기다 들어온 추가 퀴즈: 문제를 보여 주지 않고 기다린다 */
+.heldmsg{margin:auto;text-align:center;font-size:46px;line-height:1.5;color:var(--paper)}
+.heldmsg b{color:var(--hot)}
+.heldmsg small{display:block;font-size:26px;color:var(--dim);margin-top:10px}
 </style>
 </head>
 <body>
@@ -790,25 +795,23 @@ button.qrc:hover{border-color:var(--hot)}
 
 <section class="scene" id="today" data-title="오늘 할 두 가지">
  <header class="sh"><span class="no">00</span><h2>오늘은 <em>두 가지를 만듭니다</em></h2>
- <p class="lede">발표는 다음 시간에 합니다. 오늘은 Claude에 도구를 연결해서 직접 만듭니다.</p></header>
+ <p class="lede">오늘은 Claude에 도구를 연결해서 직접 만듭니다. 만든 것은 수업이 끝난 뒤에도 여러분 것입니다.</p></header>
  <div class="grid g2 fill">
-  <div class="card"><span class="k">1부 · 쉬는 시간 전까지</span><h3>Claude Code로 만드는 부스 프로그램</h3><p>내 컴퓨터의 폴더에서 Claude가 파일을 직접 만듭니다. 여러 휴대폰에서 동시에 열어도 같은 내용이 보이는 프로그램을 팀마다 하나 만듭니다.</p><p>잘 만든 화면을 <b>레퍼런스로 보여 주고</b> 우리 것으로 바꾸는 데까지 갑니다.</p></div>
-  <div class="card"><span class="k">2부 · 쉬는 시간 뒤</span><h3>캔바 발표 자료</h3><p>지난주의 운영 매뉴얼과 오늘의 프로그램을 묶어서, Claude에 연결한 캔바로 발표 자료의 초안을 만듭니다.</p><p>다듬는 일은 <b>발표 전까지 팀</b>이 이어서 합니다.</p></div>
+  <div class="card"><span class="k">1부 · 쉬는 시간 전까지</span><h3>Claude Code로 만드는 프로그램 또는 웹사이트</h3><p>내 컴퓨터의 폴더에서 Claude가 파일을 직접 만듭니다. 부스 운영에 쓰는 프로그램이나 부스를 알리는 웹사이트를 팀마다 하나 만듭니다.</p><p>잘 만든 화면을 <b>레퍼런스로 보여 주고</b> 우리 것으로 바꾸는 데까지 갑니다.</p></div>
+  <div class="card"><span class="k">2부 · 쉬는 시간 뒤</span><h3>캔바 발표 자료와 발표 대본</h3><p>지난주의 운영 매뉴얼과 오늘 만든 것을 묶어서, Claude에 연결한 캔바로 발표 자료를 만들고 장마다 말할 대본까지 씁니다.</p><p>여기서도 <b>템플릿이라는 예시</b>에서 시작합니다.</p></div>
  </div>
  <p class="note"><b>팀에서 한 명이 Claude를 맡습니다.</b> 나머지 팀원은 함께 의논하고, 교재에 적고, 휴대폰으로 시험합니다.</p>
 </section>
 
 <section class="scene qtitle" id="qt1" data-title="퀴즈 규칙">
  <div class="qtbox"><span class="qk">QUIZ</span><h2>오늘 퀴즈는 열 문제입니다</h2><p>수업 곳곳에서 두 문제씩 나옵니다. 먼저 지난주 복습입니다. 각 10점입니다.</p>
- <ul><li>문제마다 <b>15초</b></li><li><b>전체 화면</b>으로 풉니다</li><li>다른 창으로 가면 그 문제는 <b>무효</b></li><li>동점이면 <b>빨리 맞힌 사람</b>이 위</li></ul>
+ <ul><li>문제마다 <b>25초</b></li><li><b>전체 화면</b>으로 풉니다</li><li>다른 창으로 가면 그 문제는 <b>무효</b></li><li>동점이면 <b>빨리 맞힌 사람</b>이 위</li></ul>
  <p class="qready"></p></div>
 </section>
 
 <section class="scene act" data-act="w2q1" data-title="퀴즈 1"></section>
 
 <section class="scene act" data-act="w2q2" data-title="퀴즈 2"></section>
-
-<!-- PART 1 : 실시간 프로그램 -->
 
 <section class="scene" id="k1" data-title="연결하면 달라지는 것">
  <header class="sh"><span class="no">00</span><h2>Claude에 도구를 <em>연결하면 달라집니다</em></h2>
@@ -903,6 +906,17 @@ button.qrc:hover{border-color:var(--hot)}
  </div>
 </section>
 
+<section class="scene" id="types2" data-title="웹사이트로 만들어도 됩니다">
+ <header class="sh"><span class="no">00</span><h2>웹사이트로 <em>만들어도 됩니다</em></h2>
+ <p class="lede">프로그램은 누르면 바뀌는 도구이고, 웹사이트는 읽고 둘러보는 페이지입니다. 둘 다 HTML 파일 하나이고, 만드는 순서도 같습니다.</p></header>
+ <div class="grid g3 fill">
+  <div class="card"><span class="k">알리기</span><h3>부스 소개 페이지</h3><p>부스 이름과 한 줄 소개, 즐기는 순서, 시간과 위치를 한 페이지로 보여 줍니다. QR 하나로 방문객에게 전합니다.</p></div>
+  <div class="card"><span class="k">안내하기</span><h3>메뉴와 가격 안내</h3><p>파는 것과 가격을 보여 줍니다. 운영자가 품절을 누르면 방문객의 화면에서도 바로 바뀝니다.</p></div>
+  <div class="card"><span class="k">모으기</span><h3>방명록이 있는 이벤트 페이지</h3><p>이벤트를 소개하고, 방문객이 남긴 한 줄이 페이지 아래에 차례로 쌓입니다.</p></div>
+ </div>
+ <p class="note"><b>웹사이트에도 저장소를 씁니다.</b> 방명록, 품절 표시, 다녀간 사람 수처럼 여러 기기에서 함께 바뀌는 부분을 하나 넣습니다. 교재 05번에 웹사이트용 예시 프롬프트가 따로 있습니다.</p>
+</section>
+
 <section class="scene" id="cc0" data-title="오늘은 Claude Code">
  <header class="sh"><span class="no">00</span><h2>오늘은 <em>Claude Code로 만듭니다</em></h2>
  <p class="lede">같은 Claude입니다. 일하는 자리가 대화창에서 내 컴퓨터의 폴더로 바뀝니다.</p></header>
@@ -910,11 +924,11 @@ button.qrc:hover{border-color:var(--hot)}
   <div class="card"><span class="k">지난주 · 대화창</span><h3>답을 글로 받았습니다</h3><p>Claude가 쓴 것을 우리가 복사해서 옮겼습니다.</p><p>파일은 내려받아야 생겼습니다.</p></div>
   <div class="card hot"><span class="k">오늘 · Claude Code</span><h3>폴더에서 직접 만듭니다</h3><p>지정한 폴더 안에 Claude가 파일을 만들고 고칩니다. 설치 같은 명령도 직접 실행합니다.</p><p><b>맡기는 범위가 큰 만큼, 무엇을 하려는지 묻는 창이 뜨면 읽고 허락합니다.</b></p></div>
  </div>
- <p class="note">Claude Code는 Claude 데스크톱 앱의 <b>Code 탭</b>에 있습니다. 그래서 먼저 앱을 설치합니다.</p>
+ <p class="note">Claude Code는 Claude 데스크톱 앱 안에 있습니다. 왼쪽 위의 <b>&lt;/&gt; 모양</b>을 누르면 Code 화면이 열립니다. 그래서 먼저 앱을 설치합니다.</p>
 </section>
 
 <section class="scene gsc" id="cc1" data-guide="cc1" data-wb="w2s1" data-title="따라 하기: Claude 앱">
- <header class="sh"><span class="no">00</span><h2>따라 하기 · <em>Claude 앱과 Code 탭</em></h2>
+ <header class="sh"><span class="no">00</span><h2>따라 하기 · <em>Claude 앱과 Code 화면</em></h2>
  <p class="lede">교재 02번이 함께 열립니다. Claude를 맡은 사람이 하고, 다른 팀원은 교재에서 무엇을 만들지 정합니다.</p></header>
 </section>
 
@@ -929,7 +943,7 @@ button.qrc:hover{border-color:var(--hot)}
 
 <section class="scene qtitle" id="qt2" data-title="퀴즈 시간">
  <div class="qtbox"><span class="qk">QUIZ</span><h2>퀴즈 시간</h2><p>방금 본 내용과 AI 상식에서 두 문제가 나옵니다. 각 20점입니다.</p>
- <ul><li>문제마다 <b>15초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
+ <ul><li>문제마다 <b>25초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
  <p class="qready"></p></div>
 </section>
 
@@ -956,7 +970,7 @@ button.qrc:hover{border-color:var(--hot)}
   <div class="card"><span class="k">얼마인가</span><h3>무료로 충분합니다</h3><p>무료 요금제로 <b>동시에 100대</b>까지 연결되고 1GB까지 저장됩니다.</p></div>
   <div class="card"><span class="k">준비물</span><h3>자기 구글 계정</h3><p>팀에서 저장소를 만드는 사람이 <b>자기 구글 계정</b>으로 로그인해서 만듭니다.</p></div>
  </div>
- <p class="note"><b>테스트 모드</b>로 만들면 누구나 읽고 쓸 수 있고, 30일이 지나면 접속이 막힙니다. 오늘 수업과 다음 시간 발표에는 충분합니다.</p>
+ <p class="note"><b>테스트 모드</b>로 만들면 누구나 읽고 쓸 수 있고, 30일이 지나면 접속이 막힙니다. 오늘 수업에 쓰기에는 충분합니다.</p>
 </section>
 
 <section class="scene gsc" id="fb1" data-guide="fb1" data-wb="w2s2" data-title="따라 하기 1: 프로젝트 만들기">
@@ -992,14 +1006,14 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
 데이터는 "booth" 아래에만 저장해 줘.
 화면 위쪽에 "연결됨" 또는 "연결 안 됨"을 보여 줘.</pre></div>
  </div>
- <p class="note">전체 예시는 교재에 있고, 팀 프롬프트를 먼저 쓰면 열립니다. Claude가 다 만들면 프로젝트 폴더에 <code>index.html</code> 이 생깁니다. <b>그 파일을 교재에 올리면 링크와 QR이 생깁니다.</b></p>
+ <p class="note">전체 예시는 교재에 프로그램용과 웹사이트용 두 가지가 있고, 팀 프롬프트를 먼저 쓰면 열립니다. Claude가 다 만들면 프로젝트 폴더에 <code>index.html</code> 이 생깁니다. <b>그 파일을 교재에 올리면 링크와 QR이 생깁니다.</b></p>
 </section>
 
 <section class="scene act" data-act="w2s3" data-title="Claude Code에게 만들게 하기"></section>
 
 <section class="scene qtitle" id="qt3" data-title="퀴즈 시간">
  <div class="qtbox"><span class="qk">QUIZ</span><h2>퀴즈 시간</h2><p>방금 한 실습에서 두 문제가 나옵니다. 20점과 30점입니다.</p>
- <ul><li>문제마다 <b>15초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
+ <ul><li>문제마다 <b>25초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
  <p class="qready"></p></div>
 </section>
 
@@ -1012,54 +1026,56 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
  <p class="lede">"세련되게", "귀엽게" 같은 말은 사람마다 다르게 떠올립니다. 분위기는 말보다 보여 주는 것이 정확합니다.</p></header>
  <div class="grid g3 fill">
   <div class="card"><span class="k">가져올 것</span><h3>배치, 색, 분위기</h3><p>무엇이 어디에 있는지, 어떤 색과 글자를 쓰는지, 버튼이 어떤 모양인지.</p></div>
-  <div class="card"><span class="k">그대로 둘 것</span><h3>우리 프로그램의 기능</h3><p>버튼이 하는 일과 저장소 연결은 건드리지 않습니다. 바꾸는 것은 겉모습입니다.</p></div>
+  <div class="card"><span class="k">그대로 둘 것</span><h3>우리 것의 기능과 내용</h3><p>버튼이 하는 일과 저장소 연결, 적어 둔 내용은 건드리지 않습니다. 바꾸는 것은 겉모습입니다.</p></div>
   <div class="card hot"><span class="k">가져오지 않을 것</span><h3>로고, 사진, 문구</h3><p>남이 만든 것을 그대로 쓰지 않습니다. 내용은 우리 부스의 것으로 채웁니다.</p></div>
  </div>
- <p class="note"><b>순서</b> 참고할 화면의 주소를 Claude Code에 줍니다 → REA가 그 화면의 구조를 분석합니다 → Claude Code가 우리 프로그램에 입힙니다 → 바뀐 파일을 교재에 다시 올립니다. 참고할 곳이 없으면 교재 06번의 수업용 레퍼런스를 씁니다.</p>
+ <p class="note"><b>순서</b> 참고할 화면의 주소를 Claude Code에 줍니다 → REA가 그 화면의 구조를 분석합니다 → Claude Code가 우리 것에 입힙니다 → 바뀐 파일을 교재에 다시 올립니다. 참고할 곳이 없으면 교재 06번의 수업용 레퍼런스 여섯 가지(프로그램 셋, 웹사이트 셋)를 씁니다.</p>
 </section>
 
 <section class="scene act" data-act="w2s4" data-title="레퍼런스를 보여 주고 바꾸기"></section>
 
 <section class="scene act" data-act="w2w1" data-title="서로 써 보기"></section>
 
-<section class="scene" id="keep" data-title="수업 뒤에도 쓰려면">
- <header class="sh"><span class="no">00</span><h2>수업이 끝난 뒤에도 <em>쓰려면</em></h2>
- <p class="lede">오늘 받은 링크는 수업 뒤에도 열립니다. 오래 쓰려면 아래 세 가지를 기억합니다.</p></header>
- <div class="grid g3 fill">
-  <div class="card"><span class="k">저장소</span><h3>30일 뒤에는 닫힙니다</h3><p>테스트 모드는 30일 동안만 열려 있습니다. 더 쓰려면 Firebase의 "규칙" 탭에서 날짜를 늘립니다.</p></div>
-  <div class="card"><span class="k">파일</span><h3>파일은 이미 내 것입니다</h3><p>프로젝트 폴더의 <b>index.html</b> 이 프로그램 그 자체입니다. 이 파일은 어디에 올려도 똑같이 움직입니다.</p></div>
-  <div class="card"><span class="k">주소</span><h3>직접 게시하기</h3><p>파일을 GitHub에 올리고 Pages를 켜면 내 주소가 생깁니다. 방법은 맨 뒤 부록에 있습니다.</p></div>
+<section class="scene" id="trouble" data-title="막혔을 때">
+ <header class="sh"><span class="no">00</span><h2>아직 <em>막힌 곳이 있다면</em></h2></header>
+ <div class="grid g3 fill six">
+  <div class="card"><span class="k">Code 화면이 열리지 않습니다</span><p>Git을 설치하라는 안내가 나오면 설치하고 Claude를 다시 켭니다. 로그인하라는 안내가 나오면 로그인을 마치고 다시 켭니다.</p></div>
+  <div class="card"><span class="k">REA 설치가 끝나지 않습니다</span><p>설치에 관리자 권한이 필요하다고 하면 거기서 멈춥니다. 그 팀은 <b>참고할 화면을 캡처해서</b> Claude에 붙여 넣는 방법으로 이어 갑니다.</p></div>
+  <div class="card"><span class="k">교재의 "연결 확인"이 실패합니다</span><p>주소 뒤에 다른 글자가 붙지 않았는지 봅니다. Firestore가 아니라 <b>Realtime Database</b>를, <b>테스트 모드</b>로 만들었는지 봅니다.</p></div>
+  <div class="card"><span class="k">링크를 열면 "연결 안 됨"입니다</span><p>파일에 우리 팀 주소가 들어 있는지 봅니다. 없으면 Claude에게 주소를 다시 알려 주고 고쳐 달라고 합니다.</p></div>
+  <div class="card"><span class="k">파일을 올렸는데 화면이 비어 있습니다</span><p>프로젝트 폴더의 <b>index.html</b> 을 골랐는지 봅니다. Claude가 아직 고치는 중이면 끝난 뒤에 다시 올립니다.</p></div>
+  <div class="card"><span class="k">Claude가 사용 한도에 걸렸습니다</span><p>다른 계정으로 로그인해서 같은 폴더를 다시 엽니다. 파일과 CLAUDE.md 가 폴더에 남아 있어서 이어서 할 수 있습니다.</p></div>
  </div>
 </section>
 
 <section class="scene brk" id="break" data-title="쉬는 시간">
- <div class="brkbox"><b>쉬는 시간</b><span>10분</span><p>돌아오면 2부, 캔바로 발표 자료를 만듭니다.</p></div>
+ <div class="brkbox"><b>쉬는 시간</b><span>10분</span><p>돌아오면 2부, 캔바로 발표 자료와 대본을 만듭니다.</p></div>
 </section>
 
 <!-- PART 2 : 발표 자료로 묶기 -->
 
 <section class="scene" id="deck0" data-part="2" data-title="발표 자료로 묶기">
  <header class="sh"><span class="no">00</span><h2>지금까지 만든 것을 <em>발표 자료로 묶습니다</em></h2>
- <p class="lede">새로 쓰는 것이 아닙니다. 이미 만든 것을 모아서, 처음 듣는 사람이 알아듣게 다시 엮습니다.</p></header>
+ <p class="lede">새로 쓰는 것이 아닙니다. 프로젝트 폴더에 이미 있는 것을 모아서, 처음 듣는 사람이 알아듣게 다시 엮습니다.</p></header>
  <div class="grid g3 fill">
-  <div class="card"><span class="k">Claude</span><h3>내용을 엮습니다</h3><p>자료 묶음을 읽고, 장마다 무엇을 말할지 개요를 씁니다.</p></div>
-  <div class="card"><span class="k">캔바</span><h3>모양을 만듭니다</h3><p>개요를 받아서 장마다 디자인한 발표 자료를 만듭니다.</p></div>
-  <div class="card hot"><span class="k">사람</span><h3>정하고 고칩니다</h3><p>무엇을 전할지 정하고, 개요를 고치고, 틀린 곳을 바로잡습니다.</p></div>
+  <div class="card"><span class="k">Claude</span><h3>내용을 엮습니다</h3><p>프로젝트 폴더의 기획안과 오늘 만든 파일을 읽고, 장마다 무엇을 말할지 구성을 짭니다.</p></div>
+  <div class="card"><span class="k">캔바</span><h3>모양을 만듭니다</h3><p>Claude가 캔바 안에서 직접 일합니다. 템플릿을 찾고, 우리 구성을 채우고, 발표자 노트에 대본을 씁니다.</p></div>
+  <div class="card hot"><span class="k">사람</span><h3>고르고 확인합니다</h3><p>무엇을 전할지 정하고, 템플릿을 고르고, 미리보기를 확인한 뒤에 저장을 맡깁니다.</p></div>
  </div>
- <p class="note"><b>자료 묶음</b> 지난주의 운영 매뉴얼과 홍보 영상 분석, 오늘의 프로그램을 교재가 한 묶음으로 모아 줍니다. 버튼 하나로 복사합니다.</p>
+ <p class="note"><b>순서</b> 캔바 연결 → 구성 받기 → 템플릿 안 세 가지에서 고르기 → 이미지로 확인하고 저장 요청 → 마음에 들 때까지 고치기 → 발표 대본 쓰기</p>
 </section>
 
 <section class="scene gsc" id="cv1" data-guide="cv1" data-wb="w2s6" data-title="따라 하기: 캔바 연결">
  <header class="sh"><span class="no">00</span><h2>따라 하기 · 캔바를 Claude에 <em>연결합니다</em></h2>
  <p class="lede">교재 08번이 함께 열립니다. 지난주에 본 커넥터입니다. 이 연결의 공통 규격이 MCP(Model Context Protocol)입니다.</p></header>
- <p class="note gnote">커넥터 연결은 Claude 계정에 저장됩니다. 같은 Claude 계정을 쓰는 팀이 이미 연결했다면 2번과 3번은 건너뜁니다. 그때는 디자인이 먼저 연결한 사람의 캔바에 만들어지므로, <b>그 사람이 공유 링크를 만들어</b> 각 팀에 줍니다(교재 10번).</p>
+ <p class="note gnote">캔바에는 <b>Claude에 로그인한 것과 같은 구글 계정</b>으로 들어갑니다. 같은 Claude 계정을 쓰는 팀이 이미 연결했다면 2번과 3번은 건너뜁니다. 여러 팀의 디자인이 한 캔바 계정에 모이므로 <b>디자인 이름에 조 이름</b>을 붙입니다(교재 10번).</p>
 </section>
 
-<section class="scene act" data-act="w2s6" data-title="캔바 연결과 자료 모으기"></section>
+<section class="scene act" data-act="w2s6" data-title="캔바 연결과 발표 구성"></section>
 
 <section class="scene qtitle" id="qt4" data-title="퀴즈 시간">
  <div class="qtbox"><span class="qk">QUIZ</span><h2>퀴즈 시간</h2><p>AI 상식과 방금 본 내용에서 두 문제가 나옵니다. 각 30점입니다.</p>
- <ul><li>문제마다 <b>15초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
+ <ul><li>문제마다 <b>25초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
  <p class="qready"></p></div>
 </section>
 
@@ -1067,18 +1083,43 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
 
 <section class="scene act" data-act="w2q8" data-title="퀴즈 8"></section>
 
-<section class="scene act" data-act="w2s7" data-title="개요를 받고 캔바로 만들기"></section>
-
-<section class="scene gsc" id="cv2" data-guide="cv2" data-wb="w2s8" data-title="따라 하기: 캔바에서 다듬기">
- <header class="sh"><span class="no">00</span><h2>따라 하기 · <em>캔바에서 다듬기</em></h2>
- <p class="lede">교재 10번이 함께 열립니다. 오늘은 네 가지만 하고, 나머지는 발표 전까지 팀이 다듬습니다.</p></header>
+<section class="scene" id="tpl0" data-title="템플릿에서 시작합니다">
+ <header class="sh"><span class="no">00</span><h2>새로 만들지 않고 <em>템플릿에서 시작합니다</em></h2>
+ <p class="lede">1부의 레퍼런스와 같은 이치입니다. 잘 만든 틀을 먼저 고르고, 그 위에 우리 내용을 채웁니다.</p></header>
+ <ol class="steps">
+  <li><div>구성을 먼저 받습니다<small>프로젝트 폴더의 자료를 읽고, 장마다 제목과 핵심 한 문장만 쓰게 합니다. 아직 캔바로 만들지 않습니다.</small></div></li>
+  <li><div>템플릿 안을 세 가지 받습니다<small>캔바에서 발표용 템플릿을 먼저 찾게 하고, 서로 느낌이 다른 세 가지를 미리보기 이미지로 봅니다.</small></div></li>
+  <li><div>하나를 고릅니다<small>고른 안의 배치와 색은 그대로 두고, 내용만 우리 구성으로 채우게 합니다.</small></div></li>
+  <li><div>이미지로 확인하고 저장을 요청합니다<small>Claude가 보여 주는 것은 미리보기입니다. "캔바에 저장해 줘"라고 해야 캔바에 저장됩니다.</small></div></li>
+ </ol>
+ <p class="note">Claude가 템플릿을 찾지 못하면, 캔바의 "템플릿"에서 우리가 직접 고르고 채우는 일만 맡깁니다. 방법은 교재 09번에 있습니다.</p>
 </section>
 
-<section class="scene act" data-act="w2s8" data-title="캔바에서 다듬기"></section>
+<section class="scene act" data-act="w2s7" data-title="템플릿을 고르고 캔바로 만들기"></section>
+
+<section class="scene gsc" id="cv2" data-guide="cv2" data-wb="w2s8" data-title="따라 하기: 고치고 저장하기">
+ <header class="sh"><span class="no">00</span><h2>따라 하기 · <em>마음에 들 때까지 고치기</em></h2>
+ <p class="lede">교재 10번이 함께 열립니다. 한 번에 완성되지 않습니다. 고칠 곳을 말하고, 확인하고, 저장을 요청하는 일을 되풀이합니다.</p></header>
+</section>
+
+<section class="scene act" data-act="w2s8" data-title="마음에 들 때까지 고치기"></section>
+
+<section class="scene" id="nt0" data-title="발표 대본은 발표자 노트에">
+ <header class="sh"><span class="no">00</span><h2>발표 대본은 <em>발표자 노트에 씁니다</em></h2>
+ <p class="lede">슬라이드가 화면이라면 대본은 말입니다. 발표자 노트는 발표하는 사람에게만 보이는 메모이고, Claude가 캔바 안에서 장마다 직접 써넣습니다.</p></header>
+ <div class="grid g3 fill">
+  <div class="card"><span class="k">1 · 부탁하기</span><h3>먼저 보여 달라고 합니다</h3><p>누가, 몇 분 동안, 어떤 말투로 말할지 알려 줍니다. 대본을 먼저 읽어 보고, 좋으면 발표자 노트에 넣게 합니다.</p></div>
+  <div class="card"><span class="k">2 · 확인하기</span><h3>소리 내어 읽습니다</h3><p>캔바 편집 화면 아래쪽의 "메모"에서 장마다 확인합니다. 한 사람이 끝까지 소리 내어 읽고, 다른 팀원은 시간을 잽니다.</p></div>
+  <div class="card hot"><span class="k">3 · 고치기</span><h3>마음에 들 때까지</h3><p>어색한 문장, 사실과 다른 내용, 넘치는 시간을 찾아 다시 부탁합니다. 내 입에 붙지 않는 말은 내 말로 바꿉니다.</p></div>
+ </div>
+ <p class="note"><b>발표할 때</b> 캔바 위쪽의 "발표"에서 "발표자 보기"를 고르면, 듣는 사람에게는 슬라이드만 보이고 내 화면에는 대본이 함께 보입니다.</p>
+</section>
+
+<section class="scene act" data-act="w2s9" data-title="발표 대본 쓰기"></section>
 
 <section class="scene qtitle" id="qt5" data-title="마지막 퀴즈">
  <div class="qtbox"><span class="qk">QUIZ</span><h2>마지막 퀴즈</h2><p>오늘 배운 것을 써야 풀리는 두 문제입니다. 각 40점이라 순위가 바뀔 수 있습니다.</p>
- <ul><li>문제마다 <b>15초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
+ <ul><li>문제마다 <b>25초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
  <p class="qready"></p></div>
 </section>
 
@@ -1086,30 +1127,67 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
 
 <section class="scene act" data-act="w2q10" data-title="퀴즈 10"></section>
 
-<section class="scene" id="rank" data-title="순위">
+<section class="scene" id="rank" data-next="wrap" data-title="순위">
  <header class="sh"><span class="no">00</span><h2>오늘의 <em>순위</em></h2>
- <div class="rkrow"><p class="lede">퀴즈 열 문제, 250점 만점입니다. 1등이 여러 명이면 어려운 문제 두 개를 더 낼 수 있습니다.</p><button type="button" class="hotb" data-goto="qtb">추가 문제 내기</button></div></header>
+ <div class="rkrow"><p class="lede">퀴즈 열 문제, 250점 만점입니다. 1등이 여러 명일 때만 추가 문제를 냅니다. 그냥 넘기면 마무리로 갑니다.</p><button type="button" class="hotb" data-goto="qtb">추가 문제 내기</button></div></header>
  <div id="rankTabs"></div>
  <div id="rankBody"></div>
 </section>
 
-<section class="scene" id="nextw" data-title="다음 시간">
- <header class="sh"><span class="no">00</span><h2>다음 시간에는 <em>발표합니다</em></h2>
- <p class="lede">오늘 만든 것은 교재에 남아 있습니다. 같은 주소로 들어오면 링크를 다시 볼 수 있습니다.</p></header>
- <div class="grid g3 fill">
-  <div class="card"><span class="k">프로그램</span><h3>링크와 QR</h3><p>교재의 "레퍼런스를 보여 주고 바꾸기"에 있습니다. 발표 때 직접 열어서 보여 줄 수 있습니다.</p></div>
-  <div class="card"><span class="k">발표 자료</span><h3>캔바 링크</h3><p>교재의 "캔바에서 다듬기"에 저장했습니다. 발표 전까지 캔바에서 계속 고칠 수 있습니다.</p></div>
-  <div class="card hot"><span class="k">기억할 것</span><h3>결정은 사람이 합니다</h3><p>프로그램도 발표 자료도 Claude가 초안을 만들었고, 무엇을 넣고 뺄지는 여러분이 정했습니다.</p></div>
- </div>
- <p class="note"><b>나가기 전에</b> 공용 PC에서는 Claude, 구글(Firebase), 캔바에서 로그아웃합니다. 프로젝트 폴더는 메일이나 USB로 챙겨 갑니다.</p>
+<!-- 추가 퀴즈: 순위 장면의 "추가 문제 내기"로 들어온다. 그냥 넘기면 건너뛰고 "마치기 전에"로 간다 -->
+
+<section class="scene qtitle" id="qtb" data-title="추가 퀴즈">
+ <div class="qtbox"><span class="qk">BONUS</span><h2>추가 문제 두 개</h2><p>음악과 바둑에서 있었던 AI 이야기입니다. 각 50점입니다.</p>
+ <ul><li>문제마다 <b>25초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
+ <p class="qready"></p></div>
 </section>
 
-<section class="scene act" data-act="w2z1" data-title="질문과 답"></section>
+<section class="scene act" data-act="w2q11" data-title="추가 퀴즈 1"></section>
 
-<section class="scene thx" id="thanks" data-title="감사합니다">
- <div class="thx-t" aria-label="감사합니다!"><span style="animation-delay:0s">감</span><span style="animation-delay:.07s">사</span><span style="animation-delay:.14s">합</span><span style="animation-delay:.21s">니</span><span style="animation-delay:.28s">다</span><span style="animation-delay:.35s">!</span></div>
- <div class="cv-s">안은 AI와 함께 만들고, 결정은 사람이 합니다</div>
- <dl class="cv-m"><div><dt>강의</dt><dd>정우진</dd></div><div><dt>다음 시간</dt><dd>팀별 발표</dd></div><div><dt>교재 주소</dt><dd id="thxAddr">wyoda-15.github.io/booth-workbook</dd></div></dl>
+<section class="scene act" data-act="w2q12" data-title="추가 퀴즈 2"></section>
+
+<section class="scene" id="rank2" data-title="최종 순위">
+ <header class="sh"><span class="no">00</span><h2>오늘의 <em>최종 순위</em></h2>
+ <p class="lede">추가 문제까지 더한 순위입니다.</p></header>
+ <div id="rank2Tabs"></div>
+ <div id="rank2Body"></div>
+</section>
+
+<!-- 마무리: 챙기기 → 수업 뒤에 쓰는 법 → 근거 → 질문과 답 → 감사합니다(맨 마지막) -->
+
+<section class="scene" id="wrap" data-wb="w2e1" data-title="마치기 전에">
+ <header class="sh"><span class="no">00</span><h2>마치기 전에 <em>세 가지를 합니다</em></h2>
+ <p class="lede">오늘 만든 것은 여러분 것입니다. 이 컴퓨터에 두고 가지 않습니다. 교재 12번에 같은 순서가 있습니다.</p></header>
+ <div class="grid g3 fill">
+  <div class="card hot"><span class="k">1 · 챙기기</span><h3>프로젝트 폴더를 내 메일로</h3><p>프로젝트 폴더를 ZIP으로 압축해서 자기 메일로 보냅니다. 이 폴더만 있으면 다른 컴퓨터에서도 이어서 할 수 있습니다.</p></div>
+  <div class="card"><span class="k">2 · 확인하기</span><h3>링크 두 개</h3><p>프로그램 링크와 캔바 디자인 링크가 교재에 있는지 봅니다. 교재 주소로 다시 들어오면 언제든 볼 수 있습니다.</p></div>
+  <div class="card"><span class="k">3 · 정리하기</span><h3>로그아웃</h3><p>공용 PC에서는 Claude, 구글(Firebase), 캔바, 메일에서 모두 로그아웃합니다.</p></div>
+ </div>
+ <p class="note"><b>압축하는 방법</b> 프로젝트 폴더를 마우스 오른쪽 버튼으로 누르고 ZIP으로 압축하는 메뉴를 고릅니다. 생긴 ZIP 파일을 메일 창에 끌어다 놓고 자기 주소로 보냅니다. 메일이 첨부를 막으면 자기 클라우드에 올립니다.</p>
+</section>
+
+<section class="scene act" data-act="w2e1" data-title="마치기 전에 챙기기"></section>
+
+<section class="scene" id="keep" data-title="수업 뒤에도 쓰려면">
+ <header class="sh"><span class="no">00</span><h2>수업이 끝난 뒤에도 <em>쓰려면</em></h2>
+ <p class="lede">오늘 받은 링크는 수업 뒤에도 열립니다. 오래 쓰려면 아래 세 가지를 기억합니다. 메일로 보낸 프로젝트 폴더가 있으면 어디서든 이어서 할 수 있습니다.</p></header>
+ <div class="grid g3 fill">
+  <div class="card"><span class="k">저장소</span><h3>30일 뒤에는 닫힙니다</h3><p>테스트 모드는 30일 동안만 열려 있습니다. 더 쓰려면 Firebase의 "규칙" 탭에서 날짜를 늘립니다.</p></div>
+  <div class="card"><span class="k">파일</span><h3>파일은 이미 내 것입니다</h3><p>프로젝트 폴더의 <b>index.html</b> 이 프로그램 그 자체입니다. 이 파일은 어디에 올려도 똑같이 움직입니다.</p></div>
+  <div class="card"><span class="k">주소</span><h3>직접 게시하기</h3><p>파일을 GitHub에 올리고 Pages를 켜면 내 주소가 생깁니다. 방법은 다음 장에 있습니다.</p></div>
+ </div>
+</section>
+
+<section class="scene" id="host" data-title="내 주소로 직접 게시하기">
+ <header class="sh"><span class="no">00</span><h2>내 주소로 <em>직접 게시하기</em></h2>
+ <p class="lede">수업에서는 교재가 주소를 만들어 주었습니다. 혼자 할 때는 GitHub에 올립니다. 이 교재도 같은 방법으로 열려 있습니다.</p></header>
+ <ol class="steps">
+  <li><div><code>github.com</code> 에 무료로 가입하고 로그인합니다</div></li>
+  <li><div>오른쪽 위 <code>+</code> 에서 <code>New repository</code> 를 누르고, 이름을 쓰고 <code>Public</code> 으로 만듭니다<small>이름은 영어와 숫자로 씁니다. 예: booth-app</small></div></li>
+  <li><div><code>Add file</code> 의 <code>Upload files</code> 에 <code>index.html</code> 을 끌어다 놓고 <code>Commit changes</code> 를 누릅니다<small>빈 저장소에서는 "uploading an existing file" 링크를 눌러도 됩니다</small></div></li>
+  <li><div><code>Settings</code> 의 <code>Pages</code> 에서 Source를 <code>Deploy from a branch</code>, Branch를 <code>main</code> 으로 고르고 <code>Save</code> 를 누릅니다</div></li>
+  <li><div>몇 분 뒤 <code>아이디.github.io/저장소 이름</code> 으로 열립니다<small>고칠 때는 3번처럼 파일을 다시 올립니다</small></div></li>
+ </ol>
 </section>
 
 <section class="scene" id="sources" data-title="근거 자료">
@@ -1128,52 +1206,19 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
   <li><a href="https://www.canva.com/help/mcp-agent-setup/" target="_blank" rel="noopener">Canva 도움말: AI 어시스턴트에 캔바 연결하기</a> : 무료 요금제를 포함한 모든 계정에서 연결</li>
   <li><a href="https://developer.chrome.com/blog/remote-debugging-port" target="_blank" rel="noopener">Chrome 개발자 블로그: 원격 디버깅 스위치 변경</a> : 분석용 크롬을 따로 여는 이유</li>
   <li><a href="https://docs.github.com/en/pages/quickstart" target="_blank" rel="noopener">GitHub 문서: GitHub Pages 빠른 시작</a> : 저장소의 파일을 내 주소로 게시하기</li>
-  <li><a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arXiv: Attention Is All You Need</a> · <a href="https://www.nobelprize.org/prizes/physics/2024/summary/" target="_blank" rel="noopener">노벨상 누리집: 2024년 물리학상</a> : 추가 퀴즈의 근거</li>
+  <li><a href="https://www.canva.com/ko_kr/help/presenting-designs/" target="_blank" rel="noopener">Canva 도움말: 디자인 발표하기</a> : 발표자 보기와 메모(발표자 노트)</li>
+  <li><a href="https://www.npr.org/sections/world-cafe/2023/11/02/1208848690/the-beatles-last-song-now-and-then" target="_blank" rel="noopener">NPR: 비틀스 "Now and Then"</a> · <a href="https://blog.google/technology/ai/alphagos-ultimate-challenge/" target="_blank" rel="noopener">Google 블로그: 알파고와 이세돌</a> : 추가 퀴즈의 근거</li>
+  <li><a href="https://support.google.com/mail/answer/6590" target="_blank" rel="noopener">Gmail 도움말: 차단되는 파일 형식</a> : ZIP 안의 파일 종류에 따라 첨부가 막히는 경우</li>
   <li><a href="https://developer.chrome.com/docs/capabilities/web-apis/keyboard-lock" target="_blank" rel="noopener">Chrome 개발자 문서: Keyboard Lock</a> : 퀴즈 전체 화면에서 쓰는 기능</li>
  </ul>
 </section>
 
-<section class="scene" id="host" data-title="부록: 직접 게시하기">
- <header class="sh"><span class="no">00</span><h2>부록 · 내 주소로 <em>직접 게시하기</em></h2>
- <p class="lede">수업에서는 교재가 주소를 만들어 주었습니다. 혼자 할 때는 GitHub에 올립니다. 이 교재도 같은 방법으로 열려 있습니다.</p></header>
- <ol class="steps">
-  <li><div><code>github.com</code> 에 무료로 가입하고 로그인합니다</div></li>
-  <li><div>오른쪽 위 <code>+</code> 에서 <code>New repository</code> 를 누르고, 이름을 쓰고 <code>Public</code> 으로 만듭니다<small>이름은 영어와 숫자로 씁니다. 예: booth-app</small></div></li>
-  <li><div><code>Add file</code> 의 <code>Upload files</code> 에 <code>index.html</code> 을 끌어다 놓고 <code>Commit changes</code> 를 누릅니다<small>빈 저장소에서는 "uploading an existing file" 링크를 눌러도 됩니다</small></div></li>
-  <li><div><code>Settings</code> 의 <code>Pages</code> 에서 Source를 <code>Deploy from a branch</code>, Branch를 <code>main</code> 으로 고르고 <code>Save</code> 를 누릅니다</div></li>
-  <li><div>몇 분 뒤 <code>아이디.github.io/저장소 이름</code> 으로 열립니다<small>고칠 때는 3번처럼 파일을 다시 올립니다</small></div></li>
- </ol>
-</section>
+<section class="scene act" data-act="w2z1" data-title="질문과 답"></section>
 
-<section class="scene" id="trouble" data-end="1" data-title="부록: 막혔을 때">
- <header class="sh"><span class="no">00</span><h2>부록 · <em>막혔을 때</em></h2></header>
- <div class="grid g3 fill six">
-  <div class="card"><span class="k">Code 탭이 열리지 않습니다</span><p>Git을 설치하라는 안내가 나오면 설치하고 Claude를 다시 켭니다. 로그인하라는 안내가 나오면 로그인을 마치고 다시 켭니다.</p></div>
-  <div class="card"><span class="k">REA 설치가 끝나지 않습니다</span><p>설치에 관리자 권한이 필요하다고 하면 거기서 멈춥니다. 그 팀은 <b>참고할 화면을 캡처해서</b> Claude에 붙여 넣는 방법으로 이어 갑니다.</p></div>
-  <div class="card"><span class="k">교재의 "연결 확인"이 실패합니다</span><p>주소 뒤에 다른 글자가 붙지 않았는지 봅니다. Firestore가 아니라 <b>Realtime Database</b>를, <b>테스트 모드</b>로 만들었는지 봅니다.</p></div>
-  <div class="card"><span class="k">링크를 열면 "연결 안 됨"입니다</span><p>파일에 우리 팀 주소가 들어 있는지 봅니다. 없으면 Claude에게 주소를 다시 알려 주고 고쳐 달라고 합니다.</p></div>
-  <div class="card"><span class="k">파일을 올렸는데 화면이 비어 있습니다</span><p>프로젝트 폴더의 <b>index.html</b> 을 골랐는지 봅니다. Claude가 아직 고치는 중이면 끝난 뒤에 다시 올립니다.</p></div>
-  <div class="card"><span class="k">Claude가 사용 한도에 걸렸습니다</span><p>다른 계정으로 로그인해서 같은 폴더를 다시 엽니다. 파일과 CLAUDE.md 가 폴더에 남아 있어서 이어서 할 수 있습니다.</p></div>
- </div>
-</section>
-
-<!-- 추가 퀴즈: 순위 장면의 "추가 문제 내기"로 들어오고, 끝나면 "다음 시간"으로 이어진다 -->
-
-<section class="scene qtitle" id="qtb" data-prev="rank" data-title="추가 퀴즈">
- <div class="qtbox"><span class="qk">BONUS</span><h2>추가 문제 두 개</h2><p>AI 상식입니다. 평소에 관심이 있었다면 풀 수 있습니다. 각 50점입니다.</p>
- <ul><li>문제마다 <b>15초</b></li><li>교재에서 <b>입장</b>을 누릅니다</li></ul>
- <p class="qready"></p></div>
-</section>
-
-<section class="scene act" data-act="w2q11" data-title="추가 퀴즈 1"></section>
-
-<section class="scene act" data-act="w2q12" data-title="추가 퀴즈 2"></section>
-
-<section class="scene" id="rank2" data-next="nextw" data-title="최종 순위">
- <header class="sh"><span class="no">00</span><h2>오늘의 <em>최종 순위</em></h2>
- <p class="lede">추가 문제까지 더한 순위입니다.</p></header>
- <div id="rank2Tabs"></div>
- <div id="rank2Body"></div>
+<section class="scene thx" id="thanks" data-title="감사합니다">
+ <div class="thx-t" aria-label="감사합니다!"><span style="animation-delay:0s">감</span><span style="animation-delay:.07s">사</span><span style="animation-delay:.14s">합</span><span style="animation-delay:.21s">니</span><span style="animation-delay:.28s">다</span><span style="animation-delay:.35s">!</span></div>
+ <div class="cv-s">안은 AI와 함께 만들고, 결정은 사람이 합니다</div>
+ <dl class="cv-m"><div><dt>강의</dt><dd>정우진</dd></div><div><dt>오늘 만든 것</dt><dd>프로그램 · 발표 자료 · 대본</dd></div><div><dt>교재 주소</dt><dd id="thxAddr">wyoda-15.github.io/booth-workbook</dd></div></dl>
 </section>
 </main>
 
@@ -1190,7 +1235,7 @@ firebase.initializeApp({ databaseURL: "위 주소" }) 로만 연결해 줘.
   <button id="syncBtn" type="button" aria-pressed="false">교재 연동</button><button id="sndBtn" type="button" aria-pressed="true">소리</button><button id="fsBtn" type="button">전체 화면</button></div>
  <div class="row"><span>짧은 교재 주소</span><input id="shortIn" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예: is.gd/wydclass (없으면 비워 둡니다)" aria-label="짧은 교재 주소"><button id="shortGo" type="button">저장</button><span id="shortMsg" class="tmsg"></span></div>
  <div class="row"><span>예비 저장소 주소</span><input id="spareIn" type="text" autocomplete="off" spellcheck="false" placeholder="https://....firebasedatabase.app" aria-label="예비 저장소 주소"><button id="spareGo" type="button">저장</button><span id="spareMsg" class="tmsg"></span></div>
- <div class="row"><span>화면 사진</span><span id="shotInfo" class="tmsg"></span></div>
+ <div class="row"><span>따라 하기 사진</span><span id="shotInfo" class="tmsg"></span></div>
  <div class="row"><span>시험용 방</span><a id="roomOpen" class="linkb" href="#" target="_blank" rel="noopener">시험용 방 열기</a><button id="roomWipe" class="danger" type="button" hidden>시험용 방 비우기</button><span id="roomMsg" class="tmsg"></span></div>
  <div class="row"><button id="bkBtn" type="button">전체 기록 내려받기</button><span id="bkMsg" class="tmsg"></span><button id="tWipe" class="danger" type="button">2주차 기록 지우기</button><span id="tWipeMsg" class="tmsg"></span></div>
  <ol id="idxList"></ol>
@@ -1263,7 +1308,7 @@ function paintGal(sc){ const g=GAL[sc.id]; if(!g) return; const x=g.L[g.i]||{}, 
   $$('.gl li',sc).forEach((li,i)=>li.classList.toggle('on',i===g.i));
   fig.classList.toggle('noimg',!u); if(u){ if(im.getAttribute('src')!==u) im.setAttribute('src',u) } else im.removeAttribute('src');
   im.alt=(SHOTS[x.shot]||{}).alt||'';
-  setHTML($('.gnone',fig),`<b>${g.i+1}</b><p>${esc(x.t||'')}</p>${x.s?`<small>${esc(x.s)}</small>`:''}${canSync?`<i>이 단계의 화면 사진이 아직 없습니다. 화면을 캡처한 뒤 여기서 Ctrl+V 를 누르면 앞 화면과 교재에 함께 들어갑니다.</i>`:''}`);
+  setHTML($('.gnone',fig),`<b>${g.i+1}</b><p>${esc(x.t||'')}</p>${x.s?`<small>${esc(x.s)}</small>`:''}${canSync?`<i>강사에게만 보이는 안내입니다. 이 단계에는 아직 사진이 없습니다. 넣으려면 보여 줄 화면을 캡처(Win+Shift+S)한 뒤 이 화면에서 Ctrl+V 를 누릅니다. 학생 교재에도 함께 나타납니다.</i>`:''}`);
   $('.gtools',fig).classList.toggle('can',canSync&&!!rdb); $('[data-shotdel]',fig).hidden=!SHOTX[x.shot] }
 /* 강사가 넣는 화면 사진: 줄여서 저장소에 두면 교재에도 바로 나타난다 */
 async function putShot(key,file){ if(!key||!file||!rdb||!canSync) return;
@@ -1276,12 +1321,13 @@ addEventListener('paste',e=>{ const n=galNow(); if(!n||!canSync) return; const i
 document.addEventListener('change',e=>{ const f=e.target; if(!f.dataset||!f.dataset.shotfile||!f.files||!f.files[0]) return; const n=galNow(); if(n) putShot(n.key,f.files[0]); f.value='' });
 
 /* ---------- 장면 이동 ---------- */
-const scenes=$$('.scene'); let cur=0,busy=false,navDir=1; const seen={};
+const scenes=$$('.scene'); let cur=0,busy=false,navDir=1,HOLD=false; const seen={};
 const wipe=$('#wipe');
 const byId=id=>scenes.findIndex(s=>s.id===id);
 const isQz=sc=>!!sc&&(sc.classList.contains('qtitle')||(!!sc.dataset.act&&stepById(sc.dataset.act).kind==='quiz'));
-const nextOf=i=>{ const sc=scenes[i]; return sc.dataset.end?-1:sc.dataset.next?byId(sc.dataset.next):i+1 };
-const prevOf=i=>{ const sc=scenes[i]; return sc.dataset.prev?byId(sc.dataset.prev):i-1 };
+const backFrom={};   /* 건너뛰어 들어온 장면에서 "이전"을 누르면 떠나온 장면으로 돌아간다 */
+const nextOf=i=>{ const sc=scenes[i]; return sc.dataset.next?byId(sc.dataset.next):i+1 };
+const prevOf=i=>{ const sc=scenes[i]; return sc.dataset.prev?byId(sc.dataset.prev):backFrom[i]!=null?backFrom[i]:i-1 };
 function label(){ const sc=scenes[cur], g=GAL[sc.id];
   $('#whereT').textContent=String(cur).padStart(2,'0')+' / '+String(scenes.length-1).padStart(2,'0')+'  '+sc.dataset.title+(g?'  ·  '+(g.i+1)+' / '+g.n:'') }
 function show(i){
@@ -1295,7 +1341,9 @@ function show(i){
   /* 조작 막대가 있는 영상은 저절로 틀지 않는다. 처음으로 돌려 두고, 다음 키나 단추로 튼다 */
   $$('#stage video').forEach(v=>{ if(v.dataset.manual){ v.pause(); if(sc.contains(v)&&(v.dataset.go||v.currentTime>0)){ delete v.dataset.go; try{v.load()}catch(e){} } }   /* 다시 들어오면 첫 그림으로 되돌린다 */
     else if(sc.contains(v)){ try{v.currentTime=0}catch(e){} const pr=v.play(); pr&&pr.catch&&pr.catch(()=>{}) } else v.pause() });
-  const q0=sc.dataset.act&&stepById(sc.dataset.act); if(q0&&q0.kind==='quiz'&&!REVEAL[q0.id]) quizStart(q0); else { quizStop(); pushState() }
+  const q0=sc.dataset.act&&stepById(sc.dataset.act);
+  HOLD=!!(q0&&q0.kind==='quiz'&&q0.bonus&&!REVEAL[q0.id]&&navDir<0);   /* 뒤로 넘기다 들어온 추가 퀴즈: 시작하지 않고 기다린다 */
+  if(q0&&q0.kind==='quiz'&&!REVEAL[q0.id]&&!HOLD) quizStart(q0); else { quizStop(); pushState() }
   refreshLive();
 }
 function go(i){
@@ -1319,7 +1367,9 @@ function playClip(t){ const v=$('#caseClip'); if(!v) return; v.dataset.go='1'; t
 function fwd(){ if(busy){ skipWipe(); return } navDir=1; const sc=scenes[cur], g=GAL[sc.id];
   if(g&&g.i<g.n-1){ g.i++; paintGal(sc); label(); return }
   const v=$('video[data-manual]',sc); if(v&&!v.dataset.go){ playClip(0); return }
-  go(nextOf(cur)) }
+  if(HOLD){ HOLD=false; quizStart(stepById(sc.dataset.act)); refreshLive(); return }   /* 기다리던 추가 퀴즈를 시작한다 */
+  const nx=nextOf(cur); if(nx!==cur+1&&nx>=0&&nx<scenes.length) backFrom[nx]=cur; else delete backFrom[nx];
+  go(nx) }
 function back(){ if(busy){ skipWipe(); return } navDir=-1; const sc=scenes[cur], g=GAL[sc.id];
   if(g&&g.i>0){ g.i--; paintGal(sc); label(); return }
   go(prevOf(cur)) }
@@ -1354,7 +1404,7 @@ $$('.ov').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o&&o.id!=='ga
 /* ---------- 교재와 함께 쓰는 상태 ---------- */
 function setPill(){ const p=$('#pill'); if(!db){p.textContent='교재 연동 안 됨';p.className='pill';return}
   p.textContent=!isOn?'연결 중':syncOn?('교재 연동 중 · 접속 '+peers.length+'명'):('보기만 · 접속 '+peers.length+'명'); p.className='pill'+(isOn&&syncOn?' on':'') }
-function pushState(){ if(!db||!syncOn) return; const sc=scenes[cur]; try{ db.doc('class/state').set({step:sc.dataset.act||sc.dataset.wb||'',slide:sc.dataset.title,qend:qEnd||0,qz:isQz(sc)}).catch(()=>{}) }catch(e){} }
+function pushState(){ if(!db||!syncOn) return; const sc=scenes[cur]; try{ db.doc('class/state').set({step:HOLD?'':(sc.dataset.act||sc.dataset.wb||''),slide:sc.dataset.title,qend:qEnd||0,qz:HOLD?false:isQz(sc)}).catch(()=>{}) }catch(e){} }
 function adapter(r,b){ const ref=p=>r.ref(b+'/'+p);
   const sub=(p,map)=>(next,err)=>{ref(p).on('value',s=>next(map(s)),e=>err&&err(e))};
   return { doc:p=>({set:d=>ref(p).set(d),onSnapshot:sub(p,s=>({exists:s.exists(),data:()=>s.val()}))}),
@@ -1384,7 +1434,7 @@ $('#gateSkip').onclick=()=>$('#gate').classList.remove('on');
 function renderTools(){ $('#tN').textContent=CFG.teams+'팀'; $('#syncBtn').setAttribute('aria-pressed',syncOn); ['tMinus','tPlus','tWipe','spareGo','shortGo','bkBtn'].forEach(id=>{$('#'+id).disabled=!canSync||!db});
   const si=$('#spareIn'); if(document.activeElement!==si) si.value=CFG.spare||''; const hi=$('#shortIn'); if(document.activeElement!==hi) hi.value=CFG.short||'';
   { const all=Object.values(GUIDES).reduce((a,L)=>a.concat(L),[]), have=all.filter(x=>shotSrc(x.shot)).length;
-    $('#shotInfo').textContent=`따라 하기 ${all.length}단계 가운데 ${have}단계에 사진이 있습니다. 없는 단계는 그 장면에서 단계를 고르고, 화면을 캡처한 뒤 Ctrl+V 를 누르면 앞 화면과 교재에 함께 들어갑니다.` }
+    $('#shotInfo').textContent=`"따라 하기" 장면의 ${all.length}단계 가운데 ${have}단계에 화면 사진이 들어 있습니다. 나머지 ${all.length-have}단계는 글만 보입니다. 사진을 직접 넣으려면: ① "따라 하기" 장면에서 → 키로 그 단계까지 갑니다 ② 보여 줄 화면을 캡처합니다(Win+Shift+S) ③ 이 강의 화면을 한 번 누르고 Ctrl+V 를 누릅니다. 넣은 사진은 학생 교재의 같은 단계에도 바로 나타납니다.` }
   const ro=$('#roomOpen'); ro.href=new URL('ppt2.html'+(ROOM?'':'?room=test'),location.href).href; ro.textContent=ROOM?'실제 수업 화면 열기':'시험용 방 열기';
   $('#roomWipe').hidden=!ROOM; $('#roomWipe').disabled=!canSync||!db; if(!$('#roomMsg').dataset.s) $('#roomMsg').textContent=ROOM?'지금은 시험용 방입니다. 여기서 한 것은 수업 기록에 남지 않습니다.':'QR과 파일 올리기를 미리 해 볼 수 있습니다. 수업 기록은 그대로입니다.' }
 let roomArm=0;
@@ -1457,7 +1507,8 @@ function renderLive(st){
   else if(st.kind==='tap'){ let total=0; const per=T.map(t=>{ let n=0; ans(t).forEach(a=>{ n+=(+a.n||0); if(+a.n) people.add(t+'/'+a.name) }); total+=n; return [t,n] }), mx=Math.max(1,...per.map(p=>p[1]));
     h=`<div class="tapwrap"><div class="tapnum"><b>${total}</b><span>모두가 누른 횟수</span></div><div class="poll tapbars">${per.map(([t,n])=>`<div class="b"><span>${teamLabel(t)}</span><i><u style="width:${n/mx*100}%"></u></i><em>${n}</em></div>`).join('')}</div></div>`;
     cntText=people.size?'참여 '+people.size+'명':'' }
-  else if(st.kind==='quiz'){ const cnt=st.opts.map(()=>0); let left=0; T.forEach(t=>ans(t).forEach(a=>{ if(a.left){left++; return} if(a.opt>=0&&a.opt<cnt.length){cnt[a.opt]++; people.add(t+'/'+a.name)} })); const on=!!REVEAL[st.id];
+  else if(st.kind==='quiz'){ if(HOLD&&scenes[cur].dataset.act===st.id){ setHTML(el,'<p class="heldmsg">추가 문제입니다. <b>다음</b>을 누르면 시작합니다.<small>내지 않으려면 목차에서 다른 장면을 고릅니다.</small></p>'); const c0=$('#cnt_'+st.id); if(c0) c0.textContent=''; return }
+    const cnt=st.opts.map(()=>0); let left=0; T.forEach(t=>ans(t).forEach(a=>{ if(a.left){left++; return} if(a.opt>=0&&a.opt<cnt.length){cnt[a.opt]++; people.add(t+'/'+a.name)} })); const on=!!REVEAL[st.id];
     /* 1초마다 바뀌는 숫자는 아래에서 글자만 바꾼다. 버튼을 다시 그리면 누르는 순간과 겹쳐 눌리지 않을 수 있다. */
     h=`<p class="qq">${esc(st.q)}</p>${st.quote?`<p class="quote">${esc(st.quote)}</p>`:''}
       <div class="qopts">${st.opts.map((o,i)=>`<div class="qopt${on&&i===st.ans?' ok':''}"><b>${'ABCD'[i]}</b><span>${esc(o)}</span>${on?`<i>${cnt[i]}명</i>`:''}</div>`).join('')}</div>
@@ -1497,7 +1548,7 @@ document.addEventListener('click',e=>{ let b;
   if((b=e.target.closest('[data-qrbig]'))){ const t=b.dataset.qrbig, u=appUrl(t); $('#qrT').textContent=teamLabel(t)+(boothOf(t)?' · '+boothOf(t):''); $('#qrB').innerHTML=qrSvg(u); $('#qrU').textContent=u.replace(/^https?:\/\//,''); $('#qrOpen').href=u; $('#qrOv').classList.add('on'); return }
   if((b=e.target.closest('[data-qreveal]'))){ quizStop(); setReveal(b.dataset.qreveal,!REVEAL[b.dataset.qreveal]); return }
   if(e.target.closest('[data-rank]')){ openRank(); return }
-  if((b=e.target.closest('[data-goto]'))){ const i=byId(b.dataset.goto); if(i>=0){ seen[scenes[i].dataset.part||'x']=1; go(i) } return }
+  if((b=e.target.closest('[data-goto]'))){ const i=byId(b.dataset.goto); if(i>=0){ seen[scenes[i].dataset.part||'x']=1; navDir=1; go(i) } return }
   if(!(b=e.target.closest('[data-peek]'))) return;
   const t=b.dataset.peek, st=stepById(b.dataset.step), d=D[t], L=[], ck=(d.checks[st.id]&&d.checks[st.id].items)||{};
   st.blocks.forEach((x,i)=>{
@@ -1527,7 +1578,7 @@ document.addEventListener('click',e=>{ let b;
 /* ---------- films: opening and part intros ---------- */
 const INTRO={
  1:{t:'실시간 프로그램',kw:['화면','저장소','주소','연동'],m:'sy'},
- 2:{t:'발표 자료로 묶기',kw:['자료','개요','캔바','다듬기'],m:'dk'},
+ 2:{t:'발표 자료로 묶기',kw:['구성','템플릿','캔바','대본'],m:'dk'},
  3:{t:'보고 읽기',kw:['사진','문서','영상','장면'],m:'fr'},
  4:{t:'실제 작업 하나',kw:['기획','프롬프트','기록','자막'],m:'mv'},
  5:{t:'문서와 파일',kw:['엑셀','워드','PDF','자막'],m:'fl'},

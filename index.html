@@ -468,22 +468,23 @@ async function uploadCode(raw,btn){ const v=cleanCode(raw);
   if(btn) btn.disabled=false; refresh() }
 function appBox(){ const a=T().finals.app, u=appUrl(me.team);
   return a?`<div class="qr">${qrSvg(u)}</div><div class="ai"><b>우리 팀 프로그램 · ${esc(txt(a))}</b><a href="${esc(u)}" target="_blank" rel="noopener">${esc(u)}</a><div class="rowb"><a class="filebtn" href="${esc(u)}" target="_blank" rel="noopener">새 창에서 열기</a><button type="button" data-copyurl="1">링크 복사</button><button type="button" data-copycode="1">올린 코드 복사</button></div></div>`
-          :`아직 올린 프로그램이 없습니다. 코드를 올리면 여기에 링크와 QR이 생깁니다.` }
+          :`아직 올린 것이 없습니다. 파일을 올리면 여기에 링크와 QR이 생깁니다.` }
 function bundle(){ const R=T().results, F=T().finals, v=id=>txt(R[id]), L=[];
   const parts=[['manual','운영 매뉴얼 초안 (지난주)',v('w1s2_manual')],['vid','홍보 영상 분석 (지난주)',v('w1v_vid')],['ans','팀 프롬프트로 받은 답 (지난주)',v('w1s1_ans')]];
   L.push(`[우리 팀] ${teamLabel(me.team)} · ${txt(F.booth)||'(부스 이름 없음)'}`);
   parts.forEach(p=>L.push('',`[${p[1]}]`,p[2]||'(없음)'));
-  L.push('','[오늘 만든 프로그램]','만든 것: '+(v('w2s1_name')||'(없음)'),'쓰는 사람과 기기: '+(v('w2s1_who')||'(없음)'),'여러 기기에서 바로 바뀌는 것: '+(v('w2s1_live')||'(없음)'),'운영 숫자: '+(v('w2s1_nums')||'(없음)'),'여는 주소: '+(F.app?appUrl(me.team):'(아직 올리지 않음)'));
-  return {text:L.join('\n'),have:[['운영 매뉴얼',!!parts[0][2]],['영상 분석',!!parts[1][2]],['지난주 답',!!parts[2][2]],['프로그램 기획',!!v('w2s1_name')],['프로그램 링크',!!F.app]]} }
+  L.push('','[오늘 만든 프로그램 또는 웹사이트]','만든 것: '+(v('w2s1_name')||'(없음)'),'쓰는 사람과 기기: '+(v('w2s1_who')||'(없음)'),'여러 기기에서 바로 바뀌는 것: '+(v('w2s1_live')||'(없음)'),'운영 숫자: '+(v('w2s1_nums')||'(없음)'),'여는 주소: '+(F.app?appUrl(me.team):'(아직 올리지 않음)'));
+  return {text:L.join('\n'),have:[['운영 매뉴얼',!!parts[0][2]],['영상 분석',!!parts[1][2]],['지난주 답',!!parts[2][2]],['만들 것 기획',!!v('w2s1_name')],['올린 것의 링크',!!F.app]]} }
 
 /* ---------- 화면 만들기 ---------- */
 const NUM=['①','②','③','④','⑤','⑥','⑦','⑧'];
 const wbox=(n,title,who,inner)=>`<section class="write"><div class="wl"><b>쓰기 ${NUM[n-1]||n}</b><strong>${esc(title)}</strong><i>${esc(who)}</i></div>${inner}</section>`;
 function ctx(){ const R=T().results, F=T().finals, g=(id,d)=>txt(R[id])||d, names=Object.values(T().members).map(m=>m.name).join(', '), def=txt(R.w1s2_def), u=txt(F.dburl);
   return {booth:txt(F.booth)||'[부스 이름]',team:teamLabel(me.team),names:names||'[팀원 이름]',def:def?`<부스 정의서>\n${def}\n</부스 정의서>`:'[부스 정의서를 여기에 붙여 넣습니다]',
-    name:g('w2s1_name','[만들 프로그램과 하는 일]'),who:g('w2s1_who','[누가, 어떤 기기로 쓰는지]'),live:g('w2s1_live','[여러 기기에서 바로 바뀌어야 하는 것]'),nums:g('w2s1_nums','[정해 둔 운영 숫자]'),
+    name:g('w2s1_name','[만들 것과 하는 일]'),who:g('w2s1_who','[누가, 어떤 기기로 쓰는지]'),live:g('w2s1_live','[여러 기기에서 바로 바뀌어야 하는 것]'),nums:g('w2s1_nums','[정해 둔 운영 숫자]'),
     dburl:u||'[우리 팀 데이터베이스 주소]',path:(u&&CFG.spare&&u===CFG.spare)?'booth_'+me.team:'booth',
-    refurl:g('w2s4_ref','[참고할 화면의 주소]'),take:g('w2s4_take','[그 화면에서 가져올 것]'),one:g('w2s6_one','[꼭 전할 한 가지]'),n:g('w2s6_n','[몇 장, 어떤 순서]')} }
+    refurl:g('w2s4_ref','[참고할 화면의 주소]'),take:g('w2s4_take','[그 화면에서 가져올 것]'),one:g('w2s6_one','[꼭 전할 한 가지]'),n:g('w2s6_n','[몇 장, 어떤 순서]'),mood:g('w2s6_mood','[발표 자료의 분위기]'),
+    applink:F.app?appUrl(me.team):'',canva:txt(F.canva)||'[캔바 디자인 링크]'} }
 function taskHtml(s,t,multi){
   const g=`<div class="guide"><p>${esc(t.brief)}</p><div class="cols">${t.talk?`<div><h4>먼저 팀이 의논합니다</h4><ul>${t.talk.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}<div><h4>프롬프트에 넣을 것</h4><ul>${t.must.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div>`;
   let n=1; const body=g+
@@ -499,9 +500,9 @@ function kitHtml(s){ let n=0; const Wb=(title,who,inner)=>wbox(++n,title,who,inn
     if(x.b==='field') return Wb(x.label,'팀이 함께 씁니다',`<textarea id="res_${x.rid}" data-k="res" data-id="${x.rid}" rows="${x.rows||2}" placeholder="${esc(x.ph||'')}"></textarea>`);
     if(x.b==='checks') return `<div class="checks kc">${x.items.map((c,j)=>`<button type="button" data-ck="${i}_${j}" aria-pressed="false">${esc(c)}</button>`).join('')}</div><p class="hint" style="margin:8px 0 16px">팀이 함께 쓰는 목록입니다. 한 사람이 누르면 팀 전체에 표시됩니다.</p>`;
     if(x.b==='prompt') return Wb(x.label,'팀이 함께 씁니다 · 다 쓰면 Claude를 맡은 사람이 보냅니다',(x.parts?`<div class="pparts"><p>이 프롬프트에 넣으면 좋은 것입니다. 누르면 문장 틀이 아래 칸에 들어가고, 들어간 것은 초록색이 됩니다.</p><div class="pchips">${x.parts.map((q,j)=>`<button type="button" class="pchip" data-stem="${i}_${j}" aria-pressed="false">${esc(q.k)}</button>`).join('')}</div></div>`:'')+`<textarea id="tp_${x.tid}" data-k="tp" data-id="${x.tid}" rows="5" placeholder="${esc(x.ph||'')}"></textarea><div class="row"><button type="button" data-copy="tp_${x.tid}">복사</button><span class="pmsg run" data-blank="${x.tid}"></span></div>`);
-    if(x.b==='ref') return `<details id="rf_${x.tid}" data-ref="${x.tid}"><summary>예시 프롬프트 <span id="rl_${x.tid}"></span></summary><div><pre class="refp" id="rb_${x.tid}"></pre><div class="rowb"><button type="button" data-copyref="${i}">예시 복사</button></div></div></details>`;
+    if(x.b==='ref'){ const id=x.tid+(x.k?'_'+x.k:''); return `<details id="rf_${id}" data-ref="${x.tid}"><summary>예시 프롬프트${x.t?' · '+esc(x.t):''} <span id="rl_${id}"></span></summary><div><pre class="refp" id="rb_${id}"></pre><div class="rowb"><button type="button" data-copyref="${i}">예시 복사</button></div></div></details>` }
     if(x.b==='says') return `<p class="exnote">아래 문장은 예시입니다. 우리 팀에 맞게 고쳐서 써도 됩니다.</p><div class="missions">${x.items.map((m,j)=>`<div class="ms"><div class="mh"><b>${j+1}</b><strong>${esc(m.t)}</strong></div><div class="say"><span data-sayt="${i}_${j}"></span><button type="button" data-saycp="${i}_${j}">복사</button></div></div>`).join('')}</div>`;
-    if(x.b==='dburl') return Wb('우리 팀 데이터베이스 주소','팀이 함께 씁니다 · Firebase에서 복사한 주소를 붙여 넣습니다',`${x.shot?`<p class="shotcap">주소는 Firebase의 Realtime Database 화면, "데이터" 탭 맨 위에 있습니다. 주소 왼쪽의 사슬 모양을 누르면 복사됩니다.</p>${shotBtn(x.shot)}`:''}<input type="text" id="dburl" data-k="dburl" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://....firebasedatabase.app"><div class="row"><button type="button" id="probeBtn">연결 확인</button><span id="probeMsg" class="pmsg" role="status"></span></div><div class="row" id="spareRow" hidden><span class="pmsg">끝까지 막히면 강사가 준비한 예비 주소를 씁니다.</span><button type="button" id="spareBtn">예비 주소 쓰기</button></div>`);
+    if(x.b==='dburl') return Wb('우리 팀 데이터베이스 주소','팀이 함께 씁니다 · Firebase에서 복사한 주소를 붙여 넣습니다',`${x.shot?`<p class="shotcap">주소는 Firebase의 Realtime Database 화면, "데이터" 탭 맨 위에 있습니다. 주소 왼쪽의 사슬 모양을 누르면 복사됩니다. 사진에서는 주소를 가렸습니다. 자기 화면에 보이는 주소를 복사합니다.</p>${shotBtn(x.shot)}`:''}<input type="text" id="dburl" data-k="dburl" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://....firebasedatabase.app"><div class="row"><button type="button" id="probeBtn">연결 확인</button><span id="probeMsg" class="pmsg" role="status"></span></div><div class="row" id="spareRow" hidden><span class="pmsg">끝까지 막히면 강사가 준비한 예비 주소를 씁니다.</span><button type="button" id="spareBtn">예비 주소 쓰기</button></div>`);
     if(x.b==='code'){ const view=`<div class="appv" data-appv="1"></div>`; if(x.view) return view;
       const up=Wb(x.again?'바꾼 파일 다시 올리기':'Claude가 만든 파일 올리기','팀에서 한 명이 올립니다 · 다시 올리면 새 것으로 바뀌고 링크는 그대로입니다',`<div class="row" style="margin:0 0 8px"><label class="filebtn pri">파일 고르기<input type="file" accept=".html,.htm,text/html" data-file="code_${i}"></label><span class="hint">프로젝트 폴더의 index.html 을 고릅니다</span></div><textarea class="codein" id="code_${i}" rows="3" spellcheck="false" placeholder="파일 대신 HTML 코드를 처음부터 끝까지 복사해서 붙여 넣어도 됩니다."></textarea><div class="row"><button type="button" data-upload="code_${i}">붙여 넣은 코드 올리기</button>${ROOM?`<button type="button" data-sample="1">시험용 프로그램 올리기</button>`:''}</div><p class="cwarn" data-cmsg="1" role="status"></p>`);
       return x.again?up:up+view }
@@ -543,7 +544,7 @@ function refreshKit(s){ const c=ctx(), ck=(T().checks[s.id]&&T().checks[s.id].it
   s.blocks.forEach((x,i)=>{
     if(x.b==='field') setVal($('#res_'+x.rid),txt(T().results[x.rid]));
     else if(x.b==='prompt'){ setVal($('#tp_'+x.tid),txt(T().tprompts[x.tid])); markParts(x,i) }
-    else if(x.b==='ref'){ const len=txt(T().tprompts[x.tid]).length, open=len>=REF_MIN, rf=$('#rf_'+x.tid); if(!rf) return; $('#rl_'+x.tid).textContent=open?'':refLock(len); if(!open) rf.open=false; else { const t=x.text(c), el=$('#rb_'+x.tid); if(el.textContent!==t) el.textContent=t } }
+    else if(x.b==='ref'){ const id=x.tid+(x.k?'_'+x.k:''), len=txt(T().tprompts[x.tid]).length, open=len>=REF_MIN, rf=$('#rf_'+id); if(!rf) return; $('#rl_'+id).textContent=open?'':refLock(len); if(!open) rf.open=false; else { const t=x.text(c), el=$('#rb_'+id); if(el.textContent!==t) el.textContent=t } }
     else if(x.b==='says') x.items.forEach((m,j)=>{ const el=$(`[data-sayt="${i}_${j}"]`), t=typeof m.say==='function'?m.say(c):m.say; if(el&&el.textContent!==t) el.textContent=t });
     else if(x.b==='dburl'){ setVal($('#dburl'),txt(T().finals.dburl)); const st=dbState(), pm=$('#probeMsg'); pm.textContent=st.msg; pm.className='pmsg '+st.cls; $('#probeBtn').disabled=!st.u||!DBURL_RE.test(st.u)||st.cls==='run'; $('#spareRow').hidden=!CFG.spare||st.cls==='ok' }
     else if(x.b==='link'){ const v=txt(T().finals[x.id]); setVal($(`#fin_${x.id}_${i}`),v); const ok=/^https:\/\/(www\.)?canva\.(com|link)\//i.test(v);

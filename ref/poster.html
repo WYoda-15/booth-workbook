@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>별사탕 사진관 · 수업용 레퍼런스 4</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--navy:#0f1b3d;--yel:#ffd23f;--coral:#ff6b5e;--cream:#fff8e7;--ink:#0b1026}
+*{box-sizing:border-box;margin:0}
+body{background:var(--navy);color:var(--cream);font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;line-height:1.5}
+.wrap{max-width:520px;margin:0 auto;overflow:hidden}
+.hero{position:relative;padding:34px 22px 30px;background:repeating-linear-gradient(-45deg,transparent 0 22px,rgba(255,210,63,.07) 22px 44px)}
+.tag{display:inline-block;background:var(--coral);color:var(--ink);font-weight:800;padding:5px 12px;border-radius:4px;transform:rotate(-3deg);font-size:.85rem;letter-spacing:.04em}
+h1{font-size:clamp(3.4rem,17vw,5.6rem);line-height:.95;font-weight:900;letter-spacing:-.04em;margin:18px 0 14px;color:var(--yel)}
+h1 span{display:block;color:var(--cream)}
+.hero p{font-size:1.1rem;max-width:20em}
+.star{position:absolute;right:20px;top:24px;font-size:3.2rem;color:var(--yel);transform:rotate(14deg)}
+.strip{display:grid;grid-template-columns:1fr 1fr;background:var(--yel);color:var(--ink);font-weight:800}
+.strip div{padding:14px 18px}
+.strip div+div{border-left:3px solid var(--ink)}
+.strip small{display:block;font-weight:600;font-size:.8rem;opacity:.75}
+section{padding:30px 22px}
+h2{font-size:1.9rem;font-weight:900;letter-spacing:-.03em;margin-bottom:16px}
+h2 i{font-style:normal;color:var(--coral)}
+ol{list-style:none;padding:0;display:grid;gap:12px;counter-reset:n}
+ol li{counter-increment:n;display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:center;background:rgba(255,255,255,.06);border:2px solid rgba(255,248,231,.25);border-radius:14px;padding:14px}
+ol li::before{content:counter(n,decimal-leading-zero);font-size:2.4rem;font-weight:900;color:var(--yel);line-height:1}
+ol b{display:block;font-size:1.15rem}
+ol span{opacity:.8;font-size:.95rem}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cards div{background:var(--cream);color:var(--ink);border-radius:14px;padding:16px}
+.cards b{display:block;font-size:1.7rem;font-weight:900}
+.cards small{font-weight:700;opacity:.7}
+.cards .w{grid-column:1/-1;background:var(--coral)}
+.book{display:grid;gap:10px}
+.book p{background:rgba(255,255,255,.08);border-left:5px solid var(--yel);padding:10px 14px;border-radius:0 10px 10px 0}
+.book p small{display:block;opacity:.6}
+.cta{display:block;margin-top:16px;text-align:center;background:var(--yel);color:var(--ink);font-weight:900;font-size:1.15rem;padding:16px;border-radius:999px;text-decoration:none}
+footer{padding:22px;text-align:center;opacity:.6;font-size:.85rem;border-top:1px dashed rgba(255,248,231,.3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="hero">
+  <span class="tag">가을 축제 · 3번 부스</span><div class="star" aria-hidden="true">✦</div>
+  <h1>별사탕<span>사진관</span></h1>
+  <p>네 컷에 담는 오늘. 소품을 고르고, 포즈를 정하고, 한 장을 가져갑니다.</p>
+ </div>
+ <div class="strip"><div><small>언제</small>11시부터 17시까지</div><div><small>어디서</small>학생회관 앞 잔디밭</div></div>
+ <section>
+  <h2>이렇게 <i>즐깁니다</i></h2>
+  <ol>
+   <li><div><b>소품 고르기</b><span>머리띠, 안경, 손팻말 가운데 두 개</span></div></li>
+   <li><div><b>네 컷 찍기</b><span>한 팀에 3분, 다시 찍기는 한 번</span></div></li>
+   <li><div><b>한 장 가져가기</b><span>바로 뽑아서 봉투에 넣어 드립니다</span></div></li>
+  </ol>
+ </section>
+ <section>
+  <h2>한눈에 <i>보기</i></h2>
+  <div class="cards">
+   <div><small>한 번에</small><b>4명</b></div><div><small>걸리는 시간</small><b>3분</b></div>
+   <div class="w"><small>오늘 준비한 수량</small><b>120장 한정</b></div>
+  </div>
+ </section>
+ <section>
+  <h2>다녀간 <i>한 줄</i></h2>
+  <div class="book">
+   <p>소품이 귀여워서 한참 골랐어요<small>방문객</small></p>
+   <p>줄이 빨리 줄어서 좋았습니다<small>지나가던 사람</small></p>
+  </div>
+  <a class="cta" href="#">한 줄 남기기</a>
+ </section>
+ <footer>수업용으로 만든 예시 화면입니다. 실제 부스가 아닙니다.</footer>
+</div>
+</body>
+</html>

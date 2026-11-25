@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>보물찾기 원정대 · 수업용 레퍼런스 6</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--bg:#0d2b2a;--card:#123b39;--mint:#7ef0c2;--org:#ff9f43;--paper:#f3fff9;--dim:#8fb8ae}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--paper);font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;line-height:1.55;padding-bottom:84px}
+.wrap{max-width:520px;margin:0 auto;padding:20px 18px 0;display:grid;gap:26px}
+.ticket{position:relative;background:var(--paper);color:#0d2b2a;border-radius:20px;padding:22px 22px 0;overflow:hidden}
+.ticket small{font-weight:800;letter-spacing:.2em;font-size:.72rem;color:#1c6b5e}
+.ticket h1{font-size:clamp(2.3rem,11vw,3.3rem);line-height:1.05;font-weight:900;letter-spacing:-.03em;margin:8px 0 10px}
+.ticket p{color:#35544d}
+.cut{position:relative;margin:20px -22px 0;border-top:3px dashed #0d2b2a33;padding:16px 22px 18px;display:flex;justify-content:space-between;align-items:center;background:#e2f7ee}
+.cut::before,.cut::after{content:"";position:absolute;top:-14px;width:28px;height:28px;border-radius:50%;background:var(--bg)}
+.cut::before{left:-14px}.cut::after{right:-14px}
+.cut b{font-size:1.9rem;font-weight:900;font-variant-numeric:tabular-nums}
+.cut span{font-size:.8rem;color:#35544d;display:block}
+.pill{background:var(--org);color:#3a1d00;font-weight:800;padding:8px 14px;border-radius:999px;font-size:.9rem}
+h2{font-size:1.3rem;font-weight:900;display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--mint);transform:rotate(45deg)}
+.line{list-style:none;padding:0;margin-top:14px;border-left:3px solid #1f5a55;display:grid;gap:16px}
+.line li{position:relative;padding-left:22px}
+.line li::before{content:"";position:absolute;left:-9px;top:5px;width:15px;height:15px;border-radius:50%;background:var(--bg);border:3px solid var(--mint)}
+.line li.now::before{background:var(--org);border-color:var(--org);box-shadow:0 0 0 6px rgba(255,159,67,.25)}
+.line time{font-weight:800;color:var(--mint);font-variant-numeric:tabular-nums}
+.line li.now time{color:var(--org)}
+.line b{display:block;font-size:1.08rem}
+.line span{color:var(--dim);font-size:.93rem}
+details{background:var(--card);border-radius:14px;padding:14px 16px;margin-top:10px}
+summary{font-weight:700;cursor:pointer}
+details p{margin-top:8px;color:var(--dim)}
+.chat{display:grid;gap:8px;margin-top:14px}
+.chat p{max-width:84%;background:var(--card);padding:10px 14px;border-radius:16px 16px 16px 4px}
+.chat p:nth-child(even){justify-self:end;background:#1c6b5e;border-radius:16px 16px 4px 16px}
+.chat small{display:block;color:var(--dim);font-size:.78rem}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#081d1c;border-top:1px solid #1f5a55;padding:12px 18px}
+.bar div{max-width:520px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.bar b{color:var(--mint);font-size:1.25rem}
+.bar a{background:var(--mint);color:#06302a;font-weight:900;padding:12px 20px;border-radius:12px;text-decoration:none}
+footer{text-align:center;color:var(--dim);font-size:.8rem;padding:6px 0 20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="ticket">
+  <small>ADMIT ONE TEAM · 5번 부스</small>
+  <h1>보물찾기<br>원정대</h1>
+  <p>캠퍼스에 숨긴 다섯 개의 단서를 찾아 돌아오면 선물을 드립니다.</p>
+  <div class="cut"><div><span>한 팀에 걸리는 시간</span><b>20분</b></div><span class="pill">2명부터 4명까지</span></div>
+ </div>
+
+ <section>
+  <h2>오늘의 시간표</h2>
+  <ul class="line">
+   <li><time>12:00</time><b>원정 시작</b><span>부스에서 지도를 받습니다</span></li>
+   <li class="now"><time>14:00</time><b>단서 두 배 시간</b><span>한 시간 동안 단서마다 도장이 두 개</span></li>
+   <li><time>16:30</time><b>마지막 출발</b><span>이 시간 뒤에는 출발할 수 없습니다</span></li>
+   <li><time>17:00</time><b>보물 공개</b><span>가장 빨리 돌아온 세 팀을 발표합니다</span></li>
+  </ul>
+ </section>
+
+ <section>
+  <h2>자주 묻는 것</h2>
+  <details open><summary>혼자서도 할 수 있나요?</summary><p>두 명부터 출발합니다. 혼자 오면 부스에서 다른 분과 짝을 지어 드립니다.</p></details>
+  <details><summary>비가 오면 어떻게 하나요?</summary><p>건물 안 단서만으로 짧게 진행합니다.</p></details>
+ </section>
+
+ <section>
+  <h2>원정대의 한마디</h2>
+  <div class="chat">
+   <p>세 번째 단서가 제일 어려웠어요<small>4조</small></p>
+   <p>도서관 앞에서 십 분을 헤맸습니다<small>지나가던 팀</small></p>
+   <p>두 배 시간에 오길 잘했네요<small>1조</small></p>
+  </div>
+ </section>
+ <footer>수업용으로 만든 예시 화면입니다. 실제 부스가 아닙니다.</footer>
+</div>
+<div class="bar"><div><span>지금 출발을 기다리는 팀 <b>3</b></span><a href="#">출발 신청</a></div></div>
+</body>
+</html>
