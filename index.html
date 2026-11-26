@@ -457,7 +457,15 @@ const dbState=()=>{ const u=txt(T().finals.dburl); if(!u) return {u,cls:'',msg:'
 /* ---------- 2주차: 프로그램 올리기 ---------- */
 let CODEMSG='';
 function cleanCode(v){ v=String(v||'').replace(/^﻿/,'').trim(); const m=v.match(/^```[a-zA-Z]*\s*\n([\s\S]*?)\n```\s*$/); return m?m[1].trim():v }
-function codeWarn(v){ const w=[], u=txt(T().finals.dburl);
+/* 올린 HTML이 같은 폴더의 다른 파일(style.css, app.js, 사진)을 불러오는지 본다. 교재에는 파일 하나만 올라가므로 그런 파일은 화면이 깨진다 */
+function localRefs(v){ const out=[], re=/<(script|link|img|source|video|audio)\b([^>]*)>/gi; let m;
+  while((m=re.exec(v))){ const a=m[2], q=/\b(?:src|href)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i.exec(a), u=q?String(q[1]??q[2]??q[3]??'').trim():'';
+    if(!u||/^(https?:|\/\/|data:|blob:|#)/i.test(u)||/[${}<>+]/.test(u)) continue;                      /* 인터넷 주소, 파일 안에 든 자료, 코드로 만드는 주소는 괜찮다 */
+    if(m[1].toLowerCase()==='link'&&!/stylesheet/i.test(a)&&!/\.css(\?|#|$)/i.test(u)) continue;      /* 아이콘 같은 것은 없어도 화면이 깨지지 않는다 */
+    const f=u.split(/[?#]/)[0].split('/').pop(); if(f&&out.indexOf(f)<0) out.push(f) }
+  return out }
+function codeWarn(v){ const w=[], u=txt(T().finals.dburl), lr=localRefs(v);
+  if(lr.length) w.push(`이 파일은 다른 파일(${lr.slice(0,3).join(', ')})을 불러옵니다. 교재에는 파일 하나만 올라가서 화면이 깨질 수 있습니다. Claude에게 "index.html 파일 하나에 모두 넣어 줘"라고 부탁한 뒤 다시 올립니다.`);
   if(!/<\/html\s*>/i.test(v)) w.push('코드 끝에 </html>이 없습니다. 끝까지 복사되지 않았을 수 있습니다.');
   if(!/firebase/i.test(v)) w.push('Firebase에 연결하는 부분이 보이지 않습니다. 다른 기기와 연동되지 않을 수 있습니다.');
   else if(u&&v.indexOf(u.replace(/^https:\/\//,''))<0) w.push('코드에 우리 팀 데이터베이스 주소가 없습니다. 프롬프트에 주소를 넣었는지 확인해 주세요.');

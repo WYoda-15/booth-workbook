@@ -17,7 +17,7 @@ html,body{margin:0;height:100%;background:#17181B;color:#E7E4DC;font-family:"App
 <body>
 <div id="msg"><div><b id="mT">불러오는 중입니다</b><span id="mS"></span></div></div>
 <iframe id="f" title="부스 프로그램" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-downloads" allow="clipboard-write; fullscreen"></iframe>
-<div id="toast" role="status">새 코드로 바꿨습니다</div>
+<div id="toast" role="status">새로 올린 것으로 바꿨습니다</div>
 <script>
 const DB_URL="https://claude-tg-e2e08-default-rtdb.asia-southeast1.firebasedatabase.app";
 const CLASS_CODE="wyd-1119-k7q2";
@@ -37,7 +37,7 @@ function show(d,again){ cur=d.at||1; $('msg').style.display='none'; const f=$('f
   if(again){ const o=$('toast'); o.style.display='block'; setTimeout(()=>{o.style.display='none'},2200) } }
 async function load(again){ if(busy) return; busy=true;
   try{ const r=await fetch(api(''),{cache:'no-store'}); if(!r.ok) throw new Error(r.status); const d=await r.json(); fails=0;
-    if(d&&d.html){ if((d.at||1)!==cur) show(d,again) } else { cur=0; say((label?label+' ':'')+'프로그램이 아직 없습니다','교재에서 코드를 올리면 이 화면이 자동으로 바뀝니다.') } }
+    if(d&&d.html){ if((d.at||1)!==cur) show(d,again) } else { cur=0; say((label?label+' ':'')+'프로그램이 아직 없습니다','교재에서 파일을 올리면 이 화면이 자동으로 바뀝니다.') } }
   catch(e){ if(!cur&&++fails>=2) say('불러오지 못했습니다','인터넷 연결을 확인해 주세요. 자동으로 다시 시도합니다.') }
   busy=false }
 async function poll(){ if(document.hidden) return; if(!cur){ load(false); return }
